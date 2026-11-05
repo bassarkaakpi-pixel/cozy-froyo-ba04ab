@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /outil-annonces.html
+Sitemap: https://bassarkaakpi.com/sitemap.xml

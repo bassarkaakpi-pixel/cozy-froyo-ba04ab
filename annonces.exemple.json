@@ -1,0 +1,35 @@
+[
+  {
+    "ref": "EXEMPLE-001",
+    "cat": "service",
+    "title": {
+      "fr": "EXEMPLE — Atelier de couture",
+      "en": "EXAMPLE — Tailoring workshop",
+      "de": "BEISPIEL — Schneiderei"
+    },
+    "city": "Lomé",
+    "price": null,
+    "plan": "seller",
+    "verified": true,
+    "date": "2026-10-12",
+    "text": {
+      "fr": "Exemple d'annonce : décrivez ici le service, les horaires et la zone.",
+      "en": "Example listing: describe the service, opening hours and area here.",
+      "de": "Beispielanzeige: Beschreiben Sie hier Leistung, Zeiten und Gebiet."
+    },
+    "image": ""
+  },
+  {
+    "ref": "EXEMPLE-002",
+    "cat": "land",
+    "title": "EXEMPLE — Terrain de 600 m²",
+    "city": "Kara",
+    "price": 5000000,
+    "currency": "XOF",
+    "plan": "premium",
+    "verified": true,
+    "date": "2026-10-10",
+    "text": "Exemple d'annonce de terrain. Les documents sont vérifiés avant publication.",
+    "image": ""
+  }
+]
