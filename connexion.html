@@ -24,7 +24,7 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2.2rem,6vw,2.8
 .extra{text-align:center;margin-top:24px;font-size:.95rem}
 .extra a{color:var(--wine);font-weight:600;text-decoration:none}
 .extra a:hover{text-decoration:underline}
-.features-badge{display:flex;justify-content:center;gap:12px;margin-top:30px;font-size:.85rem;color:#555}
+.features-badge{display:flex;justify-content:center;gap:12px;margin-top:30px;font-size:.85rem;color:#555;flex-wrap:wrap;text-align:center}
 footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem}
 footer a{color:var(--sand)}
 </style>
@@ -57,17 +57,35 @@ footer a{color:var(--sand)}
   </div>
 
   <div class="features-badge">
-    <span>🔒 Espace sécurisé</span> • <span>📦 Gestion directe de vos annonces</span> • <span>🌍 Vitrine publique</span>
+    <span id="fb-1">🔒 Espace sécurisé</span> • <span id="fb-2">📦 Gestion directe de vos annonces</span> • <span id="fb-3">🌍 Vitrine publique</span>
   </div>
 </main>
 
-<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px" id="fslogan">Bassar ne meurt pas · @bassarkaakpi</p></footer>
 
 <script src="assets/bk-auth.js"></script>
 <script>
 (function() {
+  var L = ["fr", "en", "de"];
+  var NAV = {
+    fr: ["B'Tchamb", "Marketplace", "Annuaire", "Boutique"],
+    en: ["B'Tchamb", "Marketplace", "Directory", "Shop"],
+    de: ["B'Tchamb", "Marktplatz", "Verzeichnis", "Shop"]
+  };
+  var FOOT = {
+    fr: ["Mentions légales", "Conditions de vente"],
+    en: ["Legal notice (Impressum)", "Terms of sale"],
+    de: ["Impressum", "AGB"]
+  };
+  var SLOGAN = {
+    fr: "Bassar ne meurt pas · @bassarkaakpi",
+    en: "Bassar does not die · @bassarkaakpi",
+    de: "Bassar stirbt nicht · @bassarkaakpi"
+  };
+
   var T = {
     fr: {
+      pageDocTitle: "Connexion Espace Abonné",
       title: "Espace Abonné",
       desc: "Connectez-vous pour gérer votre vitrine, vos annonces et votre profil vendeur.",
       email: "Adresse e-mail",
@@ -76,9 +94,13 @@ footer a{color:var(--sand)}
       loading: "Connexion en cours...",
       noAcc: "Pas encore d'espace ?",
       reg: "Créer mon espace abonné",
+      fb1: "🔒 Espace sécurisé",
+      fb2: "📦 Gestion directe de vos annonces",
+      fb3: "🌍 Vitrine publique",
       errDefault: "Une erreur est survenue lors de la connexion."
     },
     en: {
+      pageDocTitle: "Subscriber Space Login",
       title: "Subscriber Space",
       desc: "Log in to manage your storefront, listings and vendor profile.",
       email: "Email address",
@@ -87,9 +109,13 @@ footer a{color:var(--sand)}
       loading: "Signing in...",
       noAcc: "Don't have an account?",
       reg: "Create my subscriber space",
+      fb1: "🔒 Secure space",
+      fb2: "📦 Direct listing management",
+      fb3: "🌍 Public storefront",
       errDefault: "An error occurred during sign in."
     },
     de: {
+      pageDocTitle: "Abonnenten-Bereich Anmeldung",
       title: "Abonnenten-Bereich",
       desc: "Melden Sie sich an, um Ihr Profil und Ihre Anzeigen zu verwalten.",
       email: "E-Mail-Adresse",
@@ -98,16 +124,34 @@ footer a{color:var(--sand)}
       loading: "Anmeldung läuft...",
       noAcc: "Noch kein Konto?",
       reg: "Abonnenten-Konto erstellen",
+      fb1: "🔒 Sicherer Bereich",
+      fb2: "📦 Direkte Anzeigenverwaltung",
+      fb3: "🌍 Öffentliches Schaufenster",
       errDefault: "Ein Fehler ist bei der Anmeldung aufgetreten."
     }
   };
 
-  var cur = localStorage.getItem("lang") || "fr";
+  function pickLang() {
+    var s = null;
+    try { s = localStorage.getItem("lang"); } catch(e) {}
+    if (L.indexOf(s) > -1) return s;
+    var n = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    for (var i = 0; i < n.length; i++) {
+      var c = String(n[i]).slice(0, 2).toLowerCase();
+      if (L.indexOf(c) > -1) return c;
+    }
+    return "fr";
+  }
 
-  function setLang(l) {
+  var cur = pickLang();
+
+  function setLang(l, save) {
     cur = l;
-    localStorage.setItem("lang", l);
+    document.documentElement.lang = l;
+    window.curLang = l;
     var t = T[l] || T.fr;
+
+    document.title = t.pageDocTitle + " | Bassar Kàakpi";
     document.getElementById("page-title").textContent = t.title;
     document.getElementById("page-desc").textContent = t.desc;
     document.getElementById("lbl-email").textContent = t.email;
@@ -115,15 +159,42 @@ footer a{color:var(--sand)}
     document.getElementById("btn-submit").textContent = t.btn;
     document.getElementById("txt-no-account").textContent = t.noAcc;
     document.getElementById("lnk-register").textContent = t.reg;
+    document.getElementById("fb-1").textContent = t.fb1;
+    document.getElementById("fb-2").textContent = t.fb2;
+    document.getElementById("fb-3").textContent = t.fb3;
+
+    // Nav
+    var a = document.querySelectorAll("header nav a");
+    if (a.length >= 4) {
+      a[0].textContent = NAV[l][0];
+      a[1].textContent = NAV[l][1];
+      a[2].textContent = NAV[l][2];
+      a[3].textContent = NAV[l][3];
+    }
+    // Foot
+    var f = document.querySelectorAll("footer a");
+    if (f.length >= 2) {
+      f[0].textContent = FOOT[l][0];
+      f[1].textContent = FOOT[l][1];
+    }
+    var fs = document.getElementById("fslogan");
+    if (fs) fs.textContent = SLOGAN[l];
+
     document.querySelectorAll(".lang button").forEach(function(b) {
       b.setAttribute("aria-pressed", b.dataset.l === l);
     });
+
+    if (save) {
+      try { localStorage.setItem("lang", l); } catch(e) {}
+    }
+    document.dispatchEvent(new Event("langchange"));
   }
 
   document.querySelectorAll(".lang button").forEach(function(b) {
-    b.onclick = function() { setLang(b.dataset.l); };
+    b.onclick = function() { setLang(b.dataset.l, true); };
   });
-  setLang(cur);
+
+  setLang(cur, false);
 
   // If already logged in, redirect to dashboard
   var user = BKAuth.getUser();

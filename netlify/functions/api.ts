@@ -3,8 +3,8 @@ import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { eq, desc, and, sql } from "drizzle-orm";
-import { db } from "../../db/index.ts";
-import { subscribers, listings } from "../../db/schema.ts";
+import { db } from "../../db/index.js";
+import { subscribers, listings } from "../../db/schema.js";
 
 const app = new Hono().basePath("/api");
 

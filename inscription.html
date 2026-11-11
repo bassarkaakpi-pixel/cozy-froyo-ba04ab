@@ -46,7 +46,7 @@ footer a{color:var(--sand)}
 <header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr" aria-pressed="true">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
 
 <main>
-  <p><a href="marketplace.html" style="color:var(--wine);font-weight:600;text-decoration:none">← Retour au Marketplace</a></p>
+  <p><a href="marketplace.html" id="back-link" style="color:var(--wine);font-weight:600;text-decoration:none">← Retour au Marketplace</a></p>
   <h1 style="margin-top:12px" id="title-h1">Créer mon Espace Abonné</h1>
   <p class="lead" id="title-lead">Rejoignez la communauté des commerçants, artisans et professionnels Bassar. Ouvrez votre espace membre pour publier et gérer vos annonces directement en ligne.</p>
 
@@ -60,7 +60,7 @@ footer a{color:var(--sand)}
           <input type="radio" name="plan" value="free" style="display:none">
           <div>
             <strong id="plan-f-title">Gratuit</strong>
-            <div class="price">0 FCFA</div>
+            <div class="price" id="plan-f-price">0 FCFA</div>
             <small id="plan-f-desc">1 annonce active, fiche dans l'annuaire public des membres.</small>
           </div>
         </label>
@@ -68,7 +68,7 @@ footer a{color:var(--sand)}
           <input type="radio" name="plan" value="seller" checked style="display:none">
           <div>
             <strong id="plan-s-title">Vendeur</strong>
-            <div class="price">3 000 FCFA / mois</div>
+            <div class="price" id="plan-s-price">3 000 FCFA / mois</div>
             <small id="plan-s-desc">Jusqu'à 5 annonces avec photos, badge Vendeur vérifié.</small>
           </div>
         </label>
@@ -76,7 +76,7 @@ footer a{color:var(--sand)}
           <input type="radio" name="plan" value="premium" style="display:none">
           <div>
             <strong id="plan-p-title">★ Premium</strong>
-            <div class="price">5 000 FCFA / mois</div>
+            <div class="price" id="plan-p-price">5 000 FCFA / mois</div>
             <small id="plan-p-desc">Annonces illimitées, mise en avant en tête de liste, badge Premium.</small>
           </div>
         </label>
@@ -160,44 +160,334 @@ footer a{color:var(--sand)}
   </div>
 </main>
 
-<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px" id="fslogan">Bassar ne meurt pas · @bassarkaakpi</p></footer>
 
 <script src="assets/bk-auth.js"></script>
 <script>
 (function() {
+  var L = ["fr", "en", "de"];
+  var NAV = {
+    fr: ["B'Tchamb", "Marketplace", "Annuaire", "Boutique"],
+    en: ["B'Tchamb", "Marketplace", "Directory", "Shop"],
+    de: ["B'Tchamb", "Marktplatz", "Verzeichnis", "Shop"]
+  };
+  var FOOT = {
+    fr: ["Mentions légales", "Conditions de vente"],
+    en: ["Legal notice (Impressum)", "Terms of sale"],
+    de: ["Impressum", "AGB"]
+  };
+  var SLOGAN = {
+    fr: "Bassar ne meurt pas · @bassarkaakpi",
+    en: "Bassar does not die · @bassarkaakpi",
+    de: "Bassar stirbt nicht · @bassarkaakpi"
+  };
+
+  var I18N = {
+    fr: {
+      pageDocTitle: "Inscription Espace Abonné – Marketplace",
+      back: "← Retour au Marketplace",
+      h1: "Créer mon Espace Abonné",
+      lead: "Rejoignez la communauté des commerçants, artisans et professionnels Bassar. Ouvrez votre espace membre pour publier et gérer vos annonces directement en ligne.",
+      step1: "1. Choisissez votre formule",
+      planFTitle: "Gratuit",
+      planFPrice: "0 FCFA",
+      planFDesc: "1 annonce active, fiche dans l'annuaire public des membres.",
+      planSTitle: "Vendeur",
+      planSPrice: "3 000 FCFA / mois",
+      planSDesc: "Jusqu'à 5 annonces avec photos, badge Vendeur vérifié.",
+      planPTitle: "★ Premium",
+      planPPrice: "5 000 FCFA / mois",
+      planPDesc: "Annonces illimitées, mise en avant en tête de liste, badge Premium.",
+      pnoteFree: "<b>Formule Gratuite :</b> Vous pourrez publier 1 annonce et figurer dans l'annuaire public.",
+      pnoteSeller: "<b>Formule Vendeur :</b> Votre profil sera affiché dans l'annuaire public avec jusqu'à 5 annonces actives.",
+      pnotePrem: "<b>Formule Premium :</b> Annonces illimitées, affichage prioritaire en tête de liste et badge officiel Premium.",
+      step2: "2. Vos coordonnées et activité",
+      fullName: "Nom et prénom *",
+      fullNamePh: "Ex. : Kofi B'Tchamb",
+      bizName: "Raison sociale / Nom commercial",
+      bizNamePh: "Ex. : Forge Traditionnelle Bassar",
+      email: "Adresse e-mail (pour votre connexion) *",
+      emailPh: "votre-email@domaine.com",
+      pwd: "Mot de passe (au moins 6 caractères) *",
+      phone: "Numéro WhatsApp (avec indicatif pays) *",
+      phonePh: "+228 90 00 00 00",
+      city: "Ville et pays *",
+      cityPh: "Ex. : Bassar, Kara, Lomé, Paris...",
+      cat: "Type d'activité principale *",
+      cats: {
+        trade: "Commerce et négoce",
+        realestate: "Immobilier",
+        land: "Terrains",
+        service: "Services & artisanat",
+        vehicle: "Véhicules",
+        craft: "Textile & confection Kàakpi",
+        other: "Autre activité"
+      },
+      website: "Site web ou réseau social (facultatif)",
+      websitePh: "https://instagram.com/mon-activite",
+      bio: "Présentation de votre activité ou de vos produits",
+      bioPh: "Décrivez votre savoir-faire, vos spécialités ou les services que vous proposez...",
+      consent: "J'accepte que ces informations soient publiées sur mon profil vitrine Bassar Kàakpi et que mes annonces soient présentées sur le marketplace conformément aux conditions du site.",
+      btnSubmit: "Créer mon espace abonné",
+      btnLoading: "Création en cours...",
+      txtHaveAcc: "Déjà inscrit ?",
+      lnkLogin: "Accéder à mon espace membre",
+      errDefault: "Une erreur est survenue lors de l'inscription."
+    },
+    en: {
+      pageDocTitle: "Subscriber Space Registration – Marketplace",
+      back: "← Back to Marketplace",
+      h1: "Create my Subscriber Space",
+      lead: "Join the community of Bassar merchants, artisans and professionals. Open your member space to publish and manage your listings directly online.",
+      step1: "1. Choose your plan",
+      planFTitle: "Free",
+      planFPrice: "0 FCFA",
+      planFDesc: "1 active listing, profile in the public member directory.",
+      planSTitle: "Seller",
+      planSPrice: "3,000 FCFA / month",
+      planSDesc: "Up to 5 listings with photos, verified Seller badge.",
+      planPTitle: "★ Premium",
+      planPPrice: "5,000 FCFA / month",
+      planPDesc: "Unlimited listings, featured at the top of the list, Premium badge.",
+      pnoteFree: "<b>Free Plan:</b> You can publish 1 listing and be listed in the public directory.",
+      pnoteSeller: "<b>Seller Plan:</b> Your profile will be displayed in the public directory with up to 5 active listings.",
+      pnotePrem: "<b>Premium Plan:</b> Unlimited listings, priority placement at the top and official Premium badge.",
+      step2: "2. Your details and business",
+      fullName: "Full name *",
+      fullNamePh: "e.g.: Kofi B'Tchamb",
+      bizName: "Company / Business name",
+      bizNamePh: "e.g.: Bassar Traditional Forge",
+      email: "Email address (for login) *",
+      emailPh: "your-email@domain.com",
+      pwd: "Password (at least 6 characters) *",
+      phone: "WhatsApp number (with country code) *",
+      phonePh: "+228 90 00 00 00",
+      city: "City and country *",
+      cityPh: "e.g.: Bassar, Kara, Lomé, Paris...",
+      cat: "Main business category *",
+      cats: {
+        trade: "Trade and business",
+        realestate: "Real estate",
+        land: "Land",
+        service: "Services & crafts",
+        vehicle: "Vehicles",
+        craft: "Kàakpi Textiles & tailoring",
+        other: "Other activity"
+      },
+      website: "Website or social profile (optional)",
+      websitePh: "https://instagram.com/my-business",
+      bio: "Presentation of your business or products",
+      bioPh: "Describe your expertise, specialties or services you offer...",
+      consent: "I agree that this information will be published on my Bassar Kàakpi storefront profile and that my listings will be presented on the marketplace in accordance with site terms.",
+      btnSubmit: "Create my subscriber space",
+      btnLoading: "Creating account...",
+      txtHaveAcc: "Already registered?",
+      lnkLogin: "Access my member space",
+      errDefault: "An error occurred during registration."
+    },
+    de: {
+      pageDocTitle: "Abonnenten-Bereich Registrierung – Marktplatz",
+      back: "← Zurück zum Marktplatz",
+      h1: "Abonnenten-Bereich erstellen",
+      lead: "Treten Sie der Gemeinschaft der Bassar-Händler, Handwerker und Unternehmer bei. Eröffnen Sie Ihren Mitgliederbereich, um Ihre Anzeigen direkt online zu verwalten.",
+      step1: "1. Wählen Sie Ihren Tarif",
+      planFTitle: "Kostenlos",
+      planFPrice: "0 FCFA",
+      planFDesc: "1 aktive Anzeige, Profil im öffentlichen Mitgliederverzeichnis.",
+      planSTitle: "Anbieter",
+      planSPrice: "3.000 FCFA / Monat",
+      planSDesc: "Bis zu 5 Anzeigen mit Fotos, verifizierter Anbieter-Status.",
+      planPTitle: "★ Premium",
+      planPPrice: "5.000 FCFA / Monat",
+      planPDesc: "Unbegrenzte Anzeigen, Hervorhebung am Listenanfang, Premium-Status.",
+      pnoteFree: "<b>Kostenloser Tarif:</b> Sie können 1 Anzeige veröffentlichen und im Verzeichnis erscheinen.",
+      pnoteSeller: "<b>Anbieter-Tarif:</b> Ihr Profil wird im öffentlichen Verzeichnis mit bis zu 5 aktiven Anzeigen angezeigt.",
+      pnotePrem: "<b>Premium-Tarif:</b> Unbegrenzte Anzeigen, bevorzugte Platzierung oben in der Liste und offizieller Premium-Status.",
+      step2: "2. Ihre Kontaktdaten und Tätigkeit",
+      fullName: "Vollständiger Name *",
+      fullNamePh: "z. B.: Kofi B'Tchamb",
+      bizName: "Firmenname / Geschäftsbezeichnung",
+      bizNamePh: "z. B.: Traditionelle Schmiede Bassar",
+      email: "E-Mail-Adresse (zur Anmeldung) *",
+      emailPh: "ihre-email@domain.com",
+      pwd: "Passwort (mindestens 6 Zeichen) *",
+      phone: "WhatsApp-Nummer (mit Vorwahl) *",
+      phonePh: "+228 90 00 00 00",
+      city: "Stadt und Land *",
+      cityPh: "z. B.: Bassar, Kara, Lomé, Berlin...",
+      cat: "Haupttätigkeitsbereich *",
+      cats: {
+        trade: "Handel und Gewerbe",
+        realestate: "Immobilien",
+        land: "Grundstücke",
+        service: "Dienstleistungen & Handwerk",
+        vehicle: "Fahrzeuge",
+        craft: "Kàakpi-Textilien & Maßarbeit",
+        other: "Andere Tätigkeit"
+      },
+      website: "Website oder soziales Profil (optional)",
+      websitePh: "https://instagram.com/meine-taetigkeit",
+      bio: "Beschreibung Ihrer Tätigkeit oder Produkte",
+      bioPh: "Beschreiben Sie Ihr Fachwissen, Ihre Spezialitäten oder die von Ihnen angebotenen Dienstleistungen...",
+      consent: "Ich bin damit einverstanden, dass diese Angaben in meinem Bassar-Kàakpi-Schaufensterprofil veröffentlicht werden und meine Anzeigen gemäß den Nutzungsbedingungen auf dem Marktplatz erscheinen.",
+      btnSubmit: "Abonnenten-Bereich erstellen",
+      btnLoading: "Konto wird erstellt...",
+      txtHaveAcc: "Bereits registriert?",
+      lnkLogin: "Zu meinem Mitgliederbereich",
+      errDefault: "Ein Fehler ist bei der Registrierung aufgetreten."
+    }
+  };
+
+  function pickLang() {
+    var s = null;
+    try { s = localStorage.getItem("lang"); } catch(e) {}
+    if (L.indexOf(s) > -1) return s;
+    var n = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    for (var i = 0; i < n.length; i++) {
+      var c = String(n[i]).slice(0, 2).toLowerCase();
+      if (L.indexOf(c) > -1) return c;
+    }
+    return "fr";
+  }
+
+  var cur = pickLang();
+  var selectedPlan = "seller";
+
+  function setLang(l, save) {
+    cur = l;
+    document.documentElement.lang = l;
+    window.curLang = l;
+    var t = I18N[l] || I18N.fr;
+
+    document.title = t.pageDocTitle + " | Bassar Kàakpi";
+    document.getElementById("back-link").textContent = t.back;
+    document.getElementById("title-h1").textContent = t.h1;
+    document.getElementById("title-lead").textContent = t.lead;
+    document.getElementById("lbl-choose-plan").textContent = t.step1;
+
+    document.getElementById("plan-f-title").textContent = t.planFTitle;
+    document.getElementById("plan-f-price").textContent = t.planFPrice;
+    document.getElementById("plan-f-desc").textContent = t.planFDesc;
+
+    document.getElementById("plan-s-title").textContent = t.planSTitle;
+    document.getElementById("plan-s-price").textContent = t.planSPrice;
+    document.getElementById("plan-s-desc").textContent = t.planSDesc;
+
+    document.getElementById("plan-p-title").textContent = t.planPTitle;
+    document.getElementById("plan-p-price").textContent = t.planPPrice;
+    document.getElementById("plan-p-desc").textContent = t.planPDesc;
+
+    updatePnote();
+
+    document.getElementById("lbl-profile-details").textContent = t.step2;
+    document.getElementById("lbl-fullname").textContent = t.fullName;
+    document.getElementById("fullName").placeholder = t.fullNamePh;
+    document.getElementById("lbl-bizname").textContent = t.bizName;
+    document.getElementById("businessName").placeholder = t.bizNamePh;
+    document.getElementById("lbl-email").textContent = t.email;
+    document.getElementById("email").placeholder = t.emailPh;
+    document.getElementById("lbl-pwd").textContent = t.pwd;
+    document.getElementById("lbl-phone").textContent = t.phone;
+    document.getElementById("phone").placeholder = t.phonePh;
+    document.getElementById("lbl-city").textContent = t.city;
+    document.getElementById("city").placeholder = t.cityPh;
+    document.getElementById("lbl-cat").textContent = t.cat;
+
+    // Cat select
+    var catSel = document.getElementById("category");
+    var curVal = catSel.value;
+    catSel.innerHTML = "";
+    Object.keys(t.cats).forEach(function(k) {
+      var opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = t.cats[k];
+      catSel.appendChild(opt);
+    });
+    if (curVal) catSel.value = curVal;
+
+    document.getElementById("lbl-website").textContent = t.website;
+    document.getElementById("website").placeholder = t.websitePh;
+    document.getElementById("lbl-bio").textContent = t.bio;
+    document.getElementById("bio").placeholder = t.bioPh;
+    document.getElementById("lbl-consent").textContent = t.consent;
+    document.getElementById("btn-submit").textContent = t.btnSubmit;
+    document.getElementById("txt-have-acc").textContent = t.txtHaveAcc;
+    document.getElementById("lnk-login").textContent = t.lnkLogin;
+
+    // Nav
+    var a = document.querySelectorAll("header nav a");
+    if (a.length >= 4) {
+      a[0].textContent = NAV[l][0];
+      a[1].textContent = NAV[l][1];
+      a[2].textContent = NAV[l][2];
+      a[3].textContent = NAV[l][3];
+    }
+    // Foot
+    var f = document.querySelectorAll("footer a");
+    if (f.length >= 2) {
+      f[0].textContent = FOOT[l][0];
+      f[1].textContent = FOOT[l][1];
+    }
+    var fs = document.getElementById("fslogan");
+    if (fs) fs.textContent = SLOGAN[l];
+
+    document.querySelectorAll(".lang button").forEach(function(b) {
+      b.setAttribute("aria-pressed", b.dataset.l === l);
+    });
+
+    if (save) {
+      try { localStorage.setItem("lang", l); } catch(e) {}
+    }
+    document.dispatchEvent(new Event("langchange"));
+  }
+
+  function updatePnote() {
+    var t = I18N[cur] || I18N.fr;
+    var pn = document.getElementById("pnote");
+    if (selectedPlan === "premium") {
+      pn.innerHTML = t.pnotePrem;
+    } else if (selectedPlan === "seller") {
+      pn.innerHTML = t.pnoteSeller;
+    } else {
+      pn.innerHTML = t.pnoteFree;
+    }
+  }
+
+  // Plan selection
   var params = new URLSearchParams(location.search);
   var planParam = params.get("plan");
-
   var planRadios = document.querySelectorAll('input[name="plan"]');
   var planLabels = document.querySelectorAll(".plan-opt");
 
   function selectPlan(val) {
+    selectedPlan = val;
     planRadios.forEach(function(r) {
       if (r.value === val) r.checked = true;
     });
     planLabels.forEach(function(l) {
       l.classList.toggle("selected", l.querySelector("input").value === val);
     });
-    var n = document.getElementById("pnote");
-    if (val === "free") {
-      n.innerHTML = "<b>Formule Gratuite :</b> Profil visible dans l'annuaire public avec 1 annonce active.";
-    } else if (val === "seller") {
-      n.innerHTML = "<b>Formule Vendeur (3 000 FCFA/mois) :</b> Jusqu'à 5 annonces avec photos et vérification prioritaire.";
-    } else if (val === "premium") {
-      n.innerHTML = "<b>Formule Premium (5 000 FCFA/mois) :</b> Annonces illimitées, affichage en tête de liste et badge officiel.";
-    }
+    updatePnote();
   }
-
-  planLabels.forEach(function(lbl) {
-    lbl.onclick = function() {
-      selectPlan(lbl.querySelector("input").value);
-    };
-  });
 
   if (planParam && ["free", "seller", "premium"].indexOf(planParam) > -1) {
     selectPlan(planParam);
   }
 
+  planLabels.forEach(function(l) {
+    l.onclick = function() {
+      var r = l.querySelector('input[type="radio"]');
+      if (r) selectPlan(r.value);
+    };
+  });
+
+  document.querySelectorAll(".lang button").forEach(function(b) {
+    b.onclick = function() { setLang(b.dataset.l, true); };
+  });
+
+  setLang(cur, false);
+
+  // Form submit
   var form = document.getElementById("reg-form");
   var errBox = document.getElementById("error-box");
   var btn = document.getElementById("btn-submit");
@@ -205,37 +495,51 @@ footer a{color:var(--sand)}
   form.onsubmit = function(e) {
     e.preventDefault();
     errBox.style.display = "none";
+    var t = I18N[cur] || I18N.fr;
 
-    var selectedPlan = "seller";
-    planRadios.forEach(function(r) {
-      if (r.checked) selectedPlan = r.value;
-    });
+    var fullName = document.getElementById("fullName").value.trim();
+    var businessName = document.getElementById("businessName").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value;
+    var phone = document.getElementById("phone").value.trim();
+    var city = document.getElementById("city").value.trim();
+    var category = document.getElementById("category").value;
+    var website = document.getElementById("website").value.trim();
+    var bio = document.getElementById("bio").value.trim();
+    var consent = document.getElementById("consent").checked;
 
-    var data = {
-      fullName: document.getElementById("fullName").value.trim(),
-      businessName: document.getElementById("businessName").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      password: document.getElementById("password").value,
-      phone: document.getElementById("phone").value.trim(),
-      city: document.getElementById("city").value.trim(),
-      category: document.getElementById("category").value,
-      plan: selectedPlan,
-      website: document.getElementById("website").value.trim(),
-      bio: document.getElementById("bio").value.trim(),
-    };
+    if (!consent) {
+      errBox.textContent = t.consent;
+      errBox.style.display = "block";
+      return;
+    }
 
     btn.disabled = true;
-    btn.textContent = "Création de votre espace en cours...";
+    btn.textContent = t.btnLoading;
 
-    BKAuth.register(data)
-      .then(function() {
+    var payload = {
+      fullName: fullName,
+      businessName: businessName,
+      email: email,
+      password: password,
+      phone: phone,
+      city: city,
+      category: category,
+      plan: selectedPlan,
+      website: website,
+      bio: bio
+    };
+
+    BKAuth.register(payload)
+      .then(function(user) {
         window.location.href = "espace-abonne.html?welcome=1";
       })
       .catch(function(err) {
-        errBox.textContent = err.message || "Erreur lors de l'inscription.";
-        errBox.style.display = "block";
         btn.disabled = false;
-        btn.textContent = "Créer mon espace abonné";
+        btn.textContent = t.btnSubmit;
+        errBox.textContent = err.message || t.errDefault;
+        errBox.style.display = "block";
+        window.scrollTo({ top: form.offsetTop - 40, behavior: "smooth" });
       });
   };
 })();
