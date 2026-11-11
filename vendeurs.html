@@ -56,11 +56,11 @@ footer a{color:var(--sand)}
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
-<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr" aria-pressed="true">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
+<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
 
 <main>
-  <h1>Annuaire des Vendeurs & Membres</h1>
-  <p class="lead">Découvrez les artisans, commerçants et professionnels de la communauté Bassar Kàakpi. Consultez leurs vitrines publiques, leurs annonces et contactez-les directement.</p>
+  <h1 id="page-h1">Annuaire des Vendeurs & Membres</h1>
+  <p class="lead" id="page-lead">Découvrez les artisans, commerçants et professionnels de la communauté Bassar Kàakpi. Consultez leurs vitrines publiques, leurs annonces et contactez-les directement.</p>
 
   <div class="tools">
     <input type="search" id="q-search" placeholder="Rechercher un vendeur, une entreprise, une ville...">
@@ -78,81 +78,259 @@ footer a{color:var(--sand)}
   </div>
 
   <div id="vendors-list" class="vendors-grid">
-    <div style="grid-column:1/-1;text-align:center;padding:40px">Chargement de l'annuaire...</div>
+    <div id="vendors-loading" style="grid-column:1/-1;text-align:center;padding:40px">Chargement de l'annuaire...</div>
   </div>
 
   <div class="banner-join">
     <div>
-      <h2>Vous avez une activité ou des biens à vendre ?</h2>
-      <p>Créez votre propre espace abonné sur Bassar Kàakpi pour figurer dans cet annuaire, publier vos annonces et recevoir des contacts qualifiés sur WhatsApp.</p>
+      <h2 id="join-h2">Vous avez une activité ou des biens à vendre ?</h2>
+      <p id="join-p">Créez votre propre espace abonné sur Bassar Kàakpi pour figurer dans cet annuaire, publier vos annonces et recevoir des contacts qualifiés sur WhatsApp.</p>
     </div>
-    <a href="inscription.html" class="btn gold" style="font-size:1.05rem;padding:12px 24px">Créer mon espace abonné</a>
+    <a href="inscription.html" class="btn gold" style="font-size:1.05rem;padding:12px 24px" id="join-btn">Créer mon espace abonné</a>
   </div>
 </main>
 
-<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px" id="fslogan">Bassar ne meurt pas · @bassarkaakpi</p></footer>
 
 <script src="assets/bk-auth.js"></script>
 <script>
 (function() {
-  var CATS = {
-    trade: "Commerce et négoce",
-    realestate: "Immobilier",
-    land: "Terrains",
-    service: "Services",
-    vehicle: "Véhicules",
-    craft: "Artisanat / Textile",
-    other: "Autre"
+  var L = ["fr", "en", "de"];
+  var NAV = {
+    fr: ["B'Tchamb", "Marketplace", "Annuaire", "Boutique"],
+    en: ["B'Tchamb", "Marketplace", "Directory", "Shop"],
+    de: ["B'Tchamb", "Marktplatz", "Verzeichnis", "Shop"]
+  };
+  var FOOT = {
+    fr: ["Mentions légales", "Conditions de vente"],
+    en: ["Legal notice (Impressum)", "Terms of sale"],
+    de: ["Impressum", "AGB"]
+  };
+  var SLOGAN = {
+    fr: "Bassar ne meurt pas · @bassarkaakpi",
+    en: "Bassar does not die · @bassarkaakpi",
+    de: "Bassar stirbt nicht · @bassarkaakpi"
   };
 
-  var ICONS = {
-    trade: "🏪",
-    realestate: "🏠",
-    land: "🌍",
-    service: "🛠️",
-    vehicle: "🚗",
-    craft: "🧵",
-    other: "✦"
+  var I18N = {
+    fr: {
+      title: "Annuaire des Vendeurs & Membres – Marketplace",
+      h1: "Annuaire des Vendeurs & Membres",
+      lead: "Découvrez les artisans, commerçants et professionnels de la communauté Bassar Kàakpi. Consultez leurs vitrines publiques, leurs annonces et contactez-les directement.",
+      searchPh: "Rechercher un vendeur, une entreprise, une ville...",
+      allCities: "Toutes les villes",
+      cats: {
+        all: "Tous les membres",
+        trade: "Commerce et négoce",
+        realestate: "Immobilier",
+        land: "Terrains",
+        service: "Services",
+        vehicle: "Véhicules",
+        craft: "Artisanat Kàakpi",
+        other: "Autre"
+      },
+      loading: "Chargement de l'annuaire...",
+      err: "Impossible de charger les membres actuellement.",
+      emptyOpenTitle: "Les inscriptions sont ouvertes !",
+      emptyOpenDesc: "Soyez parmi les premiers commerçants, artisans ou professionnels à créer votre espace membre et afficher votre vitrine sur Bassar Kàakpi.",
+      emptyOpenBtn: "Créer mon espace abonné",
+      emptyFilter: "Aucun membre ne correspond à vos critères de recherche.",
+      prem: "★ Premium",
+      ver: "✓ Profil vérifié",
+      defaultBio: "Membre de la communauté Bassar Kàakpi.",
+      adsCount: "{n} annonce(s)",
+      zeroAds: "0 annonce",
+      viewStore: "Voir la vitrine",
+      joinH2: "Vous avez une activité ou des biens à vendre ?",
+      joinP: "Créez votre propre espace abonné sur Bassar Kàakpi pour figurer dans cet annuaire, publier vos annonces et recevoir des contacts qualifiés sur WhatsApp.",
+      joinBtn: "Créer mon espace abonné"
+    },
+    en: {
+      title: "Sellers & Members Directory – Marketplace",
+      h1: "Sellers & Members Directory",
+      lead: "Discover the artisans, merchants and professionals of the Bassar Kàakpi community. Browse their public storefronts, their listings and contact them directly.",
+      searchPh: "Search for a seller, business, town...",
+      allCities: "All towns",
+      cats: {
+        all: "All members",
+        trade: "Trade and business",
+        realestate: "Real estate",
+        land: "Land",
+        service: "Services",
+        vehicle: "Vehicles",
+        craft: "Kàakpi Crafts",
+        other: "Other"
+      },
+      loading: "Loading directory...",
+      err: "Unable to load members right now.",
+      emptyOpenTitle: "Registrations are open!",
+      emptyOpenDesc: "Be among the first merchants, artisans or professionals to create your member space and display your storefront on Bassar Kàakpi.",
+      emptyOpenBtn: "Create my subscriber space",
+      emptyFilter: "No member matches your search criteria.",
+      prem: "★ Premium",
+      ver: "✓ Verified profile",
+      defaultBio: "Member of the Bassar Kàakpi community.",
+      adsCount: "{n} listing(s)",
+      zeroAds: "0 listings",
+      viewStore: "View storefront",
+      joinH2: "Do you have a business or items to sell?",
+      joinP: "Create your own subscriber space on Bassar Kàakpi to be listed in this directory, publish your listings and receive qualified WhatsApp contacts.",
+      joinBtn: "Create my subscriber space"
+    },
+    de: {
+      title: "Verzeichnis der Verkäufer & Mitglieder – Marktplatz",
+      h1: "Verzeichnis der Verkäufer & Mitglieder",
+      lead: "Entdecken Sie die Kunsthandwerker, Händler und Fachleute der Bassar-Kàakpi-Gemeinschaft. Besuchen Sie deren Schaufenster, Angebote und kontaktieren Sie sie direkt.",
+      searchPh: "Verkäufer, Unternehmen, Ort suchen...",
+      allCities: "Alle Orte",
+      cats: {
+        all: "Alle Mitglieder",
+        trade: "Handel und Gewerbe",
+        realestate: "Immobilien",
+        land: "Grundstücke",
+        service: "Dienstleistungen",
+        vehicle: "Fahrzeuge",
+        craft: "Kàakpi-Handwerk",
+        other: "Andere"
+      },
+      loading: "Verzeichnis wird geladen...",
+      err: "Mitglieder können derzeit nicht geladen werden.",
+      emptyOpenTitle: "Anmeldungen sind geöffnet!",
+      emptyOpenDesc: "Gehören Sie zu den ersten Händlern, Handwerkern oder Unternehmern, die ihren Mitgliederbereich erstellen und ihr Schaufenster auf Bassar Kàakpi eröffnen.",
+      emptyOpenBtn: "Abonnenten-Bereich erstellen",
+      emptyFilter: "Kein Mitglied entspricht Ihren Suchkriterien.",
+      prem: "★ Premium",
+      ver: "✓ Profil geprüft",
+      defaultBio: "Mitglied der Bassar-Kàakpi-Gemeinschaft.",
+      adsCount: "{n} Anzeige(n)",
+      zeroAds: "0 Anzeigen",
+      viewStore: "Schaufenster ansehen",
+      joinH2: "Haben Sie ein Gewerbe oder Angebote zu verkaufen?",
+      joinP: "Erstellen Sie Ihren eigenen Abonnenten-Bereich auf Bassar Kàakpi, um im Verzeichnis zu erscheinen, Ihre Anzeigen zu veröffentlichen und qualifizierte Kontakte per WhatsApp zu erhalten.",
+      joinBtn: "Abonnenten-Bereich erstellen"
+    }
   };
 
+  function pickLang() {
+    var s = null;
+    try { s = localStorage.getItem("lang"); } catch(e) {}
+    if (L.indexOf(s) > -1) return s;
+    var n = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    for (var i = 0; i < n.length; i++) {
+      var c = String(n[i]).slice(0, 2).toLowerCase();
+      if (L.indexOf(c) > -1) return c;
+    }
+    return "fr";
+  }
+
+  var cur = pickLang();
   var allMembers = [];
   var curCat = "all";
   var curCity = "";
   var curQuery = "";
+  var isLoaded = false;
+  var isError = false;
+
+  function set(l, save) {
+    cur = l;
+    document.documentElement.lang = l;
+    window.curLang = l;
+    var t = I18N[l] || I18N.fr;
+
+    document.title = t.title + " | Bassar Kàakpi";
+    document.getElementById("page-h1").textContent = t.h1;
+    document.getElementById("page-lead").textContent = t.lead;
+    document.getElementById("q-search").placeholder = t.searchPh;
+    document.getElementById("join-h2").textContent = t.joinH2;
+    document.getElementById("join-p").textContent = t.joinP;
+    document.getElementById("join-btn").textContent = t.joinBtn;
+
+    // Filter buttons
+    document.querySelectorAll(".cat-btn").forEach(function(b) {
+      var k = b.dataset.c;
+      b.textContent = t.cats[k] || k;
+    });
+
+    // Nav
+    var a = document.querySelectorAll("header nav a");
+    if (a.length >= 4) {
+      a[0].textContent = NAV[l][0];
+      a[1].textContent = NAV[l][1];
+      a[2].textContent = NAV[l][2];
+      a[3].textContent = NAV[l][3];
+    }
+    // Foot
+    var f = document.querySelectorAll("footer a");
+    if (f.length >= 2) {
+      f[0].textContent = FOOT[l][0];
+      f[1].textContent = FOOT[l][1];
+    }
+    var fs = document.getElementById("fslogan");
+    if (fs) fs.textContent = SLOGAN[l];
+
+    document.querySelectorAll(".lang button").forEach(function(b) {
+      b.setAttribute("aria-pressed", b.dataset.l === l);
+    });
+
+    if (save) {
+      try { localStorage.setItem("lang", l); } catch(e) {}
+    }
+    document.dispatchEvent(new Event("langchange"));
+    populateCities(allMembers);
+    render();
+  }
 
   function loadMembers() {
+    var t = I18N[cur] || I18N.fr;
     fetch("/api/members")
       .then(function(r) { return r.json(); })
       .then(function(data) {
+        isLoaded = true;
+        isError = false;
         allMembers = data.members || [];
         populateCities(allMembers);
         render();
       })
       .catch(function(err) {
-        document.getElementById("vendors-list").innerHTML = '<div class="empty">Impossible de charger les membres actuellement.</div>';
+        isLoaded = true;
+        isError = true;
+        render();
       });
   }
 
   function populateCities(members) {
+    var t = I18N[cur] || I18N.fr;
     var cities = [];
     members.forEach(function(m) {
       if (m.city && cities.indexOf(m.city) === -1) cities.push(m.city);
     });
     cities.sort();
     var sel = document.getElementById("sel-city");
-    sel.innerHTML = '<option value="">Toutes les villes</option>';
+    sel.innerHTML = '<option value="">' + t.allCities + '</option>';
     cities.forEach(function(c) {
       var opt = document.createElement("option");
       opt.value = c;
       opt.textContent = c;
       sel.appendChild(opt);
     });
+    if (curCity) sel.value = curCity;
   }
 
   function render() {
+    var t = I18N[cur] || I18N.fr;
     var box = document.getElementById("vendors-list");
-    var q = curQuery.toLowerCase();
 
+    if (!isLoaded) {
+      box.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px">' + t.loading + '</div>';
+      return;
+    }
+
+    if (isError) {
+      box.innerHTML = '<div class="empty" style="grid-column:1/-1"><p>' + t.err + '</p></div>';
+      return;
+    }
+
+    var q = curQuery.toLowerCase();
     var filtered = allMembers.filter(function(m) {
       var matchesCat = curCat === "all" || m.category === curCat;
       var matchesCity = !curCity || (m.city && m.city.toLowerCase() === curCity.toLowerCase());
@@ -166,7 +344,15 @@ footer a{color:var(--sand)}
     });
 
     if (!filtered.length) {
-      box.innerHTML = '<div class="empty" style="grid-column:1/-1"><p>Aucun membre ne correspond à votre recherche.</p></div>';
+      if (!allMembers.length) {
+        box.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:48px 20px">' +
+          '<h3 style="font-size:1.6rem;color:var(--wine);margin-bottom:8px">' + t.emptyOpenTitle + '</h3>' +
+          '<p style="max-width:540px;margin:0 auto 18px;font-size:1.05rem;opacity:.9">' + t.emptyOpenDesc + '</p>' +
+          '<a class="btn gold" href="inscription.html" style="font-size:1.05rem;padding:12px 24px">' + t.emptyOpenBtn + '</a>' +
+        '</div>';
+      } else {
+        box.innerHTML = '<div class="empty" style="grid-column:1/-1"><p>' + t.emptyFilter + '</p></div>';
+      }
       return;
     }
 
@@ -180,16 +366,16 @@ footer a{color:var(--sand)}
         ? '<img class="v-avatar" src="' + m.logoUrl + '" alt="" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'v-avatar\',textContent:\'' + initial + '\'}))">'
         : '<div class="v-avatar">' + initial + '</div>';
 
+      var catLabel = t.cats[m.category] || m.category;
       var badgesHtml = '<div class="badges">';
-      if (m.plan === "premium") badgesHtml += '<span class="bd prem">★ Premium</span>';
-      if (m.isVerified) badgesHtml += '<span class="bd ver">✓ Profil vérifié</span>';
-      badgesHtml += '<span class="bd cat">' + (CATS[m.category] || m.category) + '</span>';
+      if (m.plan === "premium") badgesHtml += '<span class="bd prem">' + t.prem + '</span>';
+      if (m.isVerified) badgesHtml += '<span class="bd ver">' + t.ver + '</span>';
+      badgesHtml += '<span class="bd cat">' + catLabel + '</span>';
       badgesHtml += '</div>';
 
       var title = m.businessName || m.fullName;
       var sub = m.businessName ? m.fullName + " · " + m.city : m.city;
-
-      var adsCount = m.listingsCount ? m.listingsCount + " annonce(s)" : "0 annonce";
+      var adsCount = m.listingsCount ? t.adsCount.replace("{n}", m.listingsCount) : t.zeroAds;
 
       card.innerHTML =
         '<div class="v-head">' +
@@ -200,10 +386,10 @@ footer a{color:var(--sand)}
           '</div>' +
         '</div>' +
         badgesHtml +
-        '<p class="v-bio">' + escapeHtml(m.bio || "Membre de la communauté Bassar Kàakpi.") + '</p>' +
+        '<p class="v-bio">' + escapeHtml(m.bio || t.defaultBio) + '</p>' +
         '<div class="v-foot">' +
           '<span style="font-size:.85rem;font-weight:600;color:var(--wine)">' + adsCount + '</span>' +
-          '<a class="btn" href="profil.html?id=' + m.id + '">Voir la vitrine</a>' +
+          '<a class="btn" href="profil.html?id=' + m.id + '">' + t.viewStore + '</a>' +
         '</div>';
 
       box.appendChild(card);
@@ -233,6 +419,11 @@ footer a{color:var(--sand)}
     render();
   };
 
+  document.querySelectorAll(".lang button").forEach(function(b) {
+    b.onclick = function() { set(b.dataset.l, true); };
+  });
+
+  set(cur, false);
   loadMembers();
 })();
 </script>

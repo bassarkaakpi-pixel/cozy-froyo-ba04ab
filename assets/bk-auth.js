@@ -60,10 +60,12 @@
               BKAuth.setUser(data.subscriber);
               return data.subscriber;
             });
-          } else {
+          } else if (res.status === 401 || res.status === 403) {
             BKAuth.setUser(null);
             BKAuth.setToken(null);
             return null;
+          } else {
+            return BKAuth.getUser();
           }
         })
         .catch(function () {
@@ -115,40 +117,58 @@
       var nav = document.querySelector("header nav");
       if (!nav) return;
 
-      // Add 'Vendeurs' and 'Espace Abonnés' if missing
+      var lang = localStorage.getItem("lang") || "fr";
+      var labels = {
+        fr: { directory: "Annuaire", mySpace: "Mon Espace", login: "Connexion" },
+        en: { directory: "Directory", mySpace: "My Space", login: "Sign in" },
+        de: { directory: "Verzeichnis", mySpace: "Mein Bereich", login: "Anmelden" },
+      };
+      var t = labels[lang] || labels.fr;
+
+      // Add 'Vendeurs' (Annuaire) and 'Espace Abonnés' if missing
       var user = BKAuth.getUser();
 
       var existingVendeurs = nav.querySelector('a[href="vendeurs.html"]');
       if (!existingVendeurs) {
         var vLink = document.createElement("a");
         vLink.href = "vendeurs.html";
-        vLink.textContent = "Annuaire";
+        vLink.textContent = t.directory;
         vLink.className = "nav-vendeurs";
         var mktLink = nav.querySelector('a[href="marketplace.html"]');
         if (mktLink && mktLink.nextSibling) {
           nav.insertBefore(vLink, mktLink.nextSibling);
         } else {
-          nav.appendChild(vLink);
+          var langSpan = nav.querySelector(".lang");
+          if (langSpan) nav.insertBefore(vLink, langSpan);
+          else nav.appendChild(vLink);
         }
+      } else {
+        existingVendeurs.textContent = t.directory;
       }
 
       var existingAuth = nav.querySelector(".nav-auth-link");
       if (!existingAuth) {
         var aLink = document.createElement("a");
         aLink.className = "nav-auth-link";
-        nav.appendChild(aLink);
+        var langSpan = nav.querySelector(".lang");
+        if (langSpan) {
+          nav.insertBefore(aLink, langSpan);
+        } else {
+          nav.appendChild(aLink);
+        }
         existingAuth = aLink;
       }
 
       if (user) {
         existingAuth.href = "espace-abonne.html";
-        existingAuth.textContent = "Mon Espace";
+        existingAuth.textContent = t.mySpace;
         existingAuth.style.color = "var(--gold)";
         existingAuth.style.fontWeight = "600";
       } else {
         existingAuth.href = "connexion.html";
-        existingAuth.textContent = "Connexion";
+        existingAuth.textContent = t.login;
         existingAuth.style.fontWeight = "600";
+        existingAuth.style.color = "";
       }
     },
   };
@@ -160,5 +180,11 @@
     BKAuth.checkSession().then(function () {
       BKAuth.initNav();
     });
+  });
+  document.addEventListener("langchange", function () {
+    BKAuth.initNav();
+  });
+  document.addEventListener("bk_auth_change", function () {
+    BKAuth.initNav();
   });
 })(window);

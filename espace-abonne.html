@@ -94,15 +94,15 @@ footer a{color:var(--sand)}
     </div>
 
     <div class="tabs" role="tablist">
-      <button class="tab-btn active" data-tab="listings">Mes Annonces (<span id="count-ads">0</span>)</button>
-      <button class="tab-btn" data-tab="profile">Mon Profil & Entreprise</button>
-      <button class="tab-btn" data-tab="plan">Ma Formule & Avantages</button>
+      <button class="tab-btn active" data-tab="listings" id="tab-btn-listings">Mes Annonces (<span id="count-ads">0</span>)</button>
+      <button class="tab-btn" data-tab="profile" id="tab-btn-profile">Mon Profil & Entreprise</button>
+      <button class="tab-btn" data-tab="plan" id="tab-btn-plan">Ma Formule & Avantages</button>
     </div>
 
     <!-- PANEL 1: LISTINGS -->
     <div id="panel-listings" class="panel active">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-        <h2 style="font-size:1.8rem">Mes annonces publiées</h2>
+        <h2 style="font-size:1.8rem" id="h2-my-ads">Mes annonces publiées</h2>
         <button id="btn-open-create-ad" class="btn">＋ Publier une nouvelle annonce</button>
       </div>
 
@@ -112,41 +112,41 @@ footer a{color:var(--sand)}
 
       <div id="ad-empty" class="empty-state" style="display:none">
         <div style="font-size:3rem">📦</div>
-        <h3 style="font-size:1.6rem;margin-top:8px">Vous n'avez pas encore d'annonce active</h3>
-        <p>Publiez vos produits, biens immobiliers, véhicules ou services pour être visible sur le Marketplace Bassar Kàakpi.</p>
-        <button class="btn btn-create-trigger">Publier ma première annonce</button>
+        <h3 style="font-size:1.6rem;margin-top:8px" id="empty-ads-h3">Vous n'avez pas encore d'annonce active</h3>
+        <p id="empty-ads-p">Publiez vos produits, biens immobiliers, véhicules ou services pour être visible sur le Marketplace Bassar Kàakpi.</p>
+        <button class="btn btn-create-trigger" id="btn-empty-create">Publier ma première annonce</button>
       </div>
     </div>
 
     <!-- PANEL 2: PROFILE -->
     <div id="panel-profile" class="panel">
       <div class="card">
-        <h2 style="font-size:1.8rem;margin-bottom:14px">Modifier mon profil & entreprise</h2>
+        <h2 style="font-size:1.8rem;margin-bottom:14px" id="h2-profile">Modifier mon profil & entreprise</h2>
         <div id="profile-msg"></div>
         <form id="form-profile">
           <div class="grid-2">
             <div class="fld">
-              <label for="p-fullName">Nom et prénom</label>
+              <label for="p-fullName" id="lbl-p-fullname">Nom et prénom</label>
               <input type="text" id="p-fullName" required>
             </div>
             <div class="fld">
-              <label for="p-businessName">Raison sociale / Nom commercial</label>
+              <label for="p-businessName" id="lbl-p-bizname">Raison sociale / Nom commercial</label>
               <input type="text" id="p-businessName">
             </div>
           </div>
           <div class="grid-2">
             <div class="fld">
-              <label for="p-phone">Téléphone WhatsApp (avec indicatif)</label>
+              <label for="p-phone" id="lbl-p-phone">Téléphone WhatsApp (avec indicatif)</label>
               <input type="tel" id="p-phone" required>
             </div>
             <div class="fld">
-              <label for="p-city">Ville et pays</label>
+              <label for="p-city" id="lbl-p-city">Ville et pays</label>
               <input type="text" id="p-city" required>
             </div>
           </div>
           <div class="grid-2">
             <div class="fld">
-              <label for="p-category">Catégorie d'activité</label>
+              <label for="p-category" id="lbl-p-cat">Catégorie d'activité</label>
               <select id="p-category">
                 <option value="trade">Commerce et négoce</option>
                 <option value="realestate">Immobilier</option>
@@ -158,16 +158,16 @@ footer a{color:var(--sand)}
               </select>
             </div>
             <div class="fld">
-              <label for="p-website">Site web ou réseau social</label>
+              <label for="p-website" id="lbl-p-website">Site web ou réseau social</label>
               <input type="url" id="p-website">
             </div>
           </div>
           <div class="fld">
-            <label for="p-bio">Description de votre activité (affichée sur votre vitrine publique)</label>
+            <label for="p-bio" id="lbl-p-bio">Description de votre activité (affichée sur votre vitrine publique)</label>
             <textarea id="p-bio" rows="4"></textarea>
           </div>
           <div class="fld">
-            <label for="p-logoUrl">Lien de votre photo ou logo (URL image)</label>
+            <label for="p-logoUrl" id="lbl-p-logourl">Lien de votre photo ou logo (URL image)</label>
             <input type="url" id="p-logoUrl" placeholder="https://exemple.com/mon-logo.jpg">
           </div>
           <button type="submit" class="btn" id="btn-save-profile">Enregistrer les modifications</button>
@@ -178,18 +178,18 @@ footer a{color:var(--sand)}
     <!-- PANEL 3: PLAN -->
     <div id="panel-plan" class="panel">
       <div class="card">
-        <h2 style="font-size:1.8rem;margin-bottom:12px">Ma formule actuelle</h2>
+        <h2 style="font-size:1.8rem;margin-bottom:12px" id="h2-my-plan">Ma formule actuelle</h2>
         <div style="background:#faf7f2;padding:18px;border-radius:8px;margin-bottom:20px;border-left:4px solid var(--wine)">
           <h3 id="plan-name" style="font-size:1.5rem"></h3>
           <p id="plan-perks" style="margin-top:6px"></p>
         </div>
 
-        <h3 style="font-size:1.4rem;margin:20px 0 10px">Faire évoluer votre formule</h3>
-        <p style="margin-bottom:16px">Passez à la formule Vendeur ou Premium pour augmenter votre plafond d'annonces et bénéficier d'une visibilité en tête de liste.</p>
+        <h3 style="font-size:1.4rem;margin:20px 0 10px" id="h3-upgrade">Faire évoluer votre formule</h3>
+        <p style="margin-bottom:16px" id="p-upgrade">Passez à la formule Vendeur ou Premium pour augmenter votre plafond d'annonces et bénéficier d'une visibilité en tête de liste.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn gold" target="_blank" rel="noopener" href="https://buy.stripe.com/aFa8wO23h0qifJq1uVf7i06">Abonnement Vendeur (Stripe)</a>
-          <a class="btn gold" target="_blank" rel="noopener" href="https://buy.stripe.com/4gM5kC37l8WO7cUehHf7i07">Abonnement Premium (Stripe)</a>
-          <a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/491772075847?text=Bonjour,%20je%20souhaite%20faire%20%C3%A9voluer%20mon%20abonnement%20Bassar%20K%C3%A0akpi">Nous contacter sur WhatsApp</a>
+          <a class="btn gold" target="_blank" rel="noopener" id="btn-stripe-seller" href="https://buy.stripe.com/aFa8wO23h0qifJq1uVf7i06">Abonnement Vendeur (Stripe)</a>
+          <a class="btn gold" target="_blank" rel="noopener" id="btn-stripe-premium" href="https://buy.stripe.com/4gM5kC37l8WO7cUehHf7i07">Abonnement Premium (Stripe)</a>
+          <a class="btn ghost" target="_blank" rel="noopener" id="btn-wa-contact" href="https://wa.me/491772075847?text=Bonjour,%20je%20souhaite%20faire%20%C3%A9voluer%20mon%20abonnement%20Bassar%20K%C3%A0akpi">Nous contacter sur WhatsApp</a>
         </div>
       </div>
     </div>
@@ -206,7 +206,7 @@ footer a{color:var(--sand)}
     <form id="form-ad">
       <input type="hidden" id="ad-id">
       <div class="fld">
-        <label for="ad-cat">Catégorie *</label>
+        <label for="ad-cat" id="lbl-modal-cat">Catégorie *</label>
         <select id="ad-cat" required>
           <option value="trade">Commerce et négoce</option>
           <option value="realestate">Immobilier</option>
@@ -217,16 +217,16 @@ footer a{color:var(--sand)}
         </select>
       </div>
       <div class="fld">
-        <label for="ad-title">Titre de l'annonce *</label>
+        <label for="ad-title" id="lbl-modal-title">Titre de l'annonce *</label>
         <input type="text" id="ad-title" required placeholder="Ex. : Terrain clôturé de 600 m² à Kara">
       </div>
       <div class="grid-2">
         <div class="fld">
-          <label for="ad-price">Prix</label>
+          <label for="ad-price" id="lbl-modal-price">Prix</label>
           <input type="number" id="ad-price" placeholder="Ex. : 5000000 (vide = sur demande)">
         </div>
         <div class="fld">
-          <label for="ad-cur">Devise</label>
+          <label for="ad-cur" id="lbl-modal-cur">Devise</label>
           <select id="ad-cur">
             <option value="XOF">FCFA</option>
             <option value="EUR">Euro (€)</option>
@@ -235,16 +235,16 @@ footer a{color:var(--sand)}
       </div>
       <div class="grid-2">
         <div class="fld">
-          <label for="ad-city">Localisation (Ville) *</label>
+          <label for="ad-city" id="lbl-modal-city">Localisation (Ville) *</label>
           <input type="text" id="ad-city" required placeholder="Ex. : Bassar">
         </div>
         <div class="fld">
-          <label for="ad-img">Lien photo / image (URL)</label>
+          <label for="ad-img" id="lbl-modal-img">Lien photo / image (URL)</label>
           <input type="url" id="ad-img" placeholder="https://exemple.com/photo.jpg">
         </div>
       </div>
       <div class="fld">
-        <label for="ad-desc">Description détaillée *</label>
+        <label for="ad-desc" id="lbl-modal-desc">Description détaillée *</label>
         <textarea id="ad-desc" rows="5" required placeholder="Caractéristiques, atouts, conditions, documents disponibles..."></textarea>
       </div>
       <button type="submit" class="btn" style="width:100%" id="btn-submit-ad">Publier l'annonce</button>
@@ -252,19 +252,257 @@ footer a{color:var(--sand)}
   </div>
 </div>
 
-<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px" id="fslogan">Bassar ne meurt pas · @bassarkaakpi</p></footer>
 
 <script src="assets/bk-auth.js"></script>
 <script>
 (function() {
-  var CAT_NAMES = {
-    trade: "Commerce et négoce",
-    realestate: "Immobilier",
-    land: "Terrains",
-    service: "Services",
-    vehicle: "Véhicules",
-    craft: "Artisanat / Textile",
-    other: "Autre"
+  var L = ["fr", "en", "de"];
+  var NAV = {
+    fr: ["B'Tchamb", "Marketplace", "Annuaire", "Boutique"],
+    en: ["B'Tchamb", "Marketplace", "Directory", "Shop"],
+    de: ["B'Tchamb", "Marktplatz", "Verzeichnis", "Shop"]
+  };
+  var FOOT = {
+    fr: ["Mentions légales", "Conditions de vente"],
+    en: ["Legal notice (Impressum)", "Terms of sale"],
+    de: ["Impressum", "AGB"]
+  };
+  var SLOGAN = {
+    fr: "Bassar ne meurt pas · @bassarkaakpi",
+    en: "Bassar does not die · @bassarkaakpi",
+    de: "Bassar stirbt nicht · @bassarkaakpi"
+  };
+
+  var I18N = {
+    fr: {
+      pageDocTitle: "Mon Espace Abonné",
+      loading: "Chargement de votre espace abonné...",
+      mySpace: "Mon Espace",
+      btnPublic: "🔗 Voir ma vitrine publique",
+      btnLogout: "Déconnexion",
+      tabListings: "Mes Annonces",
+      tabProfile: "Mon Profil & Entreprise",
+      tabPlan: "Ma Formule & Avantages",
+      h2MyAds: "Mes annonces publiées",
+      btnOpenCreateAd: "＋ Publier une nouvelle annonce",
+      emptyAdsH3: "Vous n'avez pas encore d'annonce active",
+      emptyAdsP: "Publiez vos produits, biens immobiliers, véhicules ou services pour être visible sur le Marketplace Bassar Kàakpi.",
+      btnEmptyCreate: "Publier ma première annonce",
+      h2Profile: "Modifier mon profil & entreprise",
+      lblPFullname: "Nom et prénom",
+      lblPBizname: "Raison sociale / Nom commercial",
+      lblPPhone: "Téléphone WhatsApp (avec indicatif)",
+      lblPCity: "Ville et pays",
+      lblPCat: "Catégorie d'activité",
+      lblPWebsite: "Site web ou réseau social",
+      lblPBio: "Description de votre activité (affichée sur votre vitrine publique)",
+      lblPLogourl: "Lien de votre photo ou logo (URL image)",
+      btnSaveProfile: "Enregistrer les modifications",
+      btnSavingProfile: "Enregistrement...",
+      profileSuccess: "Profil mis à jour avec succès !",
+      profileError: "Erreur lors de la mise à jour du profil.",
+      h2MyPlan: "Ma formule actuelle",
+      h3Upgrade: "Faire évoluer votre formule",
+      pUpgrade: "Passez à la formule Vendeur ou Premium pour augmenter votre plafond d'annonces et bénéficier d'une visibilité en tête de liste.",
+      btnStripeSeller: "Abonnement Vendeur (Stripe)",
+      btnStripePremium: "Abonnement Premium (Stripe)",
+      btnWaContact: "Nous contacter sur WhatsApp",
+      modalTitleNew: "Publier une annonce",
+      modalTitleEdit: "Modifier l'annonce",
+      lblModalCat: "Catégorie *",
+      lblModalTitle: "Titre de l'annonce *",
+      phModalTitle: "Ex. : Terrain clôturé de 600 m² à Kara",
+      lblModalPrice: "Prix",
+      phModalPrice: "Ex. : 5000000 (vide = sur demande)",
+      lblModalCur: "Devise",
+      lblModalCity: "Localisation (Ville) *",
+      phModalCity: "Ex. : Bassar",
+      lblModalImg: "Lien photo / image (URL)",
+      lblModalDesc: "Description détaillée *",
+      phModalDesc: "Caractéristiques, atouts, conditions, documents disponibles...",
+      btnSubmitNew: "Publier l'annonce",
+      btnSubmitEdit: "Enregistrer les modifications",
+      btnSubmitSaving: "Enregistrement...",
+      onreq: "Prix sur demande",
+      btnEdit: "Modifier",
+      btnDel: "Supprimer",
+      delConfirm: "Confirmez-vous la suppression définitive de cette annonce ?",
+      delSuccess: "Annonce supprimée.",
+      delError: "Erreur lors de la suppression.",
+      premBadge: "★ Premium",
+      sellerBadge: "Formule Vendeur",
+      freeBadge: "Formule Gratuite",
+      verBadge: "✓ Profil vérifié",
+      activeBadge: "Profil actif",
+      planFreeName: "Formule Gratuite (0 FCFA)",
+      planFreePerks: "Vous disposez d'une annonce active et de votre fiche dans l'annuaire public des membres.",
+      planSellerName: "Formule Vendeur (3 000 FCFA/mois)",
+      planSellerPerks: "Vous pouvez publier jusqu'à 5 annonces actives simultanément avec photos, et votre profil est certifié Vendeur.",
+      planPremName: "Formule Premium (5 000 FCFA/mois)",
+      planPremPerks: "Vous bénéficiez d'annonces illimitées, d'une mise en avant en tête de liste et de la mention Premium officielle sur votre vitrine.",
+      cats: {
+        trade: "Commerce et négoce",
+        realestate: "Immobilier",
+        land: "Terrains",
+        service: "Services & artisanat",
+        vehicle: "Véhicules",
+        craft: "Textile & confection Kàakpi",
+        other: "Autre activité"
+      }
+    },
+    en: {
+      pageDocTitle: "My Subscriber Space",
+      loading: "Loading your subscriber space...",
+      mySpace: "My Space",
+      btnPublic: "🔗 View my public storefront",
+      btnLogout: "Log out",
+      tabListings: "My Listings",
+      tabProfile: "My Profile & Business",
+      tabPlan: "My Plan & Benefits",
+      h2MyAds: "My published listings",
+      btnOpenCreateAd: "＋ Post a new listing",
+      emptyAdsH3: "You do not have any active listings yet",
+      emptyAdsP: "Publish your products, real estate, vehicles or services to be visible on the Bassar Kàakpi Marketplace.",
+      btnEmptyCreate: "Publish my first listing",
+      h2Profile: "Edit my profile & business",
+      lblPFullname: "Full name",
+      lblPBizname: "Company / Business name",
+      lblPPhone: "WhatsApp phone (with country code)",
+      lblPCity: "City and country",
+      lblPCat: "Business category",
+      lblPWebsite: "Website or social network",
+      lblPBio: "Description of your business (displayed on your public storefront)",
+      lblPLogourl: "Link to your photo or logo (image URL)",
+      btnSaveProfile: "Save changes",
+      btnSavingProfile: "Saving...",
+      profileSuccess: "Profile successfully updated!",
+      profileError: "Error updating profile.",
+      h2MyPlan: "My current plan",
+      h3Upgrade: "Upgrade your plan",
+      pUpgrade: "Upgrade to the Seller or Premium plan to increase your listing limit and enjoy top-of-list visibility.",
+      btnStripeSeller: "Seller Subscription (Stripe)",
+      btnStripePremium: "Premium Subscription (Stripe)",
+      btnWaContact: "Contact us on WhatsApp",
+      modalTitleNew: "Post a listing",
+      modalTitleEdit: "Edit listing",
+      lblModalCat: "Category *",
+      lblModalTitle: "Listing title *",
+      phModalTitle: "e.g.: 600 m² fenced plot in Kara",
+      lblModalPrice: "Price",
+      phModalPrice: "e.g.: 5000000 (blank = on request)",
+      lblModalCur: "Currency",
+      lblModalCity: "Location (City) *",
+      phModalCity: "e.g.: Bassar",
+      lblModalImg: "Photo / image link (URL)",
+      lblModalDesc: "Detailed description *",
+      phModalDesc: "Features, advantages, terms, available documents...",
+      btnSubmitNew: "Publish listing",
+      btnSubmitEdit: "Save changes",
+      btnSubmitSaving: "Saving...",
+      onreq: "Price on request",
+      btnEdit: "Edit",
+      btnDel: "Delete",
+      delConfirm: "Do you confirm the permanent deletion of this listing?",
+      delSuccess: "Listing deleted.",
+      delError: "Error during deletion.",
+      premBadge: "★ Premium",
+      sellerBadge: "Seller Plan",
+      freeBadge: "Free Plan",
+      verBadge: "✓ Verified profile",
+      activeBadge: "Active profile",
+      planFreeName: "Free Plan (0 FCFA)",
+      planFreePerks: "You have 1 active listing and a profile in the public member directory.",
+      planSellerName: "Seller Plan (3,000 FCFA/month)",
+      planSellerPerks: "You can publish up to 5 active listings simultaneously with photos, and your profile is certified Seller.",
+      planPremName: "Premium Plan (5,000 FCFA/month)",
+      planPremPerks: "You enjoy unlimited listings, priority top-of-list placement, and official Premium badge on your storefront.",
+      cats: {
+        trade: "Trade and business",
+        realestate: "Real estate",
+        land: "Land",
+        service: "Services & crafts",
+        vehicle: "Vehicles",
+        craft: "Kàakpi Textiles & tailoring",
+        other: "Other activity"
+      }
+    },
+    de: {
+      pageDocTitle: "Mein Abonnenten-Bereich",
+      loading: "Ihr Abonnenten-Bereich wird geladen...",
+      mySpace: "Mein Bereich",
+      btnPublic: "🔗 Mein Schaufenster ansehen",
+      btnLogout: "Abmelden",
+      tabListings: "Meine Anzeigen",
+      tabProfile: "Mein Profil & Unternehmen",
+      tabPlan: "Mein Tarif & Vorteile",
+      h2MyAds: "Meine veröffentlichten Anzeigen",
+      btnOpenCreateAd: "＋ Neue Anzeige veröffentlichen",
+      emptyAdsH3: "Sie haben noch keine aktive Anzeige",
+      emptyAdsP: "Veröffentlichen Sie Ihre Produkte, Immobilien, Fahrzeuge oder Dienstleistungen auf dem Bassar-Kàakpi-Marktplatz.",
+      btnEmptyCreate: "Erste Anzeige veröffentlichen",
+      h2Profile: "Mein Profil & Unternehmen bearbeiten",
+      lblPFullname: "Vollständiger Name",
+      lblPBizname: "Firmenname / Geschäftsbezeichnung",
+      lblPPhone: "WhatsApp-Nummer (mit Vorwahl)",
+      lblPCity: "Stadt und Land",
+      lblPCat: "Tätigkeitsbereich",
+      lblPWebsite: "Website oder soziales Netzwerk",
+      lblPBio: "Beschreibung Ihrer Tätigkeit (in Ihrem Schaufenster angezeigt)",
+      lblPLogourl: "Link zu Foto oder Logo (Bild-URL)",
+      btnSaveProfile: "Änderungen speichern",
+      btnSavingProfile: "Wird gespeichert...",
+      profileSuccess: "Profil erfolgreich aktualisiert!",
+      profileError: "Fehler beim Aktualisieren des Profils.",
+      h2MyPlan: "Mein aktueller Tarif",
+      h3Upgrade: "Tarif wechseln",
+      pUpgrade: "Wechseln Sie zum Anbieter- oder Premium-Tarif, um mehr Anzeigen zu veröffentlichen und ganz oben platziert zu werden.",
+      btnStripeSeller: "Anbieter-Abo (Stripe)",
+      btnStripePremium: "Premium-Abo (Stripe)",
+      btnWaContact: "Kontakt per WhatsApp",
+      modalTitleNew: "Anzeige veröffentlichen",
+      modalTitleEdit: "Anzeige bearbeiten",
+      lblModalCat: "Kategorie *",
+      lblModalTitle: "Titel der Anzeige *",
+      phModalTitle: "z. B.: Eingezäuntes Grundstück 600 m² in Kara",
+      lblModalPrice: "Preis",
+      phModalPrice: "z. B.: 5000000 (leer = auf Anfrage)",
+      lblModalCur: "Währung",
+      lblModalCity: "Ort (Stadt) *",
+      phModalCity: "z. B.: Bassar",
+      lblModalImg: "Foto- / Bild-Link (URL)",
+      lblModalDesc: "Ausführliche Beschreibung *",
+      phModalDesc: "Merkmale, Vorteile, Bedingungen, verfügbare Unterlagen...",
+      btnSubmitNew: "Anzeige veröffentlichen",
+      btnSubmitEdit: "Änderungen speichern",
+      btnSubmitSaving: "Wird gespeichert...",
+      onreq: "Preis auf Anfrage",
+      btnEdit: "Bearbeiten",
+      btnDel: "Löschen",
+      delConfirm: "Möchten Sie diese Anzeige wirklich endgültig löschen?",
+      delSuccess: "Anzeige gelöscht.",
+      delError: "Fehler beim Löschen.",
+      premBadge: "★ Premium",
+      sellerBadge: "Anbieter-Tarif",
+      freeBadge: "Kostenloser Tarif",
+      verBadge: "✓ Profil geprüft",
+      activeBadge: "Aktives Profil",
+      planFreeName: "Kostenloser Tarif (0 FCFA)",
+      planFreePerks: "Sie haben 1 aktive Anzeige und einen Eintrag im öffentlichen Mitgliederverzeichnis.",
+      planSellerName: "Anbieter-Tarif (3.000 FCFA/Monat)",
+      planSellerPerks: "Sie können bis zu 5 Anzeigen gleichzeitig mit Fotos veröffentlichen, und Ihr Profil ist geprüft.",
+      planPremName: "Premium-Tarif (5.000 FCFA/Monat)",
+      planPremPerks: "Unbegrenzte Anzeigen, bevorzugte Platzierung oben in der Liste und offizieller Premium-Status.",
+      cats: {
+        trade: "Handel und Gewerbe",
+        realestate: "Immobilien",
+        land: "Grundstücke",
+        service: "Dienstleistungen & Handwerk",
+        vehicle: "Fahrzeuge",
+        craft: "Kàakpi-Textilien & Maßarbeit",
+        other: "Andere Tätigkeit"
+      }
+    }
   };
 
   var ICON = {
@@ -277,55 +515,188 @@ footer a{color:var(--sand)}
     other: "✦"
   };
 
+  function pickLang() {
+    var s = null;
+    try { s = localStorage.getItem("lang"); } catch(e) {}
+    if (L.indexOf(s) > -1) return s;
+    var n = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    for (var i = 0; i < n.length; i++) {
+      var c = String(n[i]).slice(0, 2).toLowerCase();
+      if (L.indexOf(c) > -1) return c;
+    }
+    return "fr";
+  }
+
+  var cur = pickLang();
   var curSubscriber = null;
   var userListings = [];
+
+  function setLang(l, save) {
+    cur = l;
+    document.documentElement.lang = l;
+    window.curLang = l;
+    var t = I18N[l] || I18N.fr;
+
+    document.title = t.pageDocTitle + " | Bassar Kàakpi";
+    document.getElementById("loading").textContent = t.loading;
+    document.getElementById("btn-public-profile").textContent = t.btnPublic;
+    document.getElementById("btn-logout").textContent = t.btnLogout;
+
+    document.getElementById("tab-btn-listings").innerHTML = t.tabListings + ' (<span id="count-ads">' + userListings.length + '</span>)';
+    document.getElementById("tab-btn-profile").textContent = t.tabProfile;
+    document.getElementById("tab-btn-plan").textContent = t.tabPlan;
+
+    document.getElementById("h2-my-ads").textContent = t.h2MyAds;
+    document.getElementById("btn-open-create-ad").textContent = t.btnOpenCreateAd;
+    document.getElementById("empty-ads-h3").textContent = t.emptyAdsH3;
+    document.getElementById("empty-ads-p").textContent = t.emptyAdsP;
+    document.getElementById("btn-empty-create").textContent = t.btnEmptyCreate;
+
+    document.getElementById("h2-profile").textContent = t.h2Profile;
+    document.getElementById("lbl-p-fullname").textContent = t.lblPFullname;
+    document.getElementById("lbl-p-bizname").textContent = t.lblPBizname;
+    document.getElementById("lbl-p-phone").textContent = t.lblPPhone;
+    document.getElementById("lbl-p-city").textContent = t.lblPCity;
+    document.getElementById("lbl-p-cat").textContent = t.lblPCat;
+
+    // Cat options
+    var catSel = document.getElementById("p-category");
+    var catCur = catSel.value;
+    catSel.innerHTML = "";
+    Object.keys(t.cats).forEach(function(k) {
+      var opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = t.cats[k];
+      catSel.appendChild(opt);
+    });
+    if (catCur) catSel.value = catCur;
+
+    document.getElementById("lbl-p-website").textContent = t.lblPWebsite;
+    document.getElementById("lbl-p-bio").textContent = t.lblPBio;
+    document.getElementById("lbl-p-logourl").textContent = t.lblPLogourl;
+    document.getElementById("btn-save-profile").textContent = t.btnSaveProfile;
+
+    document.getElementById("h2-my-plan").textContent = t.h2MyPlan;
+    document.getElementById("h3-upgrade").textContent = t.h3Upgrade;
+    document.getElementById("p-upgrade").textContent = t.pUpgrade;
+    document.getElementById("btn-stripe-seller").textContent = t.btnStripeSeller;
+    document.getElementById("btn-stripe-premium").textContent = t.btnStripePremium;
+    document.getElementById("btn-wa-contact").textContent = t.btnWaContact;
+
+    // Modal labels
+    document.getElementById("lbl-modal-cat").textContent = t.lblModalCat;
+    var modalCatSel = document.getElementById("ad-cat");
+    var modalCatCur = modalCatSel.value;
+    modalCatSel.innerHTML = "";
+    Object.keys(t.cats).forEach(function(k) {
+      var opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = t.cats[k];
+      modalCatSel.appendChild(opt);
+    });
+    if (modalCatCur) modalCatSel.value = modalCatCur;
+
+    document.getElementById("lbl-modal-title").textContent = t.lblModalTitle;
+    document.getElementById("ad-title").placeholder = t.phModalTitle;
+    document.getElementById("lbl-modal-price").textContent = t.lblModalPrice;
+    document.getElementById("ad-price").placeholder = t.phModalPrice;
+    document.getElementById("lbl-modal-cur").textContent = t.lblModalCur;
+    document.getElementById("lbl-modal-city").textContent = t.lblModalCity;
+    document.getElementById("ad-city").placeholder = t.phModalCity;
+    document.getElementById("lbl-modal-img").textContent = t.lblModalImg;
+    document.getElementById("lbl-modal-desc").textContent = t.lblModalDesc;
+    document.getElementById("ad-desc").placeholder = t.phModalDesc;
+
+    // Nav
+    var a = document.querySelectorAll("header nav a");
+    if (a.length >= 4) {
+      a[0].textContent = NAV[l][0];
+      a[1].textContent = NAV[l][1];
+      a[2].textContent = NAV[l][2];
+      a[3].textContent = NAV[l][3];
+    }
+    // Foot
+    var f = document.querySelectorAll("footer a");
+    if (f.length >= 2) {
+      f[0].textContent = FOOT[l][0];
+      f[1].textContent = FOOT[l][1];
+    }
+    var fs = document.getElementById("fslogan");
+    if (fs) fs.textContent = SLOGAN[l];
+
+    document.querySelectorAll(".lang button").forEach(function(b) {
+      b.setAttribute("aria-pressed", b.dataset.l === l);
+    });
+
+    if (save) {
+      try { localStorage.setItem("lang", l); } catch(e) {}
+    }
+    document.dispatchEvent(new Event("langchange"));
+
+    if (curSubscriber) {
+      renderHeader(curSubscriber);
+      renderPlan(curSubscriber);
+      renderListings(userListings);
+    }
+  }
+
+  document.querySelectorAll(".lang button").forEach(function(b) {
+    b.onclick = function() { setLang(b.dataset.l, true); };
+  });
+
+  setLang(cur, false);
 
   function init() {
     BKAuth.checkSession().then(function(user) {
       if (!user) {
-        window.location.href = "connexion.html";
+        window.location.href = "connexion.html?redirect=espace-abonne.html";
         return;
       }
       curSubscriber = user;
-      renderHeader(user);
-      loadListings();
-      fillProfileForm(user);
-      renderPlan(user);
       document.getElementById("loading").style.display = "none";
       document.getElementById("content").style.display = "block";
 
-      // If URL has ?action=new, open create modal
-      var p = new URLSearchParams(location.search);
-      if (p.get("action") === "new") {
-        openModal();
+      renderHeader(user);
+      fillProfileForm(user);
+      renderPlan(user);
+      loadListings();
+
+      var params = new URLSearchParams(location.search);
+      if (params.get("action") === "new") {
+        setTimeout(function() { openModal(); }, 300);
+      }
+      if (params.get("welcome") === "1") {
+        var msgBox = document.getElementById("msg-box");
+        msgBox.innerHTML = '<div class="success">Bienvenue dans votre nouvel Espace Membre ! Vous pouvez dès maintenant publier votre première annonce.</div>';
       }
     });
   }
 
   function renderHeader(u) {
-    document.getElementById("m-name").textContent = u.fullName;
+    var t = I18N[cur] || I18N.fr;
+    document.getElementById("m-name").textContent = u.fullName || t.mySpace;
     document.getElementById("m-biz").textContent = u.businessName || "";
-    document.getElementById("m-ref").textContent = u.memberRef || "MEM-" + u.id;
+    document.getElementById("m-ref").textContent = u.memberRef || ("MEM-" + u.id);
     document.getElementById("m-city").textContent = u.city + (u.country ? ", " + u.country : "");
 
     var pb = document.getElementById("m-plan-badge");
     if (u.plan === "premium") {
-      pb.textContent = "★ Premium";
+      pb.textContent = t.premBadge;
       pb.className = "badge gold";
     } else if (u.plan === "seller") {
-      pb.textContent = "Formule Vendeur";
+      pb.textContent = t.sellerBadge;
       pb.className = "badge wine";
     } else {
-      pb.textContent = "Formule Gratuite";
+      pb.textContent = t.freeBadge;
       pb.className = "badge grey";
     }
 
     var vb = document.getElementById("m-ver-badge");
     if (u.isVerified) {
-      vb.textContent = "✓ Profil vérifié";
+      vb.textContent = t.verBadge;
       vb.className = "badge green";
     } else {
-      vb.textContent = "Profil actif";
+      vb.textContent = t.activeBadge;
       vb.className = "badge grey";
     }
 
@@ -337,7 +708,8 @@ footer a{color:var(--sand)}
       .then(function(r) { return r.json(); })
       .then(function(data) {
         userListings = data.listings || [];
-        document.getElementById("count-ads").textContent = userListings.length;
+        var countAds = document.getElementById("count-ads");
+        if (countAds) countAds.textContent = userListings.length;
         renderListings(userListings);
       })
       .catch(function(err) {
@@ -346,6 +718,7 @@ footer a{color:var(--sand)}
   }
 
   function renderListings(list) {
+    var t = I18N[cur] || I18N.fr;
     var box = document.getElementById("ad-list");
     var empty = document.getElementById("ad-empty");
     box.innerHTML = "";
@@ -360,17 +733,19 @@ footer a{color:var(--sand)}
       var card = document.createElement("div");
       card.className = "ad-card";
 
-      var pr = ad.price != null
-        ? new Intl.NumberFormat("fr-FR").format(ad.price) + " " + (ad.currency === "EUR" ? "€" : "FCFA")
-        : "Prix sur demande";
+      var pr = ad.price != null && ad.price !== ""
+        ? new Intl.NumberFormat(cur === "de" ? "de-DE" : (cur === "en" ? "en-US" : "fr-FR")).format(ad.price) + " " + (ad.currency === "EUR" ? "€" : "FCFA")
+        : t.onreq;
 
       var imgHtml = ad.imageUrl
         ? '<img class="ad-img" src="' + ad.imageUrl + '" alt="" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'ad-img\',textContent:\'' + (ICON[ad.category] || "✦") + '\'}))">'
         : '<div class="ad-img">' + (ICON[ad.category] || "✦") + '</div>';
 
+      var catLabel = t.cats[ad.category] || ad.category;
+
       card.innerHTML = imgHtml +
         '<div class="ad-body">' +
-          '<div class="ad-cat">' + (CAT_NAMES[ad.category] || ad.category) + ' · ' + (ad.city || "") + '</div>' +
+          '<div class="ad-cat">' + catLabel + ' · ' + (ad.city || "") + '</div>' +
           '<div class="ad-title">' + escapeHtml(ad.title) + '</div>' +
           '<div class="ad-price">' + pr + '</div>' +
           '<div class="ad-desc">' + escapeHtml(ad.description) + '</div>' +
@@ -378,8 +753,8 @@ footer a{color:var(--sand)}
         '<div class="ad-foot">' +
           '<span style="font-size:.8rem;color:#777">' + (ad.ref || "") + '</span>' +
           '<div>' +
-            '<button class="btn ghost sm btn-edit" style="margin-right:6px">Modifier</button>' +
-            '<button class="btn danger sm btn-del">Supprimer</button>' +
+            '<button class="btn ghost sm btn-edit" style="margin-right:6px">' + t.btnEdit + '</button>' +
+            '<button class="btn danger sm btn-del">' + t.btnDel + '</button>' +
           '</div>' +
         '</div>';
 
@@ -388,7 +763,7 @@ footer a{color:var(--sand)}
       };
 
       card.querySelector(".btn-del").onclick = function() {
-        if (confirm("Confirmez-vous la suppression définitive de cette annonce ?")) {
+        if (confirm(t.delConfirm)) {
           deleteListing(ad.id);
         }
       };
@@ -402,6 +777,7 @@ footer a{color:var(--sand)}
   }
 
   function deleteListing(id) {
+    var t = I18N[cur] || I18N.fr;
     BKAuth.fetchWithAuth("/api/my/listings/" + id, { method: "DELETE" })
       .then(function(r) { return r.json(); })
       .then(function(res) {
@@ -409,7 +785,7 @@ footer a{color:var(--sand)}
         else loadListings();
       })
       .catch(function(err) {
-        alert("Erreur lors de la suppression.");
+        alert(t.delError);
       });
   }
 
@@ -430,9 +806,10 @@ footer a{color:var(--sand)}
   var formAd = document.getElementById("form-ad");
 
   function openModal(ad) {
+    var t = I18N[cur] || I18N.fr;
     modalErr.style.display = "none";
     if (ad) {
-      document.getElementById("modal-title").textContent = "Modifier l'annonce";
+      document.getElementById("modal-title").textContent = t.modalTitleEdit;
       document.getElementById("ad-id").value = ad.id;
       document.getElementById("ad-cat").value = ad.category;
       document.getElementById("ad-title").value = ad.title;
@@ -441,31 +818,34 @@ footer a{color:var(--sand)}
       document.getElementById("ad-city").value = ad.city || curSubscriber.city;
       document.getElementById("ad-img").value = ad.imageUrl || "";
       document.getElementById("ad-desc").value = ad.description;
-      document.getElementById("btn-submit-ad").textContent = "Enregistrer les modifications";
+      document.getElementById("btn-submit-ad").textContent = t.btnSubmitEdit;
     } else {
-      document.getElementById("modal-title").textContent = "Publier une nouvelle annonce";
+      document.getElementById("modal-title").textContent = t.modalTitleNew;
       formAd.reset();
       document.getElementById("ad-id").value = "";
       document.getElementById("ad-city").value = curSubscriber ? curSubscriber.city : "";
-      document.getElementById("btn-submit-ad").textContent = "Publier l'annonce";
+      document.getElementById("btn-submit-ad").textContent = t.btnSubmitNew;
     }
     modal.style.display = "grid";
   }
 
-  modalClose.onclick = function() { modal.style.display = "none"; };
   document.getElementById("btn-open-create-ad").onclick = function() { openModal(); };
-  document.querySelectorAll(".btn-create-trigger").forEach(function(b) {
-    b.onclick = function() { openModal(); };
+  document.getElementById("btn-empty-create").onclick = function() { openModal(); };
+  modalClose.onclick = function() { modal.style.display = "none"; };
+  modal.addEventListener("click", function(e) {
+    if (e.target === this) modal.style.display = "none";
   });
 
   formAd.onsubmit = function(e) {
     e.preventDefault();
     modalErr.style.display = "none";
+    var t = I18N[cur] || I18N.fr;
+
     var id = document.getElementById("ad-id").value;
     var data = {
       category: document.getElementById("ad-cat").value,
       title: document.getElementById("ad-title").value.trim(),
-      price: document.getElementById("ad-price").value.trim(),
+      price: document.getElementById("ad-price").value,
       currency: document.getElementById("ad-cur").value,
       city: document.getElementById("ad-city").value.trim(),
       imageUrl: document.getElementById("ad-img").value.trim(),
@@ -477,7 +857,7 @@ footer a{color:var(--sand)}
 
     var submitBtn = document.getElementById("btn-submit-ad");
     submitBtn.disabled = true;
-    submitBtn.textContent = "Enregistrement...";
+    submitBtn.textContent = t.btnSubmitSaving;
 
     BKAuth.fetchWithAuth(url, {
       method: method,
@@ -517,10 +897,15 @@ footer a{color:var(--sand)}
   var formProfile = document.getElementById("form-profile");
   formProfile.onsubmit = function(e) {
     e.preventDefault();
+    var t = I18N[cur] || I18N.fr;
     var pMsg = document.getElementById("profile-msg");
     pMsg.innerHTML = "";
 
-    var data = {
+    var btn = document.getElementById("btn-save-profile");
+    btn.disabled = true;
+    btn.textContent = t.btnSavingProfile;
+
+    var payload = {
       fullName: document.getElementById("p-fullName").value.trim(),
       businessName: document.getElementById("p-businessName").value.trim(),
       phone: document.getElementById("p-phone").value.trim(),
@@ -531,23 +916,19 @@ footer a{color:var(--sand)}
       logoUrl: document.getElementById("p-logoUrl").value.trim(),
     };
 
-    var btn = document.getElementById("btn-save-profile");
-    btn.disabled = true;
-    btn.textContent = "Enregistrement...";
-
     BKAuth.fetchWithAuth("/api/auth/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
     })
       .then(function(r) { return r.json(); })
       .then(function(res) {
         btn.disabled = false;
-        btn.textContent = "Enregistrer les modifications";
+        btn.textContent = t.btnSaveProfile;
         if (res.error) {
           pMsg.innerHTML = '<div class="alert">' + res.error + '</div>';
         } else {
-          pMsg.innerHTML = '<div class="success">Profil mis à jour avec succès !</div>';
+          pMsg.innerHTML = '<div class="success">' + t.profileSuccess + '</div>';
           curSubscriber = res.subscriber;
           BKAuth.setUser(res.subscriber);
           renderHeader(res.subscriber);
@@ -555,24 +936,25 @@ footer a{color:var(--sand)}
       })
       .catch(function(err) {
         btn.disabled = false;
-        btn.textContent = "Enregistrer les modifications";
-        pMsg.innerHTML = '<div class="alert">Erreur lors de la mise à jour du profil.</div>';
+        btn.textContent = t.btnSaveProfile;
+        pMsg.innerHTML = '<div class="alert">' + t.profileError + '</div>';
       });
   };
 
   // PLAN DETAILS
   function renderPlan(u) {
+    var t = I18N[cur] || I18N.fr;
     var pName = document.getElementById("plan-name");
     var pPerks = document.getElementById("plan-perks");
     if (u.plan === "premium") {
-      pName.textContent = "Formule Premium (5 000 FCFA/mois)";
-      pPerks.textContent = "Vous bénéficiez d'annonces illimitées, d'une mise en avant en tête de liste et de la mention Premium officielle sur votre vitrine.";
+      pName.textContent = t.planPremName;
+      pPerks.textContent = t.planPremPerks;
     } else if (u.plan === "seller") {
-      pName.textContent = "Formule Vendeur (3 000 FCFA/mois)";
-      pPerks.textContent = "Vous pouvez publier jusqu'à 5 annonces actives simultanément avec photos, et votre profil est certifié Vendeur.";
+      pName.textContent = t.planSellerName;
+      pPerks.textContent = t.planSellerPerks;
     } else {
-      pName.textContent = "Formule Gratuite (0 FCFA)";
-      pPerks.textContent = "Vous disposez d'une annonce active et de votre fiche dans l'annuaire public des membres.";
+      pName.textContent = t.planFreeName;
+      pPerks.textContent = t.planFreePerks;
     }
   }
 
