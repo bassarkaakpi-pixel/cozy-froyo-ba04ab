@@ -1,0 +1,587 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mon Espace Abonné | Bassar Kàakpi</title>
+<link rel="preload" href="assets/fonts/work-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/cormorant-garamond-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}:root{--ink:#1B1412;--sand:#E8DAC0;--paper:#F3EAD8;--wine:#7E1B34;--gold:#B08D3C}
+body{font:17px/1.65 "Work Sans",system-ui,sans-serif;background:var(--paper);color:var(--ink)}
+header{background:var(--ink);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header .b{font:700 1.5rem "Cormorant Garamond",serif;color:var(--sand);text-decoration:none}
+header nav a{color:var(--sand);text-decoration:none;margin-right:16px;font-size:.95rem}
+.lang button{background:none;border:1px solid var(--sand);color:var(--sand);padding:2px 9px;border-radius:4px;cursor:pointer;font:600 .85rem "Work Sans",sans-serif;margin-left:4px}
+.lang button[aria-pressed=true]{background:var(--sand);color:var(--ink)}
+main{max-width:1040px;margin:0 auto;padding:32px 20px 80px}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;line-height:1.15}
+h1{font-size:clamp(2rem,5vw,2.7rem)}
+
+.member-header{background:#fff;border-radius:14px;padding:24px 28px;box-shadow:0 8px 24px rgba(27,20,18,.07);border:1px solid rgba(176,141,60,.25);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;margin-bottom:28px}
+.m-info h1{margin-bottom:4px}
+.m-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.92rem;color:#555;margin-top:6px}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font:600 .82rem "Work Sans",sans-serif}
+.badge.gold{background:var(--gold);color:var(--ink)}
+.badge.wine{background:var(--wine);color:#fff}
+.badge.green{background:#e5f0e4;color:#245a2a}
+.badge.grey{background:#eee;color:#444}
+.m-actions{display:flex;flex-wrap:wrap;gap:10px}
+
+.btn{display:inline-block;background:var(--wine);color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;border:0;cursor:pointer;font:600 .95rem "Work Sans",sans-serif;transition:opacity .2s;text-align:center}
+.btn:hover{opacity:.92}
+.btn.gold{background:var(--gold);color:var(--ink)}
+.btn.ghost{background:none;color:var(--wine);border:1.5px solid var(--wine)}
+.btn.danger{background:#c81e1e;color:#fff}
+.btn.sm{padding:6px 12px;font-size:.85rem}
+
+.tabs{display:flex;gap:8px;border-bottom:2px solid rgba(27,20,18,.15);margin-bottom:24px;overflow-x:auto}
+.tab-btn{background:none;border:0;padding:10px 18px;font:600 1.05rem "Work Sans",sans-serif;color:var(--ink);opacity:.7;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tab-btn.active{opacity:1;color:var(--wine);border-bottom-color:var(--wine)}
+
+.panel{display:none}
+.panel.active{display:block}
+
+.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 6px 20px rgba(27,20,18,.06);margin-bottom:20px;border:1px solid rgba(27,20,18,.08)}
+.fld{margin-bottom:16px}
+.fld label{display:block;font-weight:600;margin-bottom:5px;font-size:.92rem}
+.fld input,.fld select,.fld textarea{width:100%;padding:10px 12px;border:1.5px solid rgba(27,20,18,.25);border-radius:6px;font:inherit;background:#fff}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--wine);outline:none}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid-2{grid-template-columns:1fr}}
+
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.ad-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(27,20,18,.07);border:1px solid rgba(27,20,18,.08);display:flex;flex-direction:column}
+.ad-img{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,#472719,#8a5436);display:grid;place-items:center;color:#fff;font-size:2.4rem}
+.ad-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:6px}
+.ad-title{font-size:1.25rem;font-weight:700}
+.ad-price{font-size:1.1rem;color:var(--wine);font-weight:700}
+.ad-cat{font-size:.85rem;color:#666}
+.ad-desc{font-size:.9rem;opacity:.85;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ad-foot{padding:12px 16px;background:#faf7f2;border-top:1px solid rgba(27,20,18,.06);display:flex;justify-content:space-between;align-items:center;gap:8px}
+
+.empty-state{background:#fff;border-radius:12px;padding:48px 24px;text-align:center;box-shadow:0 6px 18px rgba(27,20,18,.06)}
+.empty-state p{margin:10px 0 18px;font-size:1.1rem;opacity:.85}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:90;display:grid;place-items:center;padding:16px}
+.modal-box{background:#fff;border-radius:14px;max-width:620px;width:100%;max-height:92vh;overflow-y:auto;padding:24px;position:relative}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:0;font-size:1.6rem;cursor:pointer;line-height:1}
+
+.alert{background:#fde8e8;border-left:4px solid #c81e1e;color:#9b1c1c;padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:.9rem}
+.success{background:#def7ec;border-left:4px solid #0e9f6e;color:#03543f;padding:10px 14px;border-radius:6px;margin-bottom:14px;font-size:.9rem}
+
+footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem;margin-top:40px}
+footer a{color:var(--sand)}
+</style>
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr" aria-pressed="true">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
+
+<main>
+  <div id="loading" style="text-align:center;padding:60px 20px;font-size:1.2rem">Chargement de votre espace abonné...</div>
+
+  <div id="content" style="display:none">
+    <div class="member-header">
+      <div class="m-info">
+        <h1 id="m-name">Mon Espace</h1>
+        <p id="m-biz" style="font-weight:600;color:var(--wine);font-size:1.15rem"></p>
+        <div class="m-meta">
+          <span id="m-ref" style="font-family:monospace;font-weight:600"></span> •
+          <span id="m-city"></span> •
+          <span id="m-plan-badge" class="badge"></span>
+          <span id="m-ver-badge" class="badge"></span>
+        </div>
+      </div>
+      <div class="m-actions">
+        <a id="btn-public-profile" href="#" target="_blank" class="btn gold">🔗 Voir ma vitrine publique</a>
+        <button id="btn-logout" class="btn ghost">Déconnexion</button>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="listings">Mes Annonces (<span id="count-ads">0</span>)</button>
+      <button class="tab-btn" data-tab="profile">Mon Profil & Entreprise</button>
+      <button class="tab-btn" data-tab="plan">Ma Formule & Avantages</button>
+    </div>
+
+    <!-- PANEL 1: LISTINGS -->
+    <div id="panel-listings" class="panel active">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+        <h2 style="font-size:1.8rem">Mes annonces publiées</h2>
+        <button id="btn-open-create-ad" class="btn">＋ Publier une nouvelle annonce</button>
+      </div>
+
+      <div id="msg-box"></div>
+
+      <div id="ad-list" class="ad-grid"></div>
+
+      <div id="ad-empty" class="empty-state" style="display:none">
+        <div style="font-size:3rem">📦</div>
+        <h3 style="font-size:1.6rem;margin-top:8px">Vous n'avez pas encore d'annonce active</h3>
+        <p>Publiez vos produits, biens immobiliers, véhicules ou services pour être visible sur le Marketplace Bassar Kàakpi.</p>
+        <button class="btn btn-create-trigger">Publier ma première annonce</button>
+      </div>
+    </div>
+
+    <!-- PANEL 2: PROFILE -->
+    <div id="panel-profile" class="panel">
+      <div class="card">
+        <h2 style="font-size:1.8rem;margin-bottom:14px">Modifier mon profil & entreprise</h2>
+        <div id="profile-msg"></div>
+        <form id="form-profile">
+          <div class="grid-2">
+            <div class="fld">
+              <label for="p-fullName">Nom et prénom</label>
+              <input type="text" id="p-fullName" required>
+            </div>
+            <div class="fld">
+              <label for="p-businessName">Raison sociale / Nom commercial</label>
+              <input type="text" id="p-businessName">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="fld">
+              <label for="p-phone">Téléphone WhatsApp (avec indicatif)</label>
+              <input type="tel" id="p-phone" required>
+            </div>
+            <div class="fld">
+              <label for="p-city">Ville et pays</label>
+              <input type="text" id="p-city" required>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="fld">
+              <label for="p-category">Catégorie d'activité</label>
+              <select id="p-category">
+                <option value="trade">Commerce et négoce</option>
+                <option value="realestate">Immobilier</option>
+                <option value="land">Terrains</option>
+                <option value="service">Services & artisanat</option>
+                <option value="vehicle">Véhicules</option>
+                <option value="craft">Textile & confection Kàakpi</option>
+                <option value="other">Autre activité</option>
+              </select>
+            </div>
+            <div class="fld">
+              <label for="p-website">Site web ou réseau social</label>
+              <input type="url" id="p-website">
+            </div>
+          </div>
+          <div class="fld">
+            <label for="p-bio">Description de votre activité (affichée sur votre vitrine publique)</label>
+            <textarea id="p-bio" rows="4"></textarea>
+          </div>
+          <div class="fld">
+            <label for="p-logoUrl">Lien de votre photo ou logo (URL image)</label>
+            <input type="url" id="p-logoUrl" placeholder="https://exemple.com/mon-logo.jpg">
+          </div>
+          <button type="submit" class="btn" id="btn-save-profile">Enregistrer les modifications</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- PANEL 3: PLAN -->
+    <div id="panel-plan" class="panel">
+      <div class="card">
+        <h2 style="font-size:1.8rem;margin-bottom:12px">Ma formule actuelle</h2>
+        <div style="background:#faf7f2;padding:18px;border-radius:8px;margin-bottom:20px;border-left:4px solid var(--wine)">
+          <h3 id="plan-name" style="font-size:1.5rem"></h3>
+          <p id="plan-perks" style="margin-top:6px"></p>
+        </div>
+
+        <h3 style="font-size:1.4rem;margin:20px 0 10px">Faire évoluer votre formule</h3>
+        <p style="margin-bottom:16px">Passez à la formule Vendeur ou Premium pour augmenter votre plafond d'annonces et bénéficier d'une visibilité en tête de liste.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn gold" target="_blank" rel="noopener" href="https://buy.stripe.com/aFa8wO23h0qifJq1uVf7i06">Abonnement Vendeur (Stripe)</a>
+          <a class="btn gold" target="_blank" rel="noopener" href="https://buy.stripe.com/4gM5kC37l8WO7cUehHf7i07">Abonnement Premium (Stripe)</a>
+          <a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/491772075847?text=Bonjour,%20je%20souhaite%20faire%20%C3%A9voluer%20mon%20abonnement%20Bassar%20K%C3%A0akpi">Nous contacter sur WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL: CREATE / EDIT LISTING -->
+<div id="modal-ad" class="modal" style="display:none">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <h2 id="modal-title" style="font-size:1.8rem;margin-bottom:14px">Publier une annonce</h2>
+    <div id="modal-err" class="alert" style="display:none"></div>
+
+    <form id="form-ad">
+      <input type="hidden" id="ad-id">
+      <div class="fld">
+        <label for="ad-cat">Catégorie *</label>
+        <select id="ad-cat" required>
+          <option value="trade">Commerce et négoce</option>
+          <option value="realestate">Immobilier</option>
+          <option value="land">Terrains</option>
+          <option value="service">Services & prestations</option>
+          <option value="vehicle">Véhicules</option>
+          <option value="craft">Artisanat & Textile Kàakpi</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label for="ad-title">Titre de l'annonce *</label>
+        <input type="text" id="ad-title" required placeholder="Ex. : Terrain clôturé de 600 m² à Kara">
+      </div>
+      <div class="grid-2">
+        <div class="fld">
+          <label for="ad-price">Prix</label>
+          <input type="number" id="ad-price" placeholder="Ex. : 5000000 (vide = sur demande)">
+        </div>
+        <div class="fld">
+          <label for="ad-cur">Devise</label>
+          <select id="ad-cur">
+            <option value="XOF">FCFA</option>
+            <option value="EUR">Euro (€)</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="fld">
+          <label for="ad-city">Localisation (Ville) *</label>
+          <input type="text" id="ad-city" required placeholder="Ex. : Bassar">
+        </div>
+        <div class="fld">
+          <label for="ad-img">Lien photo / image (URL)</label>
+          <input type="url" id="ad-img" placeholder="https://exemple.com/photo.jpg">
+        </div>
+      </div>
+      <div class="fld">
+        <label for="ad-desc">Description détaillée *</label>
+        <textarea id="ad-desc" rows="5" required placeholder="Caractéristiques, atouts, conditions, documents disponibles..."></textarea>
+      </div>
+      <button type="submit" class="btn" style="width:100%" id="btn-submit-ad">Publier l'annonce</button>
+    </form>
+  </div>
+</div>
+
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+
+<script src="assets/bk-auth.js"></script>
+<script>
+(function() {
+  var CAT_NAMES = {
+    trade: "Commerce et négoce",
+    realestate: "Immobilier",
+    land: "Terrains",
+    service: "Services",
+    vehicle: "Véhicules",
+    craft: "Artisanat / Textile",
+    other: "Autre"
+  };
+
+  var ICON = {
+    trade: "🏪",
+    realestate: "🏠",
+    land: "🌍",
+    service: "🛠️",
+    vehicle: "🚗",
+    craft: "🧵",
+    other: "✦"
+  };
+
+  var curSubscriber = null;
+  var userListings = [];
+
+  function init() {
+    BKAuth.checkSession().then(function(user) {
+      if (!user) {
+        window.location.href = "connexion.html";
+        return;
+      }
+      curSubscriber = user;
+      renderHeader(user);
+      loadListings();
+      fillProfileForm(user);
+      renderPlan(user);
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("content").style.display = "block";
+
+      // If URL has ?action=new, open create modal
+      var p = new URLSearchParams(location.search);
+      if (p.get("action") === "new") {
+        openModal();
+      }
+    });
+  }
+
+  function renderHeader(u) {
+    document.getElementById("m-name").textContent = u.fullName;
+    document.getElementById("m-biz").textContent = u.businessName || "";
+    document.getElementById("m-ref").textContent = u.memberRef || "MEM-" + u.id;
+    document.getElementById("m-city").textContent = u.city + (u.country ? ", " + u.country : "");
+
+    var pb = document.getElementById("m-plan-badge");
+    if (u.plan === "premium") {
+      pb.textContent = "★ Premium";
+      pb.className = "badge gold";
+    } else if (u.plan === "seller") {
+      pb.textContent = "Formule Vendeur";
+      pb.className = "badge wine";
+    } else {
+      pb.textContent = "Formule Gratuite";
+      pb.className = "badge grey";
+    }
+
+    var vb = document.getElementById("m-ver-badge");
+    if (u.isVerified) {
+      vb.textContent = "✓ Profil vérifié";
+      vb.className = "badge green";
+    } else {
+      vb.textContent = "Profil actif";
+      vb.className = "badge grey";
+    }
+
+    document.getElementById("btn-public-profile").href = "profil.html?id=" + u.id;
+  }
+
+  function loadListings() {
+    BKAuth.fetchWithAuth("/api/my/listings")
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        userListings = data.listings || [];
+        document.getElementById("count-ads").textContent = userListings.length;
+        renderListings(userListings);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  }
+
+  function renderListings(list) {
+    var box = document.getElementById("ad-list");
+    var empty = document.getElementById("ad-empty");
+    box.innerHTML = "";
+
+    if (!list.length) {
+      empty.style.display = "block";
+      return;
+    }
+    empty.style.display = "none";
+
+    list.forEach(function(ad) {
+      var card = document.createElement("div");
+      card.className = "ad-card";
+
+      var pr = ad.price != null
+        ? new Intl.NumberFormat("fr-FR").format(ad.price) + " " + (ad.currency === "EUR" ? "€" : "FCFA")
+        : "Prix sur demande";
+
+      var imgHtml = ad.imageUrl
+        ? '<img class="ad-img" src="' + ad.imageUrl + '" alt="" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'ad-img\',textContent:\'' + (ICON[ad.category] || "✦") + '\'}))">'
+        : '<div class="ad-img">' + (ICON[ad.category] || "✦") + '</div>';
+
+      card.innerHTML = imgHtml +
+        '<div class="ad-body">' +
+          '<div class="ad-cat">' + (CAT_NAMES[ad.category] || ad.category) + ' · ' + (ad.city || "") + '</div>' +
+          '<div class="ad-title">' + escapeHtml(ad.title) + '</div>' +
+          '<div class="ad-price">' + pr + '</div>' +
+          '<div class="ad-desc">' + escapeHtml(ad.description) + '</div>' +
+        '</div>' +
+        '<div class="ad-foot">' +
+          '<span style="font-size:.8rem;color:#777">' + (ad.ref || "") + '</span>' +
+          '<div>' +
+            '<button class="btn ghost sm btn-edit" style="margin-right:6px">Modifier</button>' +
+            '<button class="btn danger sm btn-del">Supprimer</button>' +
+          '</div>' +
+        '</div>';
+
+      card.querySelector(".btn-edit").onclick = function() {
+        openModal(ad);
+      };
+
+      card.querySelector(".btn-del").onclick = function() {
+        if (confirm("Confirmez-vous la suppression définitive de cette annonce ?")) {
+          deleteListing(ad.id);
+        }
+      };
+
+      box.appendChild(card);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function deleteListing(id) {
+    BKAuth.fetchWithAuth("/api/my/listings/" + id, { method: "DELETE" })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        if (res.error) alert(res.error);
+        else loadListings();
+      })
+      .catch(function(err) {
+        alert("Erreur lors de la suppression.");
+      });
+  }
+
+  // TABS
+  document.querySelectorAll(".tab-btn").forEach(function(b) {
+    b.onclick = function() {
+      document.querySelectorAll(".tab-btn").forEach(function(x) { x.classList.remove("active"); });
+      document.querySelectorAll(".panel").forEach(function(p) { p.classList.remove("active"); });
+      b.classList.add("active");
+      document.getElementById("panel-" + b.dataset.tab).classList.add("active");
+    };
+  });
+
+  // MODAL
+  var modal = document.getElementById("modal-ad");
+  var modalClose = document.getElementById("modal-close");
+  var modalErr = document.getElementById("modal-err");
+  var formAd = document.getElementById("form-ad");
+
+  function openModal(ad) {
+    modalErr.style.display = "none";
+    if (ad) {
+      document.getElementById("modal-title").textContent = "Modifier l'annonce";
+      document.getElementById("ad-id").value = ad.id;
+      document.getElementById("ad-cat").value = ad.category;
+      document.getElementById("ad-title").value = ad.title;
+      document.getElementById("ad-price").value = ad.price != null ? ad.price : "";
+      document.getElementById("ad-cur").value = ad.currency || "XOF";
+      document.getElementById("ad-city").value = ad.city || curSubscriber.city;
+      document.getElementById("ad-img").value = ad.imageUrl || "";
+      document.getElementById("ad-desc").value = ad.description;
+      document.getElementById("btn-submit-ad").textContent = "Enregistrer les modifications";
+    } else {
+      document.getElementById("modal-title").textContent = "Publier une nouvelle annonce";
+      formAd.reset();
+      document.getElementById("ad-id").value = "";
+      document.getElementById("ad-city").value = curSubscriber ? curSubscriber.city : "";
+      document.getElementById("btn-submit-ad").textContent = "Publier l'annonce";
+    }
+    modal.style.display = "grid";
+  }
+
+  modalClose.onclick = function() { modal.style.display = "none"; };
+  document.getElementById("btn-open-create-ad").onclick = function() { openModal(); };
+  document.querySelectorAll(".btn-create-trigger").forEach(function(b) {
+    b.onclick = function() { openModal(); };
+  });
+
+  formAd.onsubmit = function(e) {
+    e.preventDefault();
+    modalErr.style.display = "none";
+    var id = document.getElementById("ad-id").value;
+    var data = {
+      category: document.getElementById("ad-cat").value,
+      title: document.getElementById("ad-title").value.trim(),
+      price: document.getElementById("ad-price").value.trim(),
+      currency: document.getElementById("ad-cur").value,
+      city: document.getElementById("ad-city").value.trim(),
+      imageUrl: document.getElementById("ad-img").value.trim(),
+      description: document.getElementById("ad-desc").value.trim(),
+    };
+
+    var method = id ? "PUT" : "POST";
+    var url = id ? "/api/my/listings/" + id : "/api/my/listings";
+
+    var submitBtn = document.getElementById("btn-submit-ad");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enregistrement...";
+
+    BKAuth.fetchWithAuth(url, {
+      method: method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        submitBtn.disabled = false;
+        if (res.error) {
+          modalErr.textContent = res.error;
+          modalErr.style.display = "block";
+        } else {
+          modal.style.display = "none";
+          loadListings();
+        }
+      })
+      .catch(function(err) {
+        submitBtn.disabled = false;
+        modalErr.textContent = "Erreur lors de l'enregistrement de l'annonce.";
+        modalErr.style.display = "block";
+      });
+  };
+
+  // PROFILE FORM
+  function fillProfileForm(u) {
+    document.getElementById("p-fullName").value = u.fullName || "";
+    document.getElementById("p-businessName").value = u.businessName || "";
+    document.getElementById("p-phone").value = u.phone || "";
+    document.getElementById("p-city").value = u.city || "";
+    document.getElementById("p-category").value = u.category || "trade";
+    document.getElementById("p-website").value = u.website || "";
+    document.getElementById("p-bio").value = u.bio || "";
+    document.getElementById("p-logoUrl").value = u.logoUrl || "";
+  }
+
+  var formProfile = document.getElementById("form-profile");
+  formProfile.onsubmit = function(e) {
+    e.preventDefault();
+    var pMsg = document.getElementById("profile-msg");
+    pMsg.innerHTML = "";
+
+    var data = {
+      fullName: document.getElementById("p-fullName").value.trim(),
+      businessName: document.getElementById("p-businessName").value.trim(),
+      phone: document.getElementById("p-phone").value.trim(),
+      city: document.getElementById("p-city").value.trim(),
+      category: document.getElementById("p-category").value,
+      website: document.getElementById("p-website").value.trim(),
+      bio: document.getElementById("p-bio").value.trim(),
+      logoUrl: document.getElementById("p-logoUrl").value.trim(),
+    };
+
+    var btn = document.getElementById("btn-save-profile");
+    btn.disabled = true;
+    btn.textContent = "Enregistrement...";
+
+    BKAuth.fetchWithAuth("/api/auth/profile", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+        btn.disabled = false;
+        btn.textContent = "Enregistrer les modifications";
+        if (res.error) {
+          pMsg.innerHTML = '<div class="alert">' + res.error + '</div>';
+        } else {
+          pMsg.innerHTML = '<div class="success">Profil mis à jour avec succès !</div>';
+          curSubscriber = res.subscriber;
+          BKAuth.setUser(res.subscriber);
+          renderHeader(res.subscriber);
+        }
+      })
+      .catch(function(err) {
+        btn.disabled = false;
+        btn.textContent = "Enregistrer les modifications";
+        pMsg.innerHTML = '<div class="alert">Erreur lors de la mise à jour du profil.</div>';
+      });
+  };
+
+  // PLAN DETAILS
+  function renderPlan(u) {
+    var pName = document.getElementById("plan-name");
+    var pPerks = document.getElementById("plan-perks");
+    if (u.plan === "premium") {
+      pName.textContent = "Formule Premium (5 000 FCFA/mois)";
+      pPerks.textContent = "Vous bénéficiez d'annonces illimitées, d'une mise en avant en tête de liste et de la mention Premium officielle sur votre vitrine.";
+    } else if (u.plan === "seller") {
+      pName.textContent = "Formule Vendeur (3 000 FCFA/mois)";
+      pPerks.textContent = "Vous pouvez publier jusqu'à 5 annonces actives simultanément avec photos, et votre profil est certifié Vendeur.";
+    } else {
+      pName.textContent = "Formule Gratuite (0 FCFA)";
+      pPerks.textContent = "Vous disposez d'une annonce active et de votre fiche dans l'annuaire public des membres.";
+    }
+  }
+
+  // LOGOUT
+  document.getElementById("btn-logout").onclick = function() {
+    BKAuth.logout();
+  };
+
+  init();
+})();
+</script>
+</body></html>

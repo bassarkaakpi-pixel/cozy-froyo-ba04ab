@@ -1,0 +1,285 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Vitrine Membre | Bassar Kàakpi</title>
+<link rel="preload" href="assets/fonts/work-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/cormorant-garamond-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}:root{--ink:#1B1412;--sand:#E8DAC0;--paper:#F3EAD8;--wine:#7E1B34;--gold:#B08D3C}
+body{font:17px/1.65 "Work Sans",system-ui,sans-serif;background:var(--paper);color:var(--ink)}
+header{background:var(--ink);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header .b{font:700 1.5rem "Cormorant Garamond",serif;color:var(--sand);text-decoration:none}
+header nav a{color:var(--sand);text-decoration:none;margin-right:16px;font-size:.95rem}
+.lang button{background:none;border:1px solid var(--sand);color:var(--sand);padding:2px 9px;border-radius:4px;cursor:pointer;font:600 .85rem "Work Sans",sans-serif;margin-left:4px}
+.lang button[aria-pressed=true]{background:var(--sand);color:var(--ink)}
+main{max-width:1040px;margin:0 auto;padding:32px 20px 80px}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;line-height:1.15}
+h1{font-size:clamp(2.2rem,6vw,3.2rem)}
+
+.profile-hero{background:#fff;border-radius:16px;padding:32px;box-shadow:0 10px 30px rgba(27,20,18,.08);border:1px solid rgba(176,141,60,.25);display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:32px}
+.p-avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#7E1B34,#B08D3C);color:#fff;display:grid;place-items:center;font-size:2.8rem;flex-shrink:0;object-fit:cover;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.p-main{flex:1;min-width:260px}
+.p-main h1{margin-bottom:4px}
+.p-owner{font-size:1.1rem;color:var(--wine);font-weight:600}
+.p-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.92rem;color:#555;margin:8px 0 12px}
+.p-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.badge{display:inline-block;padding:3px 12px;border-radius:999px;font:600 .82rem "Work Sans",sans-serif}
+.badge.gold{background:var(--gold);color:var(--ink)}
+.badge.green{background:#e5f0e4;color:#245a2a}
+.badge.wine{background:var(--wine);color:#fff}
+.p-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+.btn{display:inline-block;background:var(--wine);color:#fff;padding:11px 22px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;font:600 1rem "Work Sans",sans-serif;text-align:center;transition:opacity .2s}
+.btn:hover{opacity:.92}
+.btn.gold{background:var(--gold);color:var(--ink)}
+.btn.ghost{background:none;color:var(--wine);border:1.5px solid var(--wine)}
+.btn.wa{background:#25d366;color:#fff}
+
+.card{background:#fff;border-radius:14px;padding:26px;box-shadow:0 8px 24px rgba(27,20,18,.06);margin-bottom:28px}
+.section-title{font-size:2rem;margin-bottom:18px}
+
+.ads-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+.ad-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 22px rgba(27,20,18,.07);border:1px solid rgba(27,20,18,.08);display:flex;flex-direction:column;transition:transform .2s}
+.ad-card:hover{transform:translateY(-3px)}
+.ad-img{width:100%;height:180px;object-fit:cover;background:linear-gradient(135deg,#472719,#8a5436);display:grid;place-items:center;color:#fff;font-size:2.5rem}
+.ad-body{padding:18px;flex:1;display:flex;flex-direction:column;gap:8px}
+.ad-title{font-size:1.35rem;font-weight:700}
+.ad-price{font-size:1.2rem;color:var(--wine);font-weight:700}
+.ad-meta{font-size:.88rem;color:#666}
+.ad-desc{font-size:.92rem;opacity:.88;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ad-foot{padding:14px 18px;border-top:1px solid rgba(27,20,18,.08);display:flex;justify-content:space-between;align-items:center;background:#faf7f2}
+
+.empty{background:#fff;border-radius:12px;padding:40px 20px;text-align:center}
+
+.mdl{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px}
+.mp{position:relative;background:#fff;border-radius:16px;max-width:580px;width:100%;max-height:92vh;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:12px}
+.mx{position:absolute;top:12px;right:14px;background:rgba(255,255,255,.9);border:0;border-radius:50%;width:36px;height:36px;font-size:1.4rem;cursor:pointer}
+
+footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem}
+footer a{color:var(--sand)}
+</style>
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr" aria-pressed="true">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
+
+<main>
+  <p><a href="vendeurs.html" style="color:var(--wine);font-weight:600;text-decoration:none">← Retour à l'annuaire des vendeurs</a></p>
+
+  <div id="loading" style="text-align:center;padding:60px 20px;font-size:1.2rem">Chargement du profil...</div>
+
+  <div id="content" style="display:none;margin-top:16px">
+    <div class="profile-hero">
+      <div id="p-avatar-wrap"></div>
+      <div class="p-main">
+        <h1 id="p-title"></h1>
+        <div class="p-owner" id="p-owner"></div>
+        <div class="p-meta">
+          <span id="p-ref" style="font-family:monospace;font-weight:600"></span> •
+          <span id="p-city"></span>
+        </div>
+        <div class="p-badges" id="p-badges"></div>
+      </div>
+      <div class="p-actions">
+        <a id="btn-wa" class="btn wa" target="_blank" rel="noopener" href="#">WhatsApp Vendeur</a>
+        <button id="btn-share" class="btn ghost">Partager la vitrine</button>
+      </div>
+    </div>
+
+    <div class="card" id="card-bio">
+      <h2 class="section-title">À propos de notre activité</h2>
+      <p id="p-bio" style="font-size:1.05rem;line-height:1.7;white-space:pre-line"></p>
+      <p id="p-website-wrap" style="margin-top:14px;display:none">
+        <strong>Site ou réseau social :</strong> <a id="p-website" target="_blank" rel="noopener" style="color:var(--wine)"></a>
+      </p>
+    </div>
+
+    <div>
+      <h2 class="section-title">Annonces publiées (<span id="ads-count">0</span>)</h2>
+      <div id="ads-list" class="ads-grid"></div>
+      <div id="ads-empty" class="empty" style="display:none">
+        <p>Ce membre n'a pas d'annonce publiée pour le moment. Vous pouvez le contacter directement sur WhatsApp pour toute demande.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="not-found" class="empty" style="display:none;margin-top:30px">
+    <h2>Membre introuvable</h2>
+    <p>Le profil demandé n'existe pas ou a été désactivé.</p>
+    <a href="vendeurs.html" class="btn" style="margin-top:12px">Consulter l'annuaire des membres</a>
+  </div>
+</main>
+
+<div class="mdl" id="mdl" style="display:none"></div>
+
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+
+<script src="assets/bk-auth.js"></script>
+<script>
+(function() {
+  var CATS = {
+    trade: "Commerce et négoce",
+    realestate: "Immobilier",
+    land: "Terrains",
+    service: "Services",
+    vehicle: "Véhicules",
+    craft: "Artisanat / Textile",
+    other: "Autre"
+  };
+
+  var ICONS = {
+    trade: "🏪",
+    realestate: "🏠",
+    land: "🌍",
+    service: "🛠️",
+    vehicle: "🚗",
+    craft: "🧵",
+    other: "✦"
+  };
+
+  var p = new URLSearchParams(location.search);
+  var idOrRef = p.get("id") || p.get("ref");
+
+  if (!idOrRef) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("not-found").style.display = "block";
+    return;
+  }
+
+  fetch("/api/members/" + encodeURIComponent(idOrRef))
+    .then(function(r) {
+      if (!r.ok) throw new Error("Not found");
+      return r.json();
+    })
+    .then(function(data) {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("content").style.display = "block";
+      renderMember(data.member, data.listings || []);
+    })
+    .catch(function() {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("not-found").style.display = "block";
+    });
+
+  function renderMember(m, list) {
+    document.title = (m.businessName || m.fullName) + " – Vitrine Bassar Kàakpi";
+
+    document.getElementById("p-title").textContent = m.businessName || m.fullName;
+    document.getElementById("p-owner").textContent = m.businessName ? "Responsable : " + m.fullName : "";
+    document.getElementById("p-ref").textContent = m.memberRef || "MEM-" + m.id;
+    document.getElementById("p-city").textContent = m.city + (m.country ? ", " + m.country : "");
+
+    var initial = (m.businessName || m.fullName || "B").slice(0, 1).toUpperCase();
+    var avatarWrap = document.getElementById("p-avatar-wrap");
+    if (m.logoUrl) {
+      avatarWrap.innerHTML = '<img class="p-avatar" src="' + m.logoUrl + '" alt="" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'p-avatar\',textContent:\'' + initial + '\'}))">';
+    } else {
+      avatarWrap.innerHTML = '<div class="p-avatar">' + initial + '</div>';
+    }
+
+    var bWrap = document.getElementById("p-badges");
+    bWrap.innerHTML = "";
+    if (m.plan === "premium") bWrap.innerHTML += '<span class="badge gold">★ Membre Premium</span>';
+    if (m.isVerified) bWrap.innerHTML += '<span class="badge green">✓ Profil Vérifié</span>';
+    bWrap.innerHTML += '<span class="badge wine">' + (CATS[m.category] || m.category) + '</span>';
+
+    // WhatsApp contact button
+    var cleanPhone = String(m.phone || "").replace(/[^\d+]/g, "");
+    var waMsg = "Bonjour " + (m.businessName || m.fullName) + ", j'ai vu votre vitrine sur Bassar Kàakpi.";
+    document.getElementById("btn-wa").href = "https://wa.me/" + cleanPhone.replace("+", "") + "?text=" + encodeURIComponent(waMsg);
+
+    // Share button
+    document.getElementById("btn-share").onclick = function() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Lien de la vitrine copié dans votre presse-papier !");
+      }
+    };
+
+    // Bio
+    document.getElementById("p-bio").textContent = m.bio || "Ce membre propose ses services et produits au sein de la communauté Bassar Kàakpi.";
+
+    // Website
+    if (m.website) {
+      var wWrap = document.getElementById("p-website-wrap");
+      var wLink = document.getElementById("p-website");
+      wWrap.style.display = "block";
+      wLink.href = m.website;
+      wLink.textContent = m.website;
+    }
+
+    // Listings
+    document.getElementById("ads-count").textContent = list.length;
+    var adsBox = document.getElementById("ads-list");
+    var adsEmpty = document.getElementById("ads-empty");
+    adsBox.innerHTML = "";
+
+    if (!list.length) {
+      adsEmpty.style.display = "block";
+      return;
+    }
+    adsEmpty.style.display = "none";
+
+    list.forEach(function(ad) {
+      var card = document.createElement("article");
+      card.className = "ad-card";
+
+      var pr = ad.price != null
+        ? new Intl.NumberFormat("fr-FR").format(ad.price) + " " + (ad.currency === "EUR" ? "€" : "FCFA")
+        : "Prix sur demande";
+
+      var imgHtml = ad.imageUrl
+        ? '<img class="ad-img" src="' + ad.imageUrl + '" alt="" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'ad-img\',textContent:\'' + (ICONS[ad.category] || "✦") + '\'}))">'
+        : '<div class="ad-img">' + (ICONS[ad.category] || "✦") + '</div>';
+
+      var adWaMsg = "Bonjour, je suis intéressé par votre annonce « " + ad.title + " » (réf. " + (ad.ref || "") + ") sur Bassar Kàakpi.";
+      var adWaUrl = "https://wa.me/" + cleanPhone.replace("+", "") + "?text=" + encodeURIComponent(adWaMsg);
+
+      card.innerHTML =
+        imgHtml +
+        '<div class="ad-body">' +
+          '<div class="ad-meta">' + (CATS[ad.category] || ad.category) + ' · ' + (ad.city || m.city) + '</div>' +
+          '<div class="ad-title">' + escapeHtml(ad.title) + '</div>' +
+          '<div class="ad-price">' + pr + '</div>' +
+          '<div class="ad-desc">' + escapeHtml(ad.description) + '</div>' +
+        '</div>' +
+        '<div class="ad-foot">' +
+          '<button type="button" class="btn ghost btn-detail" style="font-size:.85rem;padding:6px 12px">Détails</button>' +
+          '<a class="btn wa" target="_blank" rel="noopener" href="' + adWaUrl + '" style="font-size:.85rem;padding:6px 14px">Contacter</a>' +
+        '</div>';
+
+      card.querySelector(".btn-detail").onclick = function() {
+        openModal(ad, m, pr, adWaUrl);
+      };
+
+      adsBox.appendChild(card);
+    });
+  }
+
+  function openModal(ad, m, pr, waUrl) {
+    var mdl = document.getElementById("mdl");
+    var imgHtml = ad.imageUrl
+      ? '<img src="' + ad.imageUrl + '" alt="" style="width:100%;max-height:260px;object-fit:cover;border-radius:10px">'
+      : '<div style="font-size:3rem;text-align:center;padding:20px;background:#eee;border-radius:10px">' + (ICONS[ad.category] || "✦") + '</div>';
+
+    mdl.innerHTML =
+      '<div class="mp">' +
+        '<button class="mx" id="mx">&times;</button>' +
+        imgHtml +
+        '<h3 style="font-size:1.7rem;margin-top:6px">' + escapeHtml(ad.title) + '</h3>' +
+        '<div style="font-size:1.25rem;font-weight:700;color:var(--wine)">' + pr + '</div>' +
+        '<div style="font-size:.9rem;color:#666">' + (CATS[ad.category] || ad.category) + ' · ' + (ad.city || m.city) + ' · Réf : ' + (ad.ref || "") + '</div>' +
+        '<p style="white-space:pre-line;line-height:1.6">' + escapeHtml(ad.description) + '</p>' +
+        '<a class="btn wa" target="_blank" rel="noopener" href="' + waUrl + '" style="width:100%;margin-top:10px">Contacter sur WhatsApp</a>' +
+      '</div>';
+
+    mdl.style.display = "grid";
+    document.getElementById("mx").onclick = function() { mdl.style.display = "none"; };
+  }
+
+  document.getElementById("mdl").addEventListener("click", function(e) {
+    if (e.target === this) this.style.display = "none";
+  });
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+})();
+</script>
+</body></html>
