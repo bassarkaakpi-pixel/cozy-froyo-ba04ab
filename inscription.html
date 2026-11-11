@@ -1,47 +1,243 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Demande d'inscription – Marketplace | Bassar Kàakpi</title>
-<link rel="preload" href="assets/fonts/work-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/cormorant-garamond-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/fonts/fonts.css"><style>*{box-sizing:border-box;margin:0}:root{--ink:#1B1412;--sand:#E8DAC0;--paper:#F3EAD8;--wine:#7E1B34;--gold:#B08D3C}body{font:17px/1.65 "Work Sans",system-ui,sans-serif;background:var(--paper);color:var(--ink)}
-header{background:var(--ink);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}header .b{font:700 1.5rem "Cormorant Garamond",serif;color:var(--sand);text-decoration:none}header nav a{color:var(--sand);text-decoration:none;margin-right:16px;font-size:.95rem}
-.lang button{background:none;border:1px solid var(--sand);color:var(--sand);padding:2px 9px;border-radius:4px;cursor:pointer;font:600 .85rem "Work Sans",sans-serif;margin-left:4px}.lang button[aria-pressed=true]{background:var(--sand);color:var(--ink)}
-main{max-width:900px;margin:0 auto;padding:36px 20px 64px}h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;line-height:1.1}h1{font-size:clamp(2.2rem,7vw,3.4rem)}h2{font-size:1.8rem;margin:36px 0 10px}.lead{font-size:1.15rem;margin:14px 0}
-div[lang]{display:none}div[lang].on{display:block}a{color:var(--wine)}.btn{display:inline-block;background:var(--wine);color:#fff;padding:11px 20px;border-radius:6px;text-decoration:none;border:0;cursor:pointer;font:600 1rem "Work Sans",sans-serif}.btn.gold{background:var(--gold);color:var(--ink)}
-.box{background:var(--sand);padding:18px 20px;border-radius:6px;margin-top:32px}.hero-img{width:100%;max-width:420px;border-radius:6px;margin:18px 0}
-.steps{padding-left:22px}.steps li{margin-bottom:8px}.plans{display:grid;gap:16px}.card{background:#fff;border-radius:8px;padding:20px}.card h3{font-size:1.7rem}.pr{font:700 1.6rem "Cormorant Garamond",serif;color:var(--wine);margin:6px 0}.card ul{margin:10px 0 16px 18px}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}.filters button{background:#fff;border:1.5px solid var(--wine);color:var(--wine);padding:6px 14px;border-radius:20px;cursor:pointer;font:600 .9rem "Work Sans",sans-serif}.filters button[aria-pressed=true]{background:var(--wine);color:#fff}
-.ads{display:grid;gap:16px}.ad{background:#fff;border-radius:8px;padding:18px}.ad h3{font-size:1.5rem}.ad .m{opacity:.75;font-size:.9rem;margin:4px 0 8px}
-footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem}footer a{color:var(--sand)}
-@media(min-width:800px){.plans{grid-template-columns:repeat(3,1fr)}.ads{grid-template-columns:1fr 1fr}}</style><noscript><style>div[lang]{display:block!important}.bkf{display:grid;gap:14px;margin-top:20px}.fld label{display:block;font-weight:600;margin-bottom:4px}.fld input,.fld select,.fld textarea{width:100%;padding:11px 14px;border:1.5px solid rgba(27,20,18,.28);border-radius:10px;font:inherit;background:#fff;box-sizing:border-box}.fld.chk{display:flex;gap:10px;align-items:flex-start}.fld.chk input{width:auto;margin-top:5px}.fnotice{background:#fff4dc;border-left:4px solid var(--gold);padding:10px 12px;border-radius:6px;margin:10px 0}.fld.chk label{font-weight:400;margin:0}.pnote{background:#fff4dc;border-left:4px solid var(--gold);padding:10px 12px;border-radius:6px;margin:6px 0 0}.req{opacity:.7;font-size:.9rem}.res{background:#fff;border-radius:16px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.1);margin-top:20px}.res .acts{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.thumbs2{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.thumbs2 img{height:72px;border-radius:8px}.note{opacity:.85}[hidden]{display:none!important}
-</style></noscript><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="robots" content="noindex"><meta name="description" content="Formulaire de demande d'inscription au marketplace Bassar Kàakpi."></head><body>
-<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue / Language / Sprache"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
-<main><p><a href="marketplace.html" id="back"></a></p><h1 id="ft"></h1><p class="lead" id="fi"></p><div class="pnote" id="pnote"></div><div id="app"></div></main><footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px" id="fslogan">Bassar ne meurt pas · @bassarkaakpi</p></footer><script>(function(){var L=["fr","en","de"],NAV={"fr": ["B'Tchamb", "Marketplace", "Boutique"], "en": ["B'Tchamb", "Marketplace", "Shop"], "de": ["B'Tchamb", "Marktplatz", "Shop"]},FOOT={"fr": ["Mentions légales", "Conditions de vente"], "en": ["Legal notice (Impressum)", "Terms of sale"], "de": ["Impressum", "AGB"]},TITLE={"hist": ["L'histoire du peuple Bassar", "The history of the Bassar people", "Die Geschichte des Bassar-Volkes"], "mkt": ["Marketplace Bassar", "Bassar Marketplace", "Bassar-Marktplatz"]},UI={"ads": {"fr": "Les annonces", "en": "Listings", "de": "Anzeigen"}, "cat": {"fr": ["Tout", "Commerce et négoce", "Immobilier", "Terrains", "Services", "Véhicules"], "en": ["All", "Trade and business", "Real estate", "Land", "Services", "Vehicles"], "de": ["Alle", "Handel und Gewerbe", "Immobilien", "Grundstücke", "Dienstleistungen", "Fahrzeuge"]}, "empty": {"fr": "Les premières annonces arrivent bientôt. Soyez parmi les premiers à publier.", "en": "The first listings are coming soon. Be among the first to publish.", "de": "Die ersten Anzeigen kommen bald. Seien Sie unter den Ersten."}, "contact": {"fr": "Contacter", "en": "Contact", "de": "Kontaktieren"}},MSG={"fr": {"plan": "Bonjour, je souhaite m'inscrire sur le marketplace Bassar Kàakpi avec la formule %s.", "names": {"free": "Gratuit", "seller": "Vendeur", "premium": "Premium"}, "ad": "Bonjour, je suis intéressé par l'annonce « %s » (réf. %s).", "hist": "Bonjour, j'ai des archives, photos ou témoignages sur l'histoire des Bassar."}, "en": {"plan": "Hello, I would like to join the Bassar Kàakpi marketplace with the %s plan.", "names": {"free": "Free", "seller": "Seller", "premium": "Premium"}, "ad": "Hello, I am interested in the listing “%s” (ref. %s).", "hist": "Hello, I have archives, photos or testimonies about the history of the Bassar."}, "de": {"plan": "Hallo, ich möchte mich mit dem Tarif %s auf dem Bassar-Kàakpi-Marktplatz anmelden.", "names": {"free": "Kostenlos", "seller": "Anbieter", "premium": "Premium"}, "ad": "Hallo, ich interessiere mich für die Anzeige „%s“ (Ref. %s).", "hist": "Hallo, ich habe Archive, Fotos oder Zeugnisse zur Geschichte der Bassar."}},KIND="mkt";var ADS=[]; /* annonces : {cat:"trade"|"realestate"|"land"|"service"|"vehicle", ref:"M001", title:"", city:"", price:"", text:""} */
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Inscription Espace Abonné – Marketplace | Bassar Kàakpi</title>
+<link rel="preload" href="assets/fonts/work-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/cormorant-garamond-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}:root{--ink:#1B1412;--sand:#E8DAC0;--paper:#F3EAD8;--wine:#7E1B34;--gold:#B08D3C}
+body{font:17px/1.65 "Work Sans",system-ui,sans-serif;background:var(--paper);color:var(--ink)}
+header{background:var(--ink);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header .b{font:700 1.5rem "Cormorant Garamond",serif;color:var(--sand);text-decoration:none}
+header nav a{color:var(--sand);text-decoration:none;margin-right:16px;font-size:.95rem}
+.lang button{background:none;border:1px solid var(--sand);color:var(--sand);padding:2px 9px;border-radius:4px;cursor:pointer;font:600 .85rem "Work Sans",sans-serif;margin-left:4px}
+.lang button[aria-pressed=true]{background:var(--sand);color:var(--ink)}
+main{max-width:800px;margin:0 auto;padding:36px 20px 72px}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;line-height:1.15}
+h1{font-size:clamp(2.2rem,6vw,3.2rem);margin-bottom:10px}
+.lead{font-size:1.12rem;margin-bottom:24px;opacity:.9}
+.card{background:#fff;border-radius:12px;padding:32px 28px;box-shadow:0 12px 32px rgba(27,20,18,.08);border:1px solid rgba(176,141,60,.25)}
+.fld{margin-bottom:18px}
+.fld label{display:block;font-weight:600;margin-bottom:5px;font-size:.95rem}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 13px;border:1.5px solid rgba(27,20,18,.25);border-radius:8px;font:inherit;background:#fff;transition:border-color .2s}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--wine);outline:none}
+.fld.chk{display:flex;gap:10px;align-items:flex-start}
+.fld.chk input{width:auto;margin-top:5px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.grid-2{grid-template-columns:1fr}}
+.btn{display:inline-block;background:var(--wine);color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;font:600 1.05rem "Work Sans",sans-serif;transition:opacity .2s;text-align:center}
+.btn:hover{opacity:.92}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn.gold{background:var(--gold);color:var(--ink)}
+.plan-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:680px){.plan-selector{grid-template-columns:1fr}}
+.plan-opt{border:2px solid rgba(27,20,18,.2);border-radius:10px;padding:14px;cursor:pointer;background:#faf7f2;transition:all .2s;display:flex;flex-direction:column;justify-content:space-between}
+.plan-opt:hover{border-color:var(--wine)}
+.plan-opt.selected{border-color:var(--wine);background:#fff;box-shadow:0 6px 18px rgba(126,27,52,.12)}
+.plan-opt strong{display:block;font-size:1.15rem;font-family:"Cormorant Garamond",serif;color:var(--wine)}
+.plan-opt .price{font-weight:700;font-size:1rem;color:var(--ink);margin:4px 0}
+.plan-opt small{font-size:.82rem;color:#555;display:block}
+.pnote{background:#fff4dc;border-left:4px solid var(--gold);padding:12px 14px;border-radius:6px;margin:16px 0 24px;font-size:.92rem}
+.alert{background:#fde8e8;border-left:4px solid #c81e1e;color:#9b1c1c;padding:12px 14px;border-radius:6px;margin-bottom:18px;font-size:.92rem}
+.extra{text-align:center;margin-top:20px;font-size:.95rem}
+.extra a{color:var(--wine);font-weight:600;text-decoration:none}
+footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem;margin-top:40px}
+footer a{color:var(--sand)}
+</style>
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr" aria-pressed="true">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
 
+<main>
+  <p><a href="marketplace.html" style="color:var(--wine);font-weight:600;text-decoration:none">← Retour au Marketplace</a></p>
+  <h1 style="margin-top:12px" id="title-h1">Créer mon Espace Abonné</h1>
+  <p class="lead" id="title-lead">Rejoignez la communauté des commerçants, artisans et professionnels Bassar. Ouvrez votre espace membre pour publier et gérer vos annonces directement en ligne.</p>
 
+  <div class="card">
+    <div id="error-box" class="alert" style="display:none"></div>
 
-function pick(){var s=null;try{s=localStorage.getItem("lang")}catch(e){}if(L.indexOf(s)>-1)return s;var n=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""];for(var i=0;i<n.length;i++){var c=String(n[i]).slice(0,2).toLowerCase();if(L.indexOf(c)>-1)return c}return "en"}
-var cur="en",flt=0,CATS=["all","trade","realestate","land","service","vehicle"];
-function wa(t){return "https://wa.me/491772075847?text="+encodeURIComponent(t)}
-function render(){var box=document.getElementById("ads");if(!box)return;document.getElementById("ah").textContent=UI.ads[cur];
-var fl=document.getElementById("fl");fl.innerHTML="";UI.cat[cur].forEach(function(t,i){var b=document.createElement("button");b.textContent=t;b.setAttribute("aria-pressed",i===flt);b.onclick=function(){flt=i;render()};fl.appendChild(b)});
-box.innerHTML="";var list=ADS.filter(function(a){return flt===0||a.cat===CATS[flt]});
-if(!list.length){var p=document.createElement("p");p.textContent=UI.empty[cur];box.appendChild(p);return}
-list.forEach(function(a){var d=document.createElement("div");d.className="ad";var h=document.createElement("h3");h.textContent=a.title;var m=document.createElement("div");m.className="m";m.textContent=[a.city,a.price].filter(Boolean).join(" · ");var p=document.createElement("p");p.textContent=a.text||"";var l=document.createElement("a");l.className="btn";l.target="_blank";l.rel="noopener";l.textContent=UI.contact[cur];l.href=wa(MSG[cur].ad.replace("%s",a.title).replace("%s",a.ref||""));d.appendChild(h);d.appendChild(m);d.appendChild(p);d.appendChild(l);box.appendChild(d)})}
-function set(l,save){cur=l;var j=L.indexOf(l);document.querySelectorAll("div[lang]").forEach(function(d){d.classList.toggle("on",d.lang===l)});document.documentElement.lang=l;window.curLang=l;document.dispatchEvent(new Event("langchange"));document.title=TITLE[KIND][j]+" – Bassar Kàakpi";
-var a=document.querySelectorAll("nav a");for(var i=0;i<3;i++)a[i].textContent=NAV[l][i];var f=document.querySelectorAll("footer a");f[0].textContent=FOOT[l][0];f[1].textContent=FOOT[l][1];
-document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});
-document.querySelectorAll("[data-plan]").forEach(function(b){b.href=wa(MSG[l].plan.replace("%s",MSG[l].names[b.dataset.plan]))});
-document.querySelectorAll("a[data-wa]").forEach(function(a){a.href=wa(MSG[l].hist);a.target="_blank";a.rel="noopener"});render();
-if(save){try{localStorage.setItem("lang",l)}catch(e){}}}
-document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){set(b.dataset.l,true)}});set(pick(),false)})();</script>
-<script src="assets/bk-pdf.js"></script><script src="assets/bk-form.js"></script>
-<script>function stamp(){var d=new Date(),p=function(n){return('0'+n).slice(-2)};return String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())}function rnd(){return String(Math.floor(1000+Math.random()*9000))}function now(){var d=new Date(),p=function(n){return('0'+n).slice(-2)};return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes())}
-BKForm.init({mount:"app",common:{"fr": {"name": "Nom et prénom / raison sociale", "phName": "Votre nom ou votre entreprise", "loc": "Pays et ville", "phLoc": "Ex. : Lomé, Togo", "phone": "Téléphone WhatsApp (avec indicatif)", "phPhone": "+228 ...", "email": "E-mail (facultatif)", "consent": "J'accepte que ces informations soient utilisées pour traiter ma demande (voir les mentions légales).", "req": "* obligatoire", "create": "Créer mon PDF", "resT": "Votre PDF est prêt", "send": "Envoyer le PDF par WhatsApp", "wa": "Ouvrir WhatsApp avec le résumé", "dl": "Télécharger le PDF", "view": "Aperçu du PDF", "back2": "Modifier mes réponses", "how": "Sur téléphone : choisissez WhatsApp, puis le contact Bassar Kàakpi ({n}). Sur ordinateur : le PDF est enregistré ; joignez-le à la conversation WhatsApp avec le trombone. Le PDF est créé sur votre appareil et n'est pas conservé sur notre site. Il est rédigé en français pour notre équipe.", "ok": "Merci ! Si le PDF a bien été envoyé, nous vous répondons sur WhatsApp.", "fb": "Le PDF a été téléchargé. Ouvrez WhatsApp et joignez-le à la conversation.", "err": "Une erreur est survenue. Réessayez, ou écrivez-nous directement sur WhatsApp.", "bk": "← Marketplace", "o_choose": "Choisir une catégorie", "c_trade": "Commerce et négoce", "c_realestate": "Immobilier", "c_land": "Terrains", "c_service": "Services", "c_vehicle": "Véhicules", "c_craft": "Artisanat et textile", "c_other": "Autre activité", "maxPhotos": "Vous pouvez ajouter 3 photos au maximum.", "notice": "Cette demande n'est ni une vérification d'identité ni une confirmation de paiement. Elle sera examinée avant toute activation ou publication.", "photoBad": "Photos acceptées : JPG, PNG ou WebP, 12 Mo au maximum par photo. Certaines photos ont été ignorées.", "phoneBad": "Numéro WhatsApp invalide : utilisez des chiffres avec l'indicatif du pays, par exemple +228 90 00 00 00."}, "en": {"name": "Full name / company name", "phName": "Your name or company", "loc": "Country and city", "phLoc": "e.g. Lomé, Togo", "phone": "WhatsApp phone (with country code)", "phPhone": "+228 ...", "email": "E-mail (optional)", "consent": "I agree that this information will be used to process my request (see legal notice).", "req": "* required", "create": "Create my PDF", "resT": "Your PDF is ready", "send": "Send the PDF via WhatsApp", "wa": "Open WhatsApp with the summary", "dl": "Download the PDF", "view": "Preview the PDF", "back2": "Edit my answers", "how": "On a phone: choose WhatsApp, then the Bassar Kàakpi contact ({n}). On a computer: the PDF is saved; attach it to the WhatsApp conversation with the paperclip. The PDF is created on your device and is not kept on our site. It is written in French for our team.", "ok": "Thank you! If the PDF was sent, we will reply on WhatsApp.", "fb": "The PDF was downloaded. Open WhatsApp and attach it to the conversation.", "err": "An error occurred. Please try again, or write to us directly on WhatsApp.", "bk": "← Marketplace", "o_choose": "Choose a category", "c_trade": "Trade and business", "c_realestate": "Real estate", "c_land": "Land", "c_service": "Services", "c_vehicle": "Vehicles", "c_craft": "Crafts and textiles", "c_other": "Other activity", "maxPhotos": "You can add 3 photos at most.", "notice": "This request is neither an identity check nor a payment confirmation. It will be reviewed before any activation or publication.", "photoBad": "Accepted photos: JPG, PNG or WebP, 12 MB maximum each. Some photos were ignored.", "phoneBad": "Invalid WhatsApp number: use digits with the country code, for example +228 90 00 00 00."}, "de": {"name": "Name / Firmenname", "phName": "Ihr Name oder Ihre Firma", "loc": "Land und Stadt", "phLoc": "z. B. Lomé, Togo", "phone": "WhatsApp-Nummer (mit Landesvorwahl)", "phPhone": "+228 ...", "email": "E-Mail (optional)", "consent": "Ich bin einverstanden, dass diese Angaben zur Bearbeitung meiner Anfrage verwendet werden (siehe Impressum).", "req": "* Pflichtfeld", "create": "PDF erstellen", "resT": "Ihr PDF ist fertig", "send": "PDF per WhatsApp senden", "wa": "WhatsApp mit Zusammenfassung öffnen", "dl": "PDF herunterladen", "view": "PDF-Vorschau", "back2": "Antworten ändern", "how": "Am Handy: Wählen Sie WhatsApp und dann den Kontakt Bassar Kàakpi ({n}). Am Computer: Das PDF wird gespeichert; hängen Sie es mit der Büroklammer an die WhatsApp-Unterhaltung an. Das PDF wird auf Ihrem Gerät erstellt und nicht auf unserer Website gespeichert. Es ist für unser Team auf Französisch verfasst.", "ok": "Danke! Wenn das PDF gesendet wurde, antworten wir Ihnen auf WhatsApp.", "fb": "Das PDF wurde heruntergeladen. Öffnen Sie WhatsApp und hängen Sie es an die Unterhaltung an.", "err": "Es ist ein Fehler aufgetreten. Versuchen Sie es erneut oder schreiben Sie uns direkt auf WhatsApp.", "bk": "← Marktplatz", "o_choose": "Kategorie wählen", "c_trade": "Handel und Gewerbe", "c_realestate": "Immobilien", "c_land": "Grundstücke", "c_service": "Dienstleistungen", "c_vehicle": "Fahrzeuge", "c_craft": "Handwerk und Textilien", "c_other": "Andere Tätigkeit", "maxPhotos": "Sie können höchstens 3 Fotos hinzufügen.", "notice": "Diese Anfrage ist weder eine Identitätsprüfung noch eine Zahlungsbestätigung. Sie wird vor jeder Aktivierung oder Veröffentlichung geprüft.", "photoBad": "Zulässige Fotos: JPG, PNG oder WebP, höchstens 12 MB pro Foto. Einige Fotos wurden ignoriert.", "phoneBad": "Ungültige WhatsApp-Nummer: Verwenden Sie Ziffern mit Landesvorwahl, zum Beispiel +228 90 00 00 00."}},t:{"fr": {"pageTitle": "Demande d'inscription", "h1": "Demande d'inscription", "intro": "Choisissez votre formule, remplissez le formulaire et créez un PDF à envoyer sur WhatsApp. Nous vérifions votre profil avant d'activer votre inscription.", "plan": "Formule", "o_free": "Gratuit — 0 FCFA", "o_seller": "Vendeur — 3 000 FCFA/mois", "o_premium": "Premium — 5 000 FCFA/mois", "n_free": "Une fiche d'activité : nom, ville, contact. Visible dans l'annuaire.", "n_seller": "Jusqu'à 5 annonces avec photos. Vérification du profil avant publication.", "n_premium": "Annonces illimitées, mise en avant en tête de liste, présentation vidéo de votre activité.", "cat": "Type d'activité", "desc": "Description de votre activité", "link": "Site web ou réseau social (facultatif)"}, "en": {"pageTitle": "Membership request", "h1": "Membership request", "intro": "Choose your plan, fill in the form and create a PDF to send on WhatsApp. We check your profile before activating your membership.", "plan": "Plan", "o_free": "Free — 0 FCFA", "o_seller": "Seller — 3,000 FCFA/month", "o_premium": "Premium — 5,000 FCFA/month", "n_free": "One business profile: name, town, contact. Visible in the directory.", "n_seller": "Up to 5 listings with photos. Profile verification before publication.", "n_premium": "Unlimited listings, featured at the top of the list, video presentation of your business.", "cat": "Type of activity", "desc": "Description of your activity", "link": "Website or social profile (optional)"}, "de": {"pageTitle": "Mitgliedschaft beantragen", "h1": "Mitgliedschaft beantragen", "intro": "Wählen Sie Ihren Tarif, füllen Sie das Formular aus und erstellen Sie ein PDF zum Senden per WhatsApp. Wir prüfen Ihr Profil, bevor wir Ihre Mitgliedschaft aktivieren.", "plan": "Tarif", "o_free": "Kostenlos — 0 FCFA", "o_seller": "Anbieter — 3.000 FCFA/Monat", "o_premium": "Premium — 5.000 FCFA/Monat", "n_free": "Ein Betriebsprofil: Name, Ort, Kontakt. Sichtbar im Verzeichnis.", "n_seller": "Bis zu 5 Anzeigen mit Fotos. Profilprüfung vor der Veröffentlichung.", "n_premium": "Unbegrenzte Anzeigen, hervorgehoben am Listenanfang, Videovorstellung Ihres Betriebs.", "cat": "Art der Tätigkeit", "desc": "Beschreibung Ihrer Tätigkeit", "link": "Website oder Social-Media-Profil (optional)"}},defaults:{plan:new URLSearchParams(location.search).get("plan")||"seller"},
-fields:[{id:"plan",type:"select",k:"plan",req:1,opts:[{v:"free",k:"o_free"},{v:"seller",k:"o_seller"},{v:"premium",k:"o_premium"}]},
-{id:"name",type:"text",k:"name",ph:"phName",req:1,max:100},{id:"loc",type:"text",k:"loc",ph:"phLoc",req:1,max:100},{id:"phone",type:"tel",k:"phone",ph:"phPhone",req:1,max:40},{id:"email",type:"email",k:"email",max:120},
-{id:"cat",type:"select",k:"cat",req:1,opts:[{v:"",k:"o_choose"},{v:"trade",k:"c_trade"},{v:"realestate",k:"c_realestate"},{v:"land",k:"c_land"},{v:"service",k:"c_service"},{v:"vehicle",k:"c_vehicle"},{v:"craft",k:"c_craft"},{v:"other",k:"c_other"}]},
-{id:"desc",type:"textarea",k:"desc",req:1,max:900,rows:5},{id:"link",type:"text",k:"link",max:200},{id:"consent",type:"checkbox",k:"consent",req:1}],
-onUpdate:function(e,l,t){var n=document.getElementById("pnote");if(n)n.textContent=t("n_"+e.plan.value)},
-spec:function(v,imgs,fr){var ref="INS-"+stamp()+"-"+rnd(),when=now();
-var pdf={title:"Demande d'inscription - Marketplace",meta:["Référence "+ref+" - "+when],sections:[{h:"Formule demandée",rows:[["Formule",fr("o_"+v.plan)]]},{h:"Demandeur",rows:[["Nom / raison sociale",v.name],["Pays et ville",v.loc],["Téléphone WhatsApp",v.phone],["E-mail",v.email],["Site ou réseau social",v.link]]},{h:"Activité",rows:[["Type d'activité",fr("c_"+v.cat)],["Description",v.desc]]},{h:"Déclaration",rows:[["Consentement au traitement de la demande","Oui"]]}],footer:"Demande générée sur bassarkaakpi.com - à vérifier par Bassar Kàakpi"};
-var summary="Bonjour, voici ma demande d'inscription au Marketplace Bassar Kàakpi (PDF joint).\nRéférence : "+ref+"\nFormule : "+fr("o_"+v.plan)+"\nNom : "+v.name+"\nPays et ville : "+v.loc+"\nActivité : "+fr("c_"+v.cat);
-return{pdf:pdf,summary:summary,filename:ref+".pdf"}}});</script>
-<script>(function(){var T={"fr": "Bassar ne meurt pas · @bassarkaakpi", "en": "Bassar does not die · @bassarkaakpi", "de": "Bassar stirbt nicht · @bassarkaakpi"};function u(){var e=document.getElementById("fslogan");if(e)e.textContent=T[window.curLang||"en"]}document.addEventListener("langchange",u);u()})();</script>
+    <form id="reg-form">
+      <h3 style="font-size:1.4rem;margin-bottom:10px" id="lbl-choose-plan">1. Choisissez votre formule</h3>
+      <div class="plan-selector">
+        <label class="plan-opt" id="opt-free">
+          <input type="radio" name="plan" value="free" style="display:none">
+          <div>
+            <strong id="plan-f-title">Gratuit</strong>
+            <div class="price">0 FCFA</div>
+            <small id="plan-f-desc">1 annonce active, fiche dans l'annuaire public des membres.</small>
+          </div>
+        </label>
+        <label class="plan-opt selected" id="opt-seller">
+          <input type="radio" name="plan" value="seller" checked style="display:none">
+          <div>
+            <strong id="plan-s-title">Vendeur</strong>
+            <div class="price">3 000 FCFA / mois</div>
+            <small id="plan-s-desc">Jusqu'à 5 annonces avec photos, badge Vendeur vérifié.</small>
+          </div>
+        </label>
+        <label class="plan-opt" id="opt-premium">
+          <input type="radio" name="plan" value="premium" style="display:none">
+          <div>
+            <strong id="plan-p-title">★ Premium</strong>
+            <div class="price">5 000 FCFA / mois</div>
+            <small id="plan-p-desc">Annonces illimitées, mise en avant en tête de liste, badge Premium.</small>
+          </div>
+        </label>
+      </div>
+
+      <div class="pnote" id="pnote">
+        <b>Formule Vendeur :</b> Votre profil sera affiché dans l'annuaire public avec jusqu'à 5 annonces actives.
+      </div>
+
+      <h3 style="font-size:1.4rem;margin:24px 0 12px" id="lbl-profile-details">2. Vos coordonnées et activité</h3>
+
+      <div class="grid-2">
+        <div class="fld">
+          <label for="fullName" id="lbl-fullname">Nom et prénom *</label>
+          <input type="text" id="fullName" required placeholder="Ex. : Kofi B'Tchamb">
+        </div>
+        <div class="fld">
+          <label for="businessName" id="lbl-bizname">Raison sociale / Nom commercial</label>
+          <input type="text" id="businessName" placeholder="Ex. : Forge Traditionnelle Bassar">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="fld">
+          <label for="email" id="lbl-email">Adresse e-mail (pour votre connexion) *</label>
+          <input type="email" id="email" required autocomplete="email" placeholder="votre-email@domaine.com">
+        </div>
+        <div class="fld">
+          <label for="password" id="lbl-pwd">Mot de passe (au moins 6 caractères) *</label>
+          <input type="password" id="password" required minlength="6" autocomplete="new-password" placeholder="••••••••">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="fld">
+          <label for="phone" id="lbl-phone">Numéro WhatsApp (avec indicatif pays) *</label>
+          <input type="tel" id="phone" required placeholder="+228 90 00 00 00">
+        </div>
+        <div class="fld">
+          <label for="city" id="lbl-city">Ville et pays *</label>
+          <input type="text" id="city" required placeholder="Ex. : Bassar, Kara, Lomé, Paris...">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="fld">
+          <label for="category" id="lbl-cat">Type d'activité principale *</label>
+          <select id="category" required>
+            <option value="trade">Commerce et négoce</option>
+            <option value="realestate">Immobilier</option>
+            <option value="land">Terrains</option>
+            <option value="service">Services & artisanat</option>
+            <option value="vehicle">Véhicules</option>
+            <option value="craft">Textile & confection Kàakpi</option>
+            <option value="other">Autre activité</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="website" id="lbl-website">Site web ou réseau social (facultatif)</label>
+          <input type="url" id="website" placeholder="https://instagram.com/mon-activite">
+        </div>
+      </div>
+
+      <div class="fld">
+        <label for="bio" id="lbl-bio">Présentation de votre activité ou de vos produits</label>
+        <textarea id="bio" rows="4" placeholder="Décrivez votre savoir-faire, vos spécialités ou les services que vous proposez..."></textarea>
+      </div>
+
+      <div class="fld chk">
+        <input type="checkbox" id="consent" required checked>
+        <label for="consent" id="lbl-consent">J'accepte que ces informations soient publiées sur mon profil vitrine Bassar Kàakpi et que mes annonces soient présentées sur le marketplace conformément aux conditions du site.</label>
+      </div>
+
+      <button type="submit" class="btn" style="width:100%;margin-top:12px" id="btn-submit">Créer mon espace abonné</button>
+    </form>
+
+    <div class="extra">
+      <span id="txt-have-acc">Déjà inscrit ?</span>
+      <a href="connexion.html" id="lnk-login">Accéder à mon espace membre</a>
+    </div>
+  </div>
+</main>
+
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+
+<script src="assets/bk-auth.js"></script>
+<script>
+(function() {
+  var params = new URLSearchParams(location.search);
+  var planParam = params.get("plan");
+
+  var planRadios = document.querySelectorAll('input[name="plan"]');
+  var planLabels = document.querySelectorAll(".plan-opt");
+
+  function selectPlan(val) {
+    planRadios.forEach(function(r) {
+      if (r.value === val) r.checked = true;
+    });
+    planLabels.forEach(function(l) {
+      l.classList.toggle("selected", l.querySelector("input").value === val);
+    });
+    var n = document.getElementById("pnote");
+    if (val === "free") {
+      n.innerHTML = "<b>Formule Gratuite :</b> Profil visible dans l'annuaire public avec 1 annonce active.";
+    } else if (val === "seller") {
+      n.innerHTML = "<b>Formule Vendeur (3 000 FCFA/mois) :</b> Jusqu'à 5 annonces avec photos et vérification prioritaire.";
+    } else if (val === "premium") {
+      n.innerHTML = "<b>Formule Premium (5 000 FCFA/mois) :</b> Annonces illimitées, affichage en tête de liste et badge officiel.";
+    }
+  }
+
+  planLabels.forEach(function(lbl) {
+    lbl.onclick = function() {
+      selectPlan(lbl.querySelector("input").value);
+    };
+  });
+
+  if (planParam && ["free", "seller", "premium"].indexOf(planParam) > -1) {
+    selectPlan(planParam);
+  }
+
+  var form = document.getElementById("reg-form");
+  var errBox = document.getElementById("error-box");
+  var btn = document.getElementById("btn-submit");
+
+  form.onsubmit = function(e) {
+    e.preventDefault();
+    errBox.style.display = "none";
+
+    var selectedPlan = "seller";
+    planRadios.forEach(function(r) {
+      if (r.checked) selectedPlan = r.value;
+    });
+
+    var data = {
+      fullName: document.getElementById("fullName").value.trim(),
+      businessName: document.getElementById("businessName").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value,
+      phone: document.getElementById("phone").value.trim(),
+      city: document.getElementById("city").value.trim(),
+      category: document.getElementById("category").value,
+      plan: selectedPlan,
+      website: document.getElementById("website").value.trim(),
+      bio: document.getElementById("bio").value.trim(),
+    };
+
+    btn.disabled = true;
+    btn.textContent = "Création de votre espace en cours...";
+
+    BKAuth.register(data)
+      .then(function() {
+        window.location.href = "espace-abonne.html?welcome=1";
+      })
+      .catch(function(err) {
+        errBox.textContent = err.message || "Erreur lors de l'inscription.";
+        errBox.style.display = "block";
+        btn.disabled = false;
+        btn.textContent = "Créer mon espace abonné";
+      });
+  };
+})();
+</script>
 </body></html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Annuaire des Vendeurs & Membres – Marketplace | Bassar Kàakpi</title>
+<link rel="preload" href="assets/fonts/work-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/cormorant-garamond-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}:root{--ink:#1B1412;--sand:#E8DAC0;--paper:#F3EAD8;--wine:#7E1B34;--gold:#B08D3C}
+body{font:17px/1.65 "Work Sans",system-ui,sans-serif;background:var(--paper);color:var(--ink)}
+header{background:var(--ink);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header .b{font:700 1.5rem "Cormorant Garamond",serif;color:var(--sand);text-decoration:none}
+header nav a{color:var(--sand);text-decoration:none;margin-right:16px;font-size:.95rem}
+.lang button{background:none;border:1px solid var(--sand);color:var(--sand);padding:2px 9px;border-radius:4px;cursor:pointer;font:600 .85rem "Work Sans",sans-serif;margin-left:4px}
+.lang button[aria-pressed=true]{background:var(--sand);color:var(--ink)}
+main{max-width:1040px;margin:0 auto;padding:36px 20px 80px}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;line-height:1.15}
+h1{font-size:clamp(2.2rem,6vw,3.2rem);margin-bottom:10px}
+.lead{font-size:1.15rem;margin-bottom:28px;opacity:.9}
+
+.tools{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 24px}
+.tools input,.tools select{padding:12px 16px;border:1.5px solid rgba(27,20,18,.25);border-radius:999px;font:inherit;background:#fff;min-width:0}
+.tools input{flex:1 1 240px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.filters button{background:#fff;border:1.5px solid var(--wine);color:var(--wine);padding:6px 14px;border-radius:20px;cursor:pointer;font:600 .9rem "Work Sans",sans-serif}
+.filters button[aria-pressed=true]{background:var(--wine);color:#fff}
+
+.vendors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.v-card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 8px 24px rgba(27,20,18,.07);border:1px solid rgba(27,20,18,.08);display:flex;flex-direction:column;gap:10px;transition:transform .2s,box-shadow .2s}
+.v-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(27,20,18,.12)}
+.v-card.prem{border:2px solid var(--gold)}
+
+.v-head{display:flex;align-items:center;gap:14px}
+.v-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#7E1B34,#B08D3C);color:#fff;display:grid;place-items:center;font-size:1.6rem;flex-shrink:0;object-fit:cover}
+.v-meta h3{font-size:1.45rem;line-height:1.15}
+.v-meta .sub{font-size:.88rem;color:#666}
+
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.bd{font:600 .75rem "Work Sans",sans-serif;padding:3px 9px;border-radius:999px}
+.bd.prem{background:var(--gold);color:var(--ink)}
+.bd.ver{background:#e5f0e4;color:#245a2a}
+.bd.cat{background:#faf2e6;color:var(--wine);border:1px solid rgba(126,27,52,.2)}
+
+.v-bio{font-size:.92rem;opacity:.88;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.v-foot{margin-top:auto;padding-top:14px;border-top:1px solid rgba(27,20,18,.08);display:flex;justify-content:space-between;align-items:center;gap:8px}
+
+.btn{display:inline-block;background:var(--wine);color:#fff;padding:9px 16px;border-radius:6px;text-decoration:none;border:0;cursor:pointer;font:600 .9rem "Work Sans",sans-serif;text-align:center}
+.btn.ghost{background:none;color:var(--wine);border:1.5px solid var(--wine)}
+.btn.gold{background:var(--gold);color:var(--ink)}
+
+.banner-join{background:linear-gradient(135deg,#1B1412,#3D1E22);color:var(--sand);border-radius:14px;padding:32px 28px;margin-top:48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.banner-join h2{color:var(--sand);font-size:2rem;margin-bottom:6px}
+.banner-join p{max-width:620px;opacity:.9}
+
+.empty{background:#fff;border-radius:14px;padding:40px 20px;text-align:center}
+
+footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem}
+footer a{color:var(--sand)}
+</style>
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr" aria-pressed="true">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
+
+<main>
+  <h1>Annuaire des Vendeurs & Membres</h1>
+  <p class="lead">Découvrez les artisans, commerçants et professionnels de la communauté Bassar Kàakpi. Consultez leurs vitrines publiques, leurs annonces et contactez-les directement.</p>
+
+  <div class="tools">
+    <input type="search" id="q-search" placeholder="Rechercher un vendeur, une entreprise, une ville...">
+    <select id="sel-city" aria-label="Filtrer par ville"><option value="">Toutes les villes</option></select>
+  </div>
+
+  <div class="filters" id="cat-filters">
+    <button class="cat-btn" data-c="all" aria-pressed="true">Tous les membres</button>
+    <button class="cat-btn" data-c="trade">Commerce</button>
+    <button class="cat-btn" data-c="realestate">Immobilier</button>
+    <button class="cat-btn" data-c="land">Terrains</button>
+    <button class="cat-btn" data-c="service">Services & Métiers</button>
+    <button class="cat-btn" data-c="vehicle">Véhicules</button>
+    <button class="cat-btn" data-c="craft">Artisanat Kàakpi</button>
+  </div>
+
+  <div id="vendors-list" class="vendors-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px">Chargement de l'annuaire...</div>
+  </div>
+
+  <div class="banner-join">
+    <div>
+      <h2>Vous avez une activité ou des biens à vendre ?</h2>
+      <p>Créez votre propre espace abonné sur Bassar Kàakpi pour figurer dans cet annuaire, publier vos annonces et recevoir des contacts qualifiés sur WhatsApp.</p>
+    </div>
+    <a href="inscription.html" class="btn gold" style="font-size:1.05rem;padding:12px 24px">Créer mon espace abonné</a>
+  </div>
+</main>
+
+<footer><a href="mentions-legales.html">Mentions légales</a> · <a href="conditions-de-vente.html">Conditions de vente</a><p style="margin-top:8px">Bassar ne meurt pas · @bassarkaakpi</p></footer>
+
+<script src="assets/bk-auth.js"></script>
+<script>
+(function() {
+  var CATS = {
+    trade: "Commerce et négoce",
+    realestate: "Immobilier",
+    land: "Terrains",
+    service: "Services",
+    vehicle: "Véhicules",
+    craft: "Artisanat / Textile",
+    other: "Autre"
+  };
+
+  var ICONS = {
+    trade: "🏪",
+    realestate: "🏠",
+    land: "🌍",
+    service: "🛠️",
+    vehicle: "🚗",
+    craft: "🧵",
+    other: "✦"
+  };
+
+  var allMembers = [];
+  var curCat = "all";
+  var curCity = "";
+  var curQuery = "";
+
+  function loadMembers() {
+    fetch("/api/members")
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        allMembers = data.members || [];
+        populateCities(allMembers);
+        render();
+      })
+      .catch(function(err) {
+        document.getElementById("vendors-list").innerHTML = '<div class="empty">Impossible de charger les membres actuellement.</div>';
+      });
+  }
+
+  function populateCities(members) {
+    var cities = [];
+    members.forEach(function(m) {
+      if (m.city && cities.indexOf(m.city) === -1) cities.push(m.city);
+    });
+    cities.sort();
+    var sel = document.getElementById("sel-city");
+    sel.innerHTML = '<option value="">Toutes les villes</option>';
+    cities.forEach(function(c) {
+      var opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      sel.appendChild(opt);
+    });
+  }
+
+  function render() {
+    var box = document.getElementById("vendors-list");
+    var q = curQuery.toLowerCase();
+
+    var filtered = allMembers.filter(function(m) {
+      var matchesCat = curCat === "all" || m.category === curCat;
+      var matchesCity = !curCity || (m.city && m.city.toLowerCase() === curCity.toLowerCase());
+      var matchesQuery = !q ||
+        (m.fullName && m.fullName.toLowerCase().indexOf(q) > -1) ||
+        (m.businessName && m.businessName.toLowerCase().indexOf(q) > -1) ||
+        (m.city && m.city.toLowerCase().indexOf(q) > -1) ||
+        (m.bio && m.bio.toLowerCase().indexOf(q) > -1);
+
+      return matchesCat && matchesCity && matchesQuery;
+    });
+
+    if (!filtered.length) {
+      box.innerHTML = '<div class="empty" style="grid-column:1/-1"><p>Aucun membre ne correspond à votre recherche.</p></div>';
+      return;
+    }
+
+    box.innerHTML = "";
+    filtered.forEach(function(m) {
+      var card = document.createElement("article");
+      card.className = "v-card" + (m.plan === "premium" ? " prem" : "");
+
+      var initial = (m.businessName || m.fullName || "B").slice(0, 1).toUpperCase();
+      var avatarHtml = m.logoUrl
+        ? '<img class="v-avatar" src="' + m.logoUrl + '" alt="" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'v-avatar\',textContent:\'' + initial + '\'}))">'
+        : '<div class="v-avatar">' + initial + '</div>';
+
+      var badgesHtml = '<div class="badges">';
+      if (m.plan === "premium") badgesHtml += '<span class="bd prem">★ Premium</span>';
+      if (m.isVerified) badgesHtml += '<span class="bd ver">✓ Profil vérifié</span>';
+      badgesHtml += '<span class="bd cat">' + (CATS[m.category] || m.category) + '</span>';
+      badgesHtml += '</div>';
+
+      var title = m.businessName || m.fullName;
+      var sub = m.businessName ? m.fullName + " · " + m.city : m.city;
+
+      var adsCount = m.listingsCount ? m.listingsCount + " annonce(s)" : "0 annonce";
+
+      card.innerHTML =
+        '<div class="v-head">' +
+          avatarHtml +
+          '<div class="v-meta">' +
+            '<h3>' + escapeHtml(title) + '</h3>' +
+            '<div class="sub">' + escapeHtml(sub) + '</div>' +
+          '</div>' +
+        '</div>' +
+        badgesHtml +
+        '<p class="v-bio">' + escapeHtml(m.bio || "Membre de la communauté Bassar Kàakpi.") + '</p>' +
+        '<div class="v-foot">' +
+          '<span style="font-size:.85rem;font-weight:600;color:var(--wine)">' + adsCount + '</span>' +
+          '<a class="btn" href="profil.html?id=' + m.id + '">Voir la vitrine</a>' +
+        '</div>';
+
+      box.appendChild(card);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  document.querySelectorAll(".cat-btn").forEach(function(b) {
+    b.onclick = function() {
+      document.querySelectorAll(".cat-btn").forEach(function(x) { x.setAttribute("aria-pressed", "false"); });
+      b.setAttribute("aria-pressed", "true");
+      curCat = b.dataset.c;
+      render();
+    };
+  });
+
+  document.getElementById("sel-city").onchange = function() {
+    curCity = this.value;
+    render();
+  };
+
+  document.getElementById("q-search").oninput = function() {
+    curQuery = this.value.trim();
+    render();
+  };
+
+  loadMembers();
+})();
+</script>
+</body></html>

@@ -1,0 +1,19 @@
+{
+  "name": "bassar-kaakpi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "@netlify/database": "^1.0.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "drizzle-orm": "beta",
+    "express": "^4.21.2",
+    "hono": "^4.13.18",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "drizzle-kit": "beta"
+  }
+}
