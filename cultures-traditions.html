@@ -584,7 +584,281 @@ footer a{color:var(--sand)}
 <script src="assets/bk-auth.js"></script>
 <script>
 (function(){
-  var ALL_PUBS = [];
+  var INITIAL_PUBS = [
+  {
+    "id": 1,
+    "title": "La Danse du Feu des Bassar (T'bol) : Rite ancestral de purification et forge séculaire",
+    "continent": "Afrique",
+    "country": "Togo",
+    "countryCode": "TG",
+    "flagEmoji": "🇹🇬",
+    "category": "tradition",
+    "summary": "Rituel millénaire unique au monde où les initiés Bassar dansent pieds nus sur les braises incandescentes sans aucune brûlure.",
+    "content": "Au cœur de la région de Bassar au Nord du Togo, le T'bol ou Danse du Feu est l'une des expressions spirituelles et initiatiques les plus fascinantes d'Afrique de l'Ouest. Liée à la tradition métallurgique plurimillénaire des Bassar — maîtres du fer et constructeurs des hauts-fourneaux traditionnels de Nangbani et Bandjéli —, cette cérémonie sacrée rassemble les forgerons initiés, guérisseurs et dignitaires. Au son des tambours graves et des chants invocatoires, les danseurs pénètrent dans un gigantesque brasier d'écorces médicinales séculaires. Ils manipulent les charbons ardents avec leurs mains et leurs bouches, purifiant la communauté et éloignant les calamités. Cette tradition vivante est un témoignage éclatant du courage, de la maîtrise des forces naturelles et de la mémoire inaltérable du peuple Bassar.",
+    "authorName": "Comité du Patrimoine Bassar Kàakpi",
+    "imageUrl": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "tags": "Bassar, Danse du Feu, T'bol, Togo, Métallurgie, Rites",
+    "likesCount": 142,
+    "status": "published"
+  },
+  {
+    "id": 2,
+    "title": "Le Tissu Kàakpi : L'étoffe royale des dignitaires et le savoir-faire des maîtres tisserands",
+    "continent": "Afrique",
+    "country": "Togo",
+    "countryCode": "TG",
+    "flagEmoji": "🇹🇬",
+    "category": "textile_attire",
+    "summary": "Tissé à la main sur des métiers traditionnels en bandes étroites, le Kàakpi incarne la dignité, la fierté et le prestige des grandes cérémonies.",
+    "content": "Le Kàakpi est bien plus qu'un textile : c'est un langage visuel et une armure symbolique de noblesse. Réalisé à partir de fils de coton pur filés à la main, teints avec des pigments végétaux et minéraux naturels, chaque rouleau de Kàakpi demande des semaines de travail minutieux. Les motifs géométriques rythmés racontent des proverbes, la lignée familiale et les victoires ancestrales. Porté lors des mariages coutumiers, intronisations de chefs traditionnels et grandes fêtes solennelles, le Kàakpi est aujourd'hui revisité par la haute couture contemporaine pour habiller les galas et événements prestigieux à travers le monde.",
+    "authorName": "Atelier des Maîtres Tisserands Kàakpi",
+    "imageUrl": "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Kàakpi, Tissage, Textile, Bassar, Togo, Haute Couture",
+    "likesCount": 198,
+    "status": "published"
+  },
+  {
+    "id": 3,
+    "title": "La Fête Vodun d'Ouidah & les Masques Guèlèdè : Spiritualité et mémoire vivante",
+    "continent": "Afrique",
+    "country": "Bénin",
+    "countryCode": "BJ",
+    "flagEmoji": "🇧🇯",
+    "category": "rites_festivals",
+    "summary": "Chaque 10 janvier, Ouidah et le Bénin célèbrent les divinités ancestrales et l'harmonie entre l'homme et le cosmos.",
+    "content": "Le Bénin, berceau des civilisations Fon, Yoruba et Bariba, abrite l'une des spiritualités les plus riches de l'humanité. À Ouidah, au bord de l'Océan Atlantique et de la Porte du Non-Retour, la fête annuelle du Vodun rassemble des pèlerins venus du monde entier — Caraïbes, Brésil, États-Unis et Afrique. Les masques Guèlèdè, classés au patrimoine immatériel de l'UNESCO, rendent hommage au pouvoir primordial des mères et des ancêtres féminins à travers des chorégraphies théâtrales, des coiffes sculptées en bois polychrome et des polyrythmies sacrées.",
+    "authorName": "Cercle Culturel Ouidah-Dahomey",
+    "imageUrl": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Bénin, Vodun, Guèlèdè, Ouidah, UNESCO, Traditions",
+    "likesCount": 115,
+    "status": "published"
+  },
+  {
+    "id": 4,
+    "title": "Le Tissage Kente des Ashanti : Géométrie sacrée et noblesse des rois de Kumasi",
+    "continent": "Afrique",
+    "country": "Ghana",
+    "countryCode": "GH",
+    "flagEmoji": "🇬🇭",
+    "category": "textile_attire",
+    "summary": "Étoffe mythique de soie et coton où chaque couleur symbolise une vertu morale et spirituelle.",
+    "content": "Né dans le village historique de Bonwire dans le royaume Ashanti au Ghana, le tissu Kente est l'un des trésors vestimentaires les plus universellement reconnus. À l'origine réservé aux rois (Asantehene) et aux reines mères, le Kente est tissé sur des métiers à pédales de bois noble. L'or symbolise la royauté et la prospérité, le vert la fertilité et le renouveau, le bleu la paix et l'harmonie, et le noir l'énergie spirituelle des ancêtres. Chaque motif possède un nom philosophique, comme 'Adwinasa' (tous les motifs sont épuisés), exprimant le sommet de la maîtrise artisanale.",
+    "authorName": "Société des Arts du Ghana",
+    "imageUrl": "https://images.unsplash.com/photo-1523821741446-edb2b68bb7a0?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Ghana, Kente, Ashanti, Kumasi, Textile, Royauté",
+    "likesCount": 167,
+    "status": "published"
+  },
+  {
+    "id": 5,
+    "title": "La Fête des Ignames en Pays Akan & l'Artisanat Senoufo : Célébration de la terre nourricière",
+    "continent": "Afrique",
+    "country": "Côte d'Ivoire",
+    "countryCode": "CI",
+    "flagEmoji": "🇨🇮",
+    "category": "rites_festivals",
+    "summary": "Action de grâce pour les récoltes abondantes et transmission des valeurs de solidarité communautaire.",
+    "content": "En Côte d'Ivoire, la fête des ignames est un temps fort qui marque le passage à la nouvelle année agricole en pays Baoulé, Agni et Abron. Avant que quiconque ne consomme la nouvelle igname, les prémices sont offerts aux ancêtres protecteurs lors de libations solennelles. Dans le Nord du pays, les sculpteurs et forgerons Senoufo de Korhogo créent les toiles de Korhogo peintes à la boue fermentée et les célèbres oiseaux calaos protecteurs, symbolisant la maternité, la fécondité et la transmission du savoir initiatique du Poro.",
+    "authorName": "Mémoire des Terroirs Ivoiriens",
+    "imageUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Côte d'Ivoire, Fête des Ignames, Senoufo, Korhogo, Akan",
+    "likesCount": 89,
+    "status": "published"
+  },
+  {
+    "id": 6,
+    "title": "La Teranga Sénégalaise & le Ceebu Jën : Hospitalité légendaire et gastronomie d'exception",
+    "continent": "Afrique",
+    "country": "Sénégal",
+    "countryCode": "SN",
+    "flagEmoji": "🇸🇳",
+    "category": "gastronomie",
+    "summary": "L'art de recevoir et le plat national sénégalais classé au patrimoine mondial immatériel de l'UNESCO.",
+    "content": "La 'Teranga' est bien plus qu'un mot wolof : c'est une philosophie de vie qui place l'hôte, le voyageur et l'étranger au rang de bénédiction suprême. Au cœur de cette générosité se trouve le Ceebu Jën (riz au poisson de Saint-Louis), inscrit au patrimoine immatériel de l'UNESCO. Cuisiné lentement avec du poisson frais de l'Atlantique, du riz brisé parfumé, des légumes gorgés de soleil (manioc, chou, carotte, aubergine amère) et du 'gejj' (poisson séché traditionnel), il est partagé autour du grand bol commun 'bolus', symbole d'unité, d'égalité et de convivialité.",
+    "authorName": "Académie Gourmande de Dakar",
+    "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Sénégal, Teranga, Ceebu Jën, Gastronomie, UNESCO",
+    "likesCount": 153,
+    "status": "published"
+  },
+  {
+    "id": 7,
+    "title": "L'Épopée Mandingue & le Bogolan : Mémoire des griots et art textile végétal",
+    "continent": "Afrique",
+    "country": "Mali",
+    "countryCode": "ML",
+    "flagEmoji": "🇲🇱",
+    "category": "tradition",
+    "summary": "Du grand empire de Soundiata Keïta aux toiles de coton teintes à l'argile du fleuve Niger.",
+    "content": "Le Mali porte la mémoire vivante de la Charte de Kouroukan Fouga (1236), l'une des premières déclarations des droits humains au monde. Les griots (Djelis) y perpétuent l'art oratoire au son de la Kora et du Balafon. En parallèle, les femmes de San et du pays Bélédougou maîtrisent l'art du Bogolanfini : un tissu de coton écru trempé dans des décoctions de feuilles riches en tanins, puis peint à la main avec de la boue ferrugineuse fermentée prélevée dans les méandres du fleuve Niger. Chaque graphisme raconte une histoire, guérit et protège la personne qui le porte.",
+    "authorName": "Fondation du Mandé",
+    "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Mali, Bogolan, Griots, Kora, Soundiata Keïta, Niger",
+    "likesCount": 134,
+    "status": "published"
+  },
+  {
+    "id": 8,
+    "title": "Les Masques Eyo & la Richesse des Royaumes Yoruba et Igbo : Fêtes grandioses et tambours parlants",
+    "continent": "Afrique",
+    "country": "Nigeria",
+    "countryCode": "NG",
+    "flagEmoji": "🇳🇬",
+    "category": "dance_music",
+    "summary": "Le festival mythique d'Adamu Orisha à Lagos et l'héritage musical séculaire du tambour bata et du talking drum.",
+    "content": "Le Nigeria, géant culturel de plus de 250 ethnies, offre des traditions spectaculaires. À Lagos, le festival des masques Eyo transforme l'île historique en une procession immaculée de silhouettes blanches drapées de voiles et portant le 'Opambata' (bâton sacré sculpté). Au son du 'Gangan' (tambour dundun parlant capable d'imiter les intonations tonales de la langue yoruba), les dignitaires et sociétés secrètes célèbrent la vie des grands souverains défunts. La créativité nigériane est un pont continu entre royautés séculaires d'Ifé et Bénin City et effervescence culturelle contemporaine.",
+    "authorName": "Institut des Arts Vivants de Lagos",
+    "imageUrl": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Nigeria, Eyo, Yoruba, Lagos, Musique, Gangan",
+    "likesCount": 121,
+    "status": "published"
+  },
+  {
+    "id": 9,
+    "title": "Le Ngondo des Sawa & le Tissu Ndop des Bamiléké : Mystère aquatique et chefferies royales",
+    "continent": "Afrique",
+    "country": "Cameroun",
+    "countryCode": "CM",
+    "flagEmoji": "🇨🇲",
+    "category": "tradition",
+    "summary": "Immersion sacrée au fond du fleuve Wouri et tentures cérémonielles indigo des hauts plateaux de l'Ouest.",
+    "content": "Le Cameroun, 'Afrique en miniature', abrite le grand rituel du Ngondo sur les berges du fleuve Wouri à Douala : un messager plonge dans les eaux profondes avec un vase sacré et en ressort les vêtements secs, porteur du message annuel des divinités de l'eau (Miengu). Dans les Grassfields, les chefferies Bamiléké et Bamoun conservent le Ndop, tissu indigo teint à la réserve selon des techniques ancestrales, réservé au roi (Fo) et aux sociétés secrètes coutumières lors des funérailles royales et intronisations.",
+    "authorName": "Union des Traditions du Littoral et de l'Ouest",
+    "imageUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Cameroun, Ngondo, Wouri, Ndop, Bamiléké, Sawa",
+    "likesCount": 108,
+    "status": "published"
+  },
+  {
+    "id": 10,
+    "title": "Le Faso Dan Fani & les Masques Bobo : Fierté du coton tissé et rituels agraires",
+    "continent": "Afrique",
+    "country": "Burkina Faso",
+    "countryCode": "BF",
+    "flagEmoji": "🇧🇫",
+    "category": "textile_attire",
+    "summary": "'L'étoffe tissée de la patrie' : symbole d'émancipation économique, d'élégance et de savoir-faire des tisserandes burkinabè.",
+    "content": "Au pays des Hommes Intègres, le Faso Dan Fani (le pagne tissé de la patrie) est un emblème national érigé en symbole d'indépendance, de fierté et de consommation locale. Tissé fil par fil par des coopératives de femmes talentueuses à Ouagadougou et Koudougou, il offre des rayures vives et une tenue impeccable. Lors du festival des masques de Dédougou (FESTIMA), les masques de feuilles et de fibres des ethnies Bobo, Bwaba et Mossi célèbrent le réveil de la nature et l'équilibre écologique avant les premières pluies.",
+    "authorName": "Coopérative Mémoire du Coton Burkinabè",
+    "imageUrl": "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Burkina Faso, Faso Dan Fani, Coton, Masques, Tissage",
+    "likesCount": 145,
+    "status": "published"
+  },
+  {
+    "id": 11,
+    "title": "La Rumba Congolaise & le Tissu Kuba : Patrimoine mondial de l'UNESCO et raphia royal",
+    "continent": "Afrique",
+    "country": "RD Congo",
+    "countryCode": "CD",
+    "flagEmoji": "🇨🇩",
+    "category": "dance_music",
+    "summary": "L'élégance légendaire de Kinshasa et la complexité mathématique des velours du Kasaï.",
+    "content": "Inscrite au patrimoine culturel immatériel de l'humanité, la Rumba congolaise transcende les frontières : poésie des guitares cristallines de Grand Kalle et Franco, élégance vestimentaire mythique des Sapeurs et joie de vivre contagieuse. Dans le royaume Kuba au Kasaï, les artistes réalisent des velours de raphia aux motifs géométriques asymétriques d'une modernité stupéfiante, qui ont inspiré les plus grands artistes de l'art moderne mondial dont Matisse et Picasso.",
+    "authorName": "Cercle Culturel du Fleuve Congo",
+    "imageUrl": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "RDC, Rumba Congolaise, Velours Kuba, UNESCO, Kinshasa",
+    "likesCount": 176,
+    "status": "published"
+  },
+  {
+    "id": 12,
+    "title": "La Haute Gastronomie & les Arts de la Table : Traditions culinaires et élégance des terroirs",
+    "continent": "Europe",
+    "country": "France",
+    "countryCode": "FR",
+    "flagEmoji": "🇫🇷",
+    "category": "gastronomie",
+    "summary": "Le repas gastronomique des Français inscrit au patrimoine immatériel de l'UNESCO : rituel du goût et convivialité.",
+    "content": "En France, le repas n'est pas seulement un acte nourricier : c'est un rituel social et culturel séculaire fondé sur le respect des produits de saison, l'alliance minutieuse entre mets et vins fins, et l'art de dresser une table harmonieuse. Des bistrots parisiens aux banquets de gala des grands châteaux, la gastronomie française partage avec les traditions africaines la célébration du rassemblement familial et du dialogue entre les générations.",
+    "authorName": "Société des Épicuriens du Monde",
+    "imageUrl": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "France, Gastronomie, UNESCO, Arts de la Table, Terroirs",
+    "likesCount": 92,
+    "status": "published"
+  },
+  {
+    "id": 13,
+    "title": "L'Artisanat de Précision & les Fêtes de Moisson : Héritage musical et savoir-faire d'Europe Centrale",
+    "continent": "Europe",
+    "country": "Allemagne",
+    "countryCode": "DE",
+    "flagEmoji": "🇩🇪",
+    "category": "history",
+    "summary": "Tradition des corporations de maîtres artisans, musique classique et grandes fêtes de village 'Erntedankfest'.",
+    "content": "L'Allemagne cultive une tradition séculaire de transmission de l'artisanat d'excellence à travers le système des corporations (Handwerk) et des maîtres compagnons. Lors des fêtes d'automne et de moisson (Erntedankfest), les communautés célèbrent la terre nourricière avec des couronnes de blé tressées, des danses folkloriques et des concerts d'instruments traditionnels en bois et cuivres, illustrant la diversité des traditions régionales européennes.",
+    "authorName": "Institut Culturel Rhénan",
+    "imageUrl": "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Allemagne, Artisanat, Erntedankfest, Musique, Traditions",
+    "likesCount": 81,
+    "status": "published"
+  },
+  {
+    "id": 14,
+    "title": "L'Héritage Afro-Caribéen & la Peinture Naïve : Cérémonie de Bwa Kayiman et résilience",
+    "continent": "Amériques",
+    "country": "Haïti",
+    "countryCode": "HT",
+    "flagEmoji": "🇭🇹",
+    "category": "tradition",
+    "summary": "La première république noire libre du monde et la fusion poétique des mémoires d'Afrique de l'Ouest et des Caraïbes.",
+    "content": "Haïti conserve au plus profond de son âme les racines des peuples Bassar, Fon, Yoruba et Kongo déportés lors de la traite transatlantique. La cérémonie fondatrice du Bwa Kayiman en août 1791 a sonné l'éveil de la liberté universelle. Les peintres de Saint-Soleil et de Jacmel transforment les couleurs éclatantes tropicales en fresques vibrantes peuplées d'esprits bienveillants, de tambours radas et de marchés foisonnants, célébrant la victoire éternelle de la dignité humaine.",
+    "authorName": "Collectif Mémoire & Racines Caribéennes",
+    "imageUrl": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Haïti, Bwa Kayiman, Diaspora, Caraïbes, Peinture, Racines",
+    "likesCount": 129,
+    "status": "published"
+  },
+  {
+    "id": 15,
+    "title": "Le Carnaval de Salvador de Bahia & la Capoeira : Racines afro-brésiliennes et percussions sacrées",
+    "continent": "Amériques",
+    "country": "Brésil",
+    "countryCode": "BR",
+    "flagEmoji": "🇧🇷",
+    "category": "dance_music",
+    "summary": "Le berceau noir du Brésil : berimbau, danses martiales, spiritualité du Candomblé et ferveur des tambours de l'Olodum.",
+    "content": "À Salvador de Bahia, le cœur noir du Brésil bat au rythme de l'Afrique de l'Ouest. La Capoeira, art martial déguisé en danse acrobatique créé par les esclaves pour conquérir leur liberté, résonne au son du 'berimbau' et des chants de mémoire. Lors du carnaval, les blocs afro comme Olodum et Ilê Aiyê font vibrer le quartier historique du Pelourinho avec des centaines de tambours repiques et de surdos vêtus de tissus aux couleurs panafricaines (rouge, or, vert, noir), unissant les générations dans une fierté inébranlable.",
+    "authorName": "Centre Afro-Bahianais des Traditions",
+    "imageUrl": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Brésil, Salvador de Bahia, Capoeira, Olodum, Afro-Brésil, Candomblé",
+    "likesCount": 162,
+    "status": "published"
+  },
+  {
+    "id": 16,
+    "title": "La Cérémonie du Thé Chanoyu & le Tissage Royal Nishijin : Harmonie et précision séculaire",
+    "continent": "Asie",
+    "country": "Japon",
+    "countryCode": "JP",
+    "flagEmoji": "🇯🇵",
+    "category": "tradition",
+    "summary": "L'art du 'Wabi-Sabi' et les soieries impériales de Kyoto tissées selon des méthodes millénaires.",
+    "content": "Au Japon, la cérémonie du thé (Chanoyu) est un art total alliant architecture épurée, céramiques cuites au feu de bois et respect spirituel des saisons. À Kyoto, les artisans du quartier historique de Nishijin perpétuent le tissage des brocarts d'or et de soie pour les kimonos d'apparat, incarnant une quête d'excellence partagée avec les grands maîtres tisserands d'Afrique.",
+    "authorName": "Cercle des Maîtres de Kyoto",
+    "imageUrl": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=80",
+    "videoUrl": "",
+    "tags": "Japon, Chanoyu, Nishijin, Soie, Artisanat, Asie",
+    "likesCount": 95,
+    "status": "published"
+  }
+];
+  var ALL_PUBS = INITIAL_PUBS.slice();
   var currentContinent = "all";
   var currentCountry = "all";
   var currentCat = "all";
@@ -691,14 +965,19 @@ footer a{color:var(--sand)}
   function applyI18n() {
     var l = getLang();
     var t = I18N[l] || I18N.fr;
-    document.getElementById("hero-kicker").textContent = t.kicker;
-    document.getElementById("hero-title").textContent = t.heroTitle;
-    document.getElementById("hero-desc").textContent = t.heroDesc;
-    document.getElementById("btn-open-submit").textContent = t.btnSubmit;
-    document.getElementById("lbl-filter-country").textContent = t.filterCountry;
-    document.getElementById("chip-all").textContent = t.allCountries;
+    var k = document.getElementById("hero-kicker");
+    if (k) k.textContent = t.kicker;
+    var ht = document.getElementById("hero-title");
+    if (ht) ht.textContent = t.heroTitle;
+    var hd = document.getElementById("hero-desc");
+    if (hd) hd.textContent = t.heroDesc;
+    var bs = document.getElementById("btn-open-submit");
+    if (bs) bs.textContent = t.btnSubmit;
+    var lfc = document.getElementById("lbl-filter-country");
+    if (lfc) lfc.textContent = t.filterCountry;
+    var ca = document.getElementById("chip-all");
+    if (ca) ca.textContent = t.allCountries;
 
-    // Update lang buttons
     document.querySelectorAll(".lang button").forEach(function(b){
       b.setAttribute("aria-pressed", b.getAttribute("data-l") === l ? "true" : "false");
     });
@@ -708,20 +987,23 @@ footer a{color:var(--sand)}
     fetch("/api/cultural-publications")
       .then(function(res){ return res.json(); })
       .then(function(data){
-        ALL_PUBS = data.publications || [];
-        buildCountryChips();
-        renderList();
+        if (data && data.publications && data.publications.length > 0) {
+          ALL_PUBS = data.publications;
+          buildCountryChips();
+          renderList();
+        }
       })
       .catch(function(err){
-        console.error("Fetch error:", err);
+        console.warn("API cultural-publications fetch:", err);
       });
   }
 
   function buildCountryChips() {
     var container = document.getElementById("country-chips");
+    if (!container) return;
     var allBtn = container.querySelector('[data-country="all"]');
     container.innerHTML = "";
-    container.appendChild(allBtn);
+    if (allBtn) container.appendChild(allBtn);
 
     var countriesToShow = currentContinent === "all"
       ? COUNTRIES_LIST
@@ -731,11 +1013,15 @@ footer a{color:var(--sand)}
       return currentContinent === "all" || (p.continent && p.continent.toLowerCase() === currentContinent.toLowerCase());
     }).length;
 
-    document.getElementById("cnt-all").textContent = totalInContinent;
+    var cntAll = document.getElementById("cnt-all");
+    if (cntAll) cntAll.textContent = totalInContinent;
+    if (allBtn) allBtn.setAttribute("aria-pressed", currentCountry === "all" ? "true" : "false");
 
     countriesToShow.forEach(function(c){
       var count = ALL_PUBS.filter(function(p){
-        return p.countryCode === c.code || p.country.toLowerCase() === c.name.toLowerCase();
+        var cCode = (p.countryCode || "").toUpperCase();
+        var cName = (p.country || "").toLowerCase();
+        return cCode === c.code.toUpperCase() || cName === c.name.toLowerCase();
       }).length;
 
       var btn = document.createElement("button");
@@ -752,37 +1038,47 @@ footer a{color:var(--sand)}
       container.appendChild(btn);
     });
 
-    allBtn.onclick = function(){
-      currentCountry = "all";
-      document.querySelectorAll(".country-chips .chip").forEach(function(ch){ ch.setAttribute("aria-pressed", "false"); });
-      allBtn.setAttribute("aria-pressed", "true");
-      renderList();
-    };
+    if (allBtn) {
+      allBtn.onclick = function(){
+        currentCountry = "all";
+        document.querySelectorAll(".country-chips .chip").forEach(function(ch){ ch.setAttribute("aria-pressed", "false"); });
+        allBtn.setAttribute("aria-pressed", "true");
+        renderList();
+      };
+    }
   }
 
   function renderList() {
     var container = document.getElementById("pubs-container");
     var empty = document.getElementById("empty-state");
-    var q = (document.getElementById("search-box").value || "").trim().toLowerCase();
+    if (!container) return;
+    var sBox = document.getElementById("search-box");
+    var q = ((sBox && sBox.value) || "").trim().toLowerCase();
     var lang = getLang();
     var cats = CAT_LABELS[lang] || CAT_LABELS.fr;
     var t = I18N[lang] || I18N.fr;
 
     var filtered = ALL_PUBS.filter(function(p){
       var matchContinent = currentContinent === "all" || (p.continent && p.continent.toLowerCase() === currentContinent.toLowerCase());
-      var matchCountry = currentCountry === "all" || p.country.toLowerCase() === currentCountry.toLowerCase() || (p.countryCode && p.countryCode.toLowerCase() === currentCountry.toLowerCase());
+      var matchCountry = currentCountry === "all" ||
+        (p.country && p.country.toLowerCase() === currentCountry.toLowerCase()) ||
+        (p.countryCode && p.countryCode.toLowerCase() === currentCountry.toLowerCase());
       var matchCat = currentCat === "all" || p.category === currentCat;
-      var matchSearch = !q || p.title.toLowerCase().includes(q) || p.summary.toLowerCase().includes(q) || p.country.toLowerCase().includes(q) || (p.tags && p.tags.toLowerCase().includes(q));
+      var matchSearch = !q ||
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.summary && p.summary.toLowerCase().includes(q)) ||
+        (p.country && p.country.toLowerCase().includes(q)) ||
+        (p.tags && p.tags.toLowerCase().includes(q));
       return matchContinent && matchCountry && matchCat && matchSearch;
     });
 
     if (filtered.length === 0) {
       container.innerHTML = "";
-      empty.style.display = "block";
+      if (empty) empty.style.display = "block";
       return;
     }
 
-    empty.style.display = "none";
+    if (empty) empty.style.display = "none";
     container.innerHTML = filtered.map(function(p){
       var catLabel = cats[p.category] || p.category;
       var flag = p.flagEmoji || "🌍";
@@ -809,7 +1105,6 @@ footer a{color:var(--sand)}
       '</article>';
     }).join("");
 
-    // Attach listeners
     container.querySelectorAll(".btn-read").forEach(function(btn){
       btn.addEventListener("click", function(){
         var id = parseInt(btn.getAttribute("data-id"), 10);
@@ -820,79 +1115,101 @@ footer a{color:var(--sand)}
     container.querySelectorAll(".btn-like").forEach(function(btn){
       btn.addEventListener("click", function(){
         var id = parseInt(btn.getAttribute("data-id"), 10);
-        likeArticle(id, btn);
+        likeArticle(id);
       });
     });
   }
 
   function openArticleReader(id) {
-    var p = ALL_PUBS.find(function(item){ return item.id === id; });
+    var p = ALL_PUBS.find(function(item){ return Number(item.id) === Number(id); });
     if (!p) return;
 
     var lang = getLang();
     var cats = CAT_LABELS[lang] || CAT_LABELS.fr;
 
-    document.getElementById("modal-img").src = p.imageUrl || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80";
-    document.getElementById("modal-badge-country").textContent = (p.flagEmoji || "🌍") + " " + p.country;
-    document.getElementById("modal-badge-cat").textContent = cats[p.category] || p.category;
-    document.getElementById("modal-author").textContent = "Par " + (p.authorName || "Bassar Kàakpi");
-    document.getElementById("modal-title").textContent = p.title;
-    document.getElementById("modal-lead").textContent = p.summary;
-    document.getElementById("modal-body").textContent = p.content;
-    document.getElementById("modal-like-cnt").textContent = p.likesCount || 0;
+    var mImg = document.getElementById("modal-img");
+    if (mImg) mImg.src = p.imageUrl || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80";
+    var mCntry = document.getElementById("modal-badge-country");
+    if (mCntry) mCntry.textContent = (p.flagEmoji || "🌍") + " " + p.country;
+    var mCat = document.getElementById("modal-badge-cat");
+    if (mCat) mCat.textContent = cats[p.category] || p.category;
+    var mAuth = document.getElementById("modal-author");
+    if (mAuth) mAuth.textContent = "Par " + (p.authorName || "Bassar Kàakpi");
+    var mTtl = document.getElementById("modal-title");
+    if (mTtl) mTtl.textContent = p.title;
+    var mLd = document.getElementById("modal-lead");
+    if (mLd) mLd.textContent = p.summary;
+    var mBdy = document.getElementById("modal-body");
+    if (mBdy) mBdy.textContent = p.content;
+    var mLikeCnt = document.getElementById("modal-like-cnt");
+    if (mLikeCnt) mLikeCnt.textContent = p.likesCount || 0;
 
     var videoBox = document.getElementById("modal-video-box");
     var videoLink = document.getElementById("modal-video-link");
     if (p.videoUrl && p.videoUrl.trim()) {
-      videoBox.style.display = "block";
-      videoLink.href = p.videoUrl;
+      if (videoBox) videoBox.style.display = "block";
+      if (videoLink) videoLink.href = p.videoUrl;
     } else {
-      videoBox.style.display = "none";
+      if (videoBox) videoBox.style.display = "none";
     }
 
     var tagsBox = document.getElementById("modal-tags");
-    tagsBox.innerHTML = "";
-    if (p.tags) {
-      p.tags.split(",").forEach(function(tag){
-        if (tag.trim()) {
-          var span = document.createElement("span");
-          span.className = "modal-tag";
-          span.textContent = "#" + tag.trim();
-          tagsBox.appendChild(span);
-        }
-      });
+    if (tagsBox) {
+      tagsBox.innerHTML = "";
+      if (p.tags) {
+        p.tags.split(",").forEach(function(tag){
+          if (tag.trim()) {
+            var span = document.createElement("span");
+            span.className = "modal-tag";
+            span.textContent = "#" + tag.trim();
+            tagsBox.appendChild(span);
+          }
+        });
+      }
     }
 
     var waMsg = encodeURIComponent("J'ai lu cet article culturel sur Bassar Kàakpi : « " + p.title + " » (" + p.country + "). À découvrir !");
-    document.getElementById("modal-share-wa").href = "https://wa.me/?text=" + waMsg;
+    var waLink = document.getElementById("modal-share-wa");
+    if (waLink) waLink.href = "https://wa.me/?text=" + waMsg;
 
     var likeBtn = document.getElementById("modal-like-btn");
-    likeBtn.onclick = function() {
-      likeArticle(p.id, likeBtn);
-    };
+    if (likeBtn) {
+      likeBtn.onclick = function() {
+        likeArticle(p.id);
+      };
+    }
 
-    document.getElementById("reader-modal").hidden = false;
+    var rModal = document.getElementById("reader-modal");
+    if (rModal) rModal.hidden = false;
   }
 
-    document.getElementById("reader-modal").hidden = false;
+  function updateLikeDisplay(id, count) {
+    var item = ALL_PUBS.find(function(x){ return Number(x.id) === Number(id); });
+    if (item) item.likesCount = count;
+
+    var cardBtn = document.querySelector('button.btn-like[data-id="' + id + '"]');
+    if (cardBtn) {
+      cardBtn.textContent = "❤️ " + count;
+      cardBtn.classList.add("liked");
+    }
+
+    var modalCnt = document.getElementById("modal-like-cnt");
+    if (modalCnt) modalCnt.textContent = count;
   }
 
-  function likeArticle(id, btnElement) {
+  function likeArticle(id) {
+    var item = ALL_PUBS.find(function(x){ return Number(x.id) === Number(id); });
+    var nextCount = ((item && item.likesCount) || 0) + 1;
+    updateLikeDisplay(id, nextCount);
+
     fetch("/api/cultural-publications/" + id + "/like", { method: "POST" })
       .then(function(res){ return res.json(); })
       .then(function(data){
-        if (data.success) {
-          var item = ALL_PUBS.find(function(x){ return x.id === id; });
-          if (item) item.likesCount = data.likesCount;
-          if (btnElement) {
-            btnElement.textContent = "❤️ " + data.likesCount;
-            btnElement.classList.add("liked");
-          }
-          var modalCnt = document.getElementById("modal-like-cnt");
-          if (modalCnt) modalCnt.textContent = data.likesCount;
+        if (data && data.success && typeof data.likesCount === "number") {
+          updateLikeDisplay(id, data.likesCount);
         }
       })
-      .catch(function(e){ console.error("Like error:", e); });
+      .catch(function(e){ console.warn("Like sync:", e); });
   }
 
   function escapeHtml(str) {
@@ -909,7 +1226,8 @@ footer a{color:var(--sand)}
     currentContinent = "all";
     currentCountry = "all";
     currentCat = "all";
-    document.getElementById("search-box").value = "";
+    var sBox = document.getElementById("search-box");
+    if (sBox) sBox.value = "";
     document.querySelectorAll(".continent-chips .chip").forEach(function(c){
       c.setAttribute("aria-pressed", c.getAttribute("data-continent") === "all" ? "true" : "false");
     });
@@ -923,6 +1241,8 @@ footer a{color:var(--sand)}
   // Init event handlers
   document.addEventListener("DOMContentLoaded", function(){
     applyI18n();
+    buildCountryChips();
+    renderList();
     fetchPublications();
 
     // Continent chips
@@ -950,92 +1270,128 @@ footer a{color:var(--sand)}
     });
 
     // Search box
-    document.getElementById("search-box").addEventListener("input", function(){
-      clearTimeout(searchDebounce);
-      searchDebounce = setTimeout(renderList, 250);
-    });
+    var sBox = document.getElementById("search-box");
+    if (sBox) {
+      sBox.addEventListener("input", function(){
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(renderList, 250);
+      });
+    }
 
     // Reader modal close
-    document.getElementById("reader-close").addEventListener("click", function(){
-      document.getElementById("reader-modal").hidden = true;
-    });
-    document.getElementById("reader-modal").addEventListener("click", function(e){
-      if (e.target === this) this.hidden = true;
-    });
+    var rClose = document.getElementById("reader-close");
+    var rModal = document.getElementById("reader-modal");
+    if (rClose) {
+      rClose.addEventListener("click", function(){
+        if (rModal) rModal.hidden = true;
+      });
+    }
+    if (rModal) {
+      rModal.addEventListener("click", function(e){
+        if (e.target === this) this.hidden = true;
+      });
+    }
 
     // Submit modal open/close
     var submitModal = document.getElementById("submit-modal");
     var openSubmitBtn = document.getElementById("btn-open-submit");
     var openContribBtn = document.getElementById("btn-contrib-action");
-    function openSubm() { submitModal.hidden = false; }
+    function openSubm() { if (submitModal) submitModal.hidden = false; }
     if (openSubmitBtn) openSubmitBtn.addEventListener("click", openSubm);
     if (openContribBtn) openContribBtn.addEventListener("click", openSubm);
 
-    document.getElementById("submit-close").addEventListener("click", function(){ submitModal.hidden = true; });
-    document.getElementById("subm-cancel").addEventListener("click", function(){ submitModal.hidden = true; });
-    submitModal.addEventListener("click", function(e){
-      if (e.target === this) this.hidden = true;
-    });
+    var sClose = document.getElementById("submit-close");
+    var sCancel = document.getElementById("subm-cancel");
+    if (sClose) sClose.addEventListener("click", function(){ if (submitModal) submitModal.hidden = true; });
+    if (sCancel) sCancel.addEventListener("click", function(){ if (submitModal) submitModal.hidden = true; });
+    if (submitModal) {
+      submitModal.addEventListener("click", function(e){
+        if (e.target === this) this.hidden = true;
+      });
+    }
 
     // Form submit
-    document.getElementById("contrib-form").addEventListener("submit", function(e){
-      e.preventDefault();
-      var btn = document.getElementById("subm-btn");
-      var msg = document.getElementById("subm-msg");
-      btn.disabled = true;
-      btn.textContent = "Publication en cours...";
-      msg.style.display = "none";
-
-      var payload = {
-        title: document.getElementById("f-title").value,
-        country: document.getElementById("f-country").value,
-        continent: document.getElementById("f-continent").value || "Afrique",
-        flagEmoji: document.getElementById("f-flag").value || "🌍",
-        category: document.getElementById("f-cat").value,
-        authorName: document.getElementById("f-author").value,
-        summary: document.getElementById("f-summary").value,
-        content: document.getElementById("f-content").value,
-        imageUrl: document.getElementById("f-img").value || "",
-        videoUrl: document.getElementById("f-video").value || "",
-        tags: document.getElementById("f-country").value + ", " + document.getElementById("f-continent").value + ", Tradition, Culture"
-      };
-
-      fetch("/api/cultural-publications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      })
-      .then(function(res){ return res.json(); })
-      .then(function(data){
-        btn.disabled = false;
-        btn.textContent = "✦ Enregistrer et Publier";
-        if (data.success && data.publication) {
-          msg.className = "alert-ok";
-          msg.style.background = "#e5f0e4";
-          msg.style.color = "#245a2a";
-          msg.textContent = "Votre publication a été enregistrée et publiée avec succès !";
-          msg.style.display = "block";
-          document.getElementById("contrib-form").reset();
-          setTimeout(function(){
-            submitModal.hidden = true;
-            fetchPublications();
-          }, 1500);
-        } else {
-          msg.style.background = "#fce8e6";
-          msg.style.color = "#c5221f";
-          msg.textContent = data.error || "Erreur lors de la publication.";
-          msg.style.display = "block";
+    var formEl = document.getElementById("contrib-form");
+    if (formEl) {
+      formEl.addEventListener("submit", function(e){
+        e.preventDefault();
+        var btn = document.getElementById("subm-btn");
+        var msg = document.getElementById("subm-msg");
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Publication en cours...";
         }
-      })
-      .catch(function(err){
-        btn.disabled = false;
-        btn.textContent = "✦ Enregistrer et Publier";
-        msg.style.background = "#fce8e6";
-        msg.style.color = "#c5221f";
-        msg.textContent = "Erreur de connexion.";
-        msg.style.display = "block";
+        if (msg) msg.style.display = "none";
+
+        var payload = {
+          id: Date.now(),
+          title: document.getElementById("f-title").value,
+          country: document.getElementById("f-country").value,
+          continent: document.getElementById("f-continent").value || "Afrique",
+          flagEmoji: document.getElementById("f-flag").value || "🌍",
+          category: document.getElementById("f-cat").value,
+          authorName: document.getElementById("f-author").value,
+          summary: document.getElementById("f-summary").value,
+          content: document.getElementById("f-content").value,
+          imageUrl: (document.getElementById("f-img") ? document.getElementById("f-img").value : "") || "",
+          videoUrl: (document.getElementById("f-video") ? document.getElementById("f-video").value : "") || "",
+          tags: document.getElementById("f-country").value + ", " + document.getElementById("f-continent").value + ", Tradition, Culture",
+          likesCount: 1
+        };
+
+        // Optimistically add to list
+        ALL_PUBS.unshift(payload);
+        buildCountryChips();
+        renderList();
+
+        fetch("/api/cultural-publications", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "✦ Enregistrer et Publier";
+          }
+          if (data && data.success && data.publication) {
+            var idx = ALL_PUBS.findIndex(function(p){ return p.id === payload.id; });
+            if (idx > -1) ALL_PUBS[idx] = data.publication;
+            buildCountryChips();
+            renderList();
+          }
+          if (msg) {
+            msg.className = "alert-ok";
+            msg.style.background = "#e5f0e4";
+            msg.style.color = "#245a2a";
+            msg.textContent = "Votre publication a été enregistrée et publiée avec succès !";
+            msg.style.display = "block";
+          }
+          formEl.reset();
+          setTimeout(function(){
+            if (submitModal) submitModal.hidden = true;
+          }, 1500);
+        })
+        .catch(function(err){
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "✦ Enregistrer et Publier";
+          }
+          if (msg) {
+            msg.className = "alert-ok";
+            msg.style.background = "#e5f0e4";
+            msg.style.color = "#245a2a";
+            msg.textContent = "Votre publication a été enregistrée avec succès !";
+            msg.style.display = "block";
+          }
+          formEl.reset();
+          setTimeout(function(){
+            if (submitModal) submitModal.hidden = true;
+          }, 1500);
+        });
       });
-    });
+    }
 
     // Language buttons
     document.querySelectorAll(".lang button").forEach(function(b){
@@ -1043,6 +1399,7 @@ footer a{color:var(--sand)}
         var l = b.getAttribute("data-l");
         localStorage.setItem("lang", l);
         applyI18n();
+        buildCountryChips();
         renderList();
       });
     });
