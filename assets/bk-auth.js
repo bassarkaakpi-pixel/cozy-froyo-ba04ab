@@ -208,16 +208,6 @@
         }
         existingAuth = aLink;
       }
-        var aLink = document.createElement("a");
-        aLink.className = "nav-auth-link";
-        var langSpan = nav.querySelector(".lang");
-        if (langSpan) {
-          nav.insertBefore(aLink, langSpan);
-        } else {
-          nav.appendChild(aLink);
-        }
-        existingAuth = aLink;
-      }
 
       if (user) {
         existingAuth.href = "espace-abonne.html";
