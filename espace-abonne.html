@@ -101,9 +101,24 @@ footer a{color:var(--sand)}
 
     <!-- PANEL 1: LISTINGS -->
     <div id="panel-listings" class="panel active">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <h2 style="font-size:1.8rem" id="h2-my-ads">Mes annonces publiées</h2>
         <button id="btn-open-create-ad" class="btn">＋ Publier une nouvelle annonce</button>
+      </div>
+
+      <!-- QUOTA METER CARD -->
+      <div id="quota-meter-box" style="background:#fff;border:1px solid #d8c7a7;border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:0 4px 14px rgba(27,20,18,.05)">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+          <div>
+            <strong id="quota-title" style="font-size:1.05rem;color:var(--ink)">Quota d'annonces disponibles</strong>
+            <span id="quota-plan-badge" style="margin-left:8px;font-size:.78rem;padding:3px 9px;border-radius:999px;background:var(--sand);color:var(--ink);font-weight:600">Formule Gratuite</span>
+          </div>
+          <div id="quota-count-text" style="font-weight:700;font-size:1.15rem;color:var(--wine)">0 / 5</div>
+        </div>
+        <div style="background:#ede4d3;height:8px;border-radius:999px;overflow:hidden;margin-bottom:8px">
+          <div id="quota-progress-bar" style="background:var(--wine);height:100%;width:0%;transition:width .4s ease"></div>
+        </div>
+        <div id="quota-alert-msg" style="display:none;font-size:.88rem;color:#b02a37;margin-top:6px;font-weight:600"></div>
       </div>
 
       <div id="msg-box"></div>
@@ -336,9 +351,9 @@ footer a{color:var(--sand)}
       verBadge: "✓ Profil vérifié",
       activeBadge: "Profil actif",
       planFreeName: "Formule Gratuite (0 FCFA)",
-      planFreePerks: "Vous disposez d'une annonce active et de votre fiche dans l'annuaire public des membres.",
+      planFreePerks: "Vous disposez de jusqu'à 5 annonces actives et de votre fiche dans l'annuaire public des membres.",
       planSellerName: "Formule Vendeur (3 000 FCFA/mois)",
-      planSellerPerks: "Vous pouvez publier jusqu'à 5 annonces actives simultanément avec photos, et votre profil est certifié Vendeur.",
+      planSellerPerks: "Vous pouvez publier jusqu'à 20 annonces actives par mois avec photos, et votre profil est certifié Vendeur.",
       planPremName: "Formule Premium (5 000 FCFA/mois)",
       planPremPerks: "Vous bénéficiez d'annonces illimitées, d'une mise en avant en tête de liste et de la mention Premium officielle sur votre vitrine.",
       cats: {
@@ -412,9 +427,9 @@ footer a{color:var(--sand)}
       verBadge: "✓ Verified profile",
       activeBadge: "Active profile",
       planFreeName: "Free Plan (0 FCFA)",
-      planFreePerks: "You have 1 active listing and a profile in the public member directory.",
+      planFreePerks: "You can publish up to 5 active listings and have a profile in the public member directory.",
       planSellerName: "Seller Plan (3,000 FCFA/month)",
-      planSellerPerks: "You can publish up to 5 active listings simultaneously with photos, and your profile is certified Seller.",
+      planSellerPerks: "You can publish up to 20 active listings per month with photos, and your profile is certified Seller.",
       planPremName: "Premium Plan (5,000 FCFA/month)",
       planPremPerks: "You enjoy unlimited listings, priority top-of-list placement, and official Premium badge on your storefront.",
       cats: {
@@ -488,9 +503,9 @@ footer a{color:var(--sand)}
       verBadge: "✓ Profil geprüft",
       activeBadge: "Aktives Profil",
       planFreeName: "Kostenloser Tarif (0 FCFA)",
-      planFreePerks: "Sie haben 1 aktive Anzeige und einen Eintrag im öffentlichen Mitgliederverzeichnis.",
+      planFreePerks: "Sie können bis zu 5 aktive Anzeigen veröffentlichen und erhalten einen Eintrag im öffentlichen Mitgliederverzeichnis.",
       planSellerName: "Anbieter-Tarif (3.000 FCFA/Monat)",
-      planSellerPerks: "Sie können bis zu 5 Anzeigen gleichzeitig mit Fotos veröffentlichen, und Ihr Profil ist geprüft.",
+      planSellerPerks: "Sie können bis zu 20 Anzeigen pro Monat mit Fotos veröffentlichen, und Ihr Profil ist geprüft.",
       planPremName: "Premium-Tarif (5.000 FCFA/Monat)",
       planPremPerks: "Unbegrenzte Anzeigen, bevorzugte Platzierung oben in der Liste und offizieller Premium-Status.",
       cats: {
@@ -711,10 +726,63 @@ footer a{color:var(--sand)}
         var countAds = document.getElementById("count-ads");
         if (countAds) countAds.textContent = userListings.length;
         renderListings(userListings);
+        updateQuotaMeter();
       })
       .catch(function(err) {
         console.error(err);
       });
+  }
+
+  function updateQuotaMeter() {
+    if (!curSubscriber) return;
+    var plan = curSubscriber.plan || "free";
+    var count = userListings.length;
+    var badge = document.getElementById("quota-plan-badge");
+    var countText = document.getElementById("quota-count-text");
+    var pBar = document.getElementById("quota-progress-bar");
+    var alertMsg = document.getElementById("quota-alert-msg");
+
+    if (!badge || !countText || !pBar) return;
+
+    if (plan === "free") {
+      badge.textContent = "Formule Gratuite";
+      badge.style.background = "#ede4d3";
+      badge.style.color = "var(--ink)";
+      countText.textContent = count + " / 5 annonces";
+      var pct = Math.min(100, Math.round((count / 5) * 100));
+      pBar.style.width = pct + "%";
+      pBar.style.background = pct >= 100 ? "#b02a37" : (pct >= 80 ? "#e09b3d" : "var(--wine)");
+
+      if (count >= 5) {
+        alertMsg.style.display = "block";
+        alertMsg.innerHTML = "⚠️ Quota de 5 annonces atteint. <a href='#panel-plan' onclick=\"document.querySelector('[data-panel=panel-plan]').click()\" style='text-decoration:underline;color:var(--wine);font-weight:700'>Passez à la formule Vendeurs (20 annonces) ou Premium</a> pour publier davantage.";
+      } else {
+        alertMsg.style.display = "none";
+      }
+    } else if (plan === "seller") {
+      badge.textContent = "Formule Vendeurs";
+      badge.style.background = "#e3ebf6";
+      badge.style.color = "#1d4ed8";
+      countText.textContent = count + " / 20 annonces";
+      var pct = Math.min(100, Math.round((count / 20) * 100));
+      pBar.style.width = pct + "%";
+      pBar.style.background = pct >= 100 ? "#b02a37" : (pct >= 80 ? "#e09b3d" : "#1d4ed8");
+
+      if (count >= 20) {
+        alertMsg.style.display = "block";
+        alertMsg.innerHTML = "⚠️ Limite de 20 annonces par mois atteinte. <a href='#panel-plan' onclick=\"document.querySelector('[data-panel=panel-plan]').click()\" style='text-decoration:underline;color:var(--wine);font-weight:700'>Passez à la formule Premium (annonces illimitées)</a> pour continuer à publier.";
+      } else {
+        alertMsg.style.display = "none";
+      }
+    } else {
+      badge.textContent = "★ Formule Premium";
+      badge.style.background = "var(--gold)";
+      badge.style.color = "var(--ink)";
+      countText.textContent = count + " annonce(s) (Illimité)";
+      pBar.style.width = "100%";
+      pBar.style.background = "var(--gold)";
+      alertMsg.style.display = "none";
+    }
   }
 
   function renderListings(list) {
@@ -819,12 +887,30 @@ footer a{color:var(--sand)}
       document.getElementById("ad-img").value = ad.imageUrl || "";
       document.getElementById("ad-desc").value = ad.description;
       document.getElementById("btn-submit-ad").textContent = t.btnSubmitEdit;
+      document.getElementById("btn-submit-ad").disabled = false;
     } else {
       document.getElementById("modal-title").textContent = t.modalTitleNew;
       formAd.reset();
       document.getElementById("ad-id").value = "";
       document.getElementById("ad-city").value = curSubscriber ? curSubscriber.city : "";
       document.getElementById("btn-submit-ad").textContent = t.btnSubmitNew;
+
+      // Check quota enforcement
+      if (curSubscriber) {
+        var plan = curSubscriber.plan || "free";
+        var count = userListings.length;
+        if (plan === "free" && count >= 5) {
+          modalErr.style.display = "block";
+          modalErr.innerHTML = "<strong>Quota maximal atteint (5/5 annonces) :</strong> La formule Gratuite vous permet jusqu'à 5 annonces actives simultanément.<br><span style='font-size:.9rem;opacity:.9'>Pour publier cette 6ème annonce et étendre votre visibilité, passez à la formule Vendeurs (jusqu'à 20 annonces) ou Premium.</span><br><div style='margin-top:10px'><a class='btn gold sm' href='https://buy.stripe.com/aFa8wO23h0qifJq1uVf7i06' target='_blank'>Passer à la formule Vendeurs (Stripe)</a> <a class='btn ghost sm' href='https://buy.stripe.com/4gM5kC37l8WO7cUehHf7i07' target='_blank' style='margin-left:6px'>Formule Premium</a></div>";
+          document.getElementById("btn-submit-ad").disabled = true;
+        } else if (plan === "seller" && count >= 20) {
+          modalErr.style.display = "block";
+          modalErr.innerHTML = "<strong>Plafond atteint (20/20 annonces ce mois) :</strong> La formule Vendeurs autorise jusqu'à 20 annonces par mois.<br><span style='font-size:.9rem;opacity:.9'>Passez à la formule Premium pour bénéficier d'annonces illimitées et d'un positionnement prioritaire.</span><br><div style='margin-top:10px'><a class='btn gold sm' href='https://buy.stripe.com/4gM5kC37l8WO7cUehHf7i07' target='_blank'>Passer à la formule Premium (Stripe)</a></div>";
+          document.getElementById("btn-submit-ad").disabled = true;
+        } else {
+          document.getElementById("btn-submit-ad").disabled = false;
+        }
+      }
     }
     modal.style.display = "grid";
   }

@@ -119,13 +119,48 @@
 
       var lang = localStorage.getItem("lang") || "fr";
       var labels = {
-        fr: { directory: "Annuaire", mySpace: "Mon Espace", login: "Connexion" },
-        en: { directory: "Directory", mySpace: "My Space", login: "Sign in" },
-        de: { directory: "Verzeichnis", mySpace: "Mein Bereich", login: "Anmelden" },
+        fr: {
+          culture: "Cultures & Traditions",
+          events: "Galas & Dîners",
+          directory: "Annuaire",
+          mySpace: "Mon Espace",
+          login: "Connexion"
+        },
+        en: {
+          culture: "Cultures & Traditions",
+          events: "Galas & Dinners",
+          directory: "Directory",
+          mySpace: "My Space",
+          login: "Sign in"
+        },
+        de: {
+          culture: "Kulturen & Traditionen",
+          events: "Galas & Dinners",
+          directory: "Verzeichnis",
+          mySpace: "Mein Bereich",
+          login: "Anmelden"
+        },
       };
       var t = labels[lang] || labels.fr;
 
-      // Add 'Vendeurs' (Annuaire) and 'Espace Abonnés' if missing
+      // Ensure Culture link
+      var existingCulture = nav.querySelector('a[href="cultures-traditions.html"]');
+      if (!existingCulture) {
+        var cLink = document.createElement("a");
+        cLink.href = "cultures-traditions.html";
+        cLink.textContent = t.culture;
+        cLink.className = "nav-culture";
+        var histLink = nav.querySelector('a[href="histoire.html"]');
+        if (histLink && histLink.nextSibling) {
+          nav.insertBefore(cLink, histLink.nextSibling);
+        } else {
+          nav.appendChild(cLink);
+        }
+      } else {
+        existingCulture.textContent = t.culture;
+      }
+
+      // Ensure Annuaire (Vendeurs) link
       var user = BKAuth.getUser();
 
       var existingVendeurs = nav.querySelector('a[href="vendeurs.html"]');
@@ -138,16 +173,41 @@
         if (mktLink && mktLink.nextSibling) {
           nav.insertBefore(vLink, mktLink.nextSibling);
         } else {
-          var langSpan = nav.querySelector(".lang");
-          if (langSpan) nav.insertBefore(vLink, langSpan);
-          else nav.appendChild(vLink);
+          nav.appendChild(vLink);
         }
       } else {
         existingVendeurs.textContent = t.directory;
       }
 
+      // Ensure Events & Galas link
+      var existingEvents = nav.querySelector('a[href="evenements-reservations.html"]');
+      if (!existingEvents) {
+        var eLink = document.createElement("a");
+        eLink.href = "evenements-reservations.html";
+        eLink.textContent = t.events;
+        eLink.className = "nav-events";
+        var shopLink = nav.querySelector('a[href="shop.html"]');
+        if (shopLink) {
+          nav.insertBefore(eLink, shopLink);
+        } else {
+          nav.appendChild(eLink);
+        }
+      } else {
+        existingEvents.textContent = t.events;
+      }
+
       var existingAuth = nav.querySelector(".nav-auth-link");
       if (!existingAuth) {
+        var aLink = document.createElement("a");
+        aLink.className = "nav-auth-link";
+        var langSpan = nav.querySelector(".lang");
+        if (langSpan) {
+          nav.insertBefore(aLink, langSpan);
+        } else {
+          nav.appendChild(aLink);
+        }
+        existingAuth = aLink;
+      }
         var aLink = document.createElement("a");
         aLink.className = "nav-auth-link";
         var langSpan = nav.querySelector(".lang");
