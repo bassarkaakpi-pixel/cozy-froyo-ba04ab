@@ -1,10 +1,11 @@
+import crypto from "crypto";
 import { Hono } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { eq, desc, and, sql } from "drizzle-orm";
+import { eq, desc, and, sql, inArray, lt } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { subscribers, listings, culturalPublications, eventReservations } from "../../db/schema.js";
+import { subscribers, listings, culturalPublications, eventReservations, paymentEvents } from "../../db/schema.js";
 
 const app = new Hono().basePath("/api");
 
@@ -13,20 +14,157 @@ app.use("*", async (c, next) => {
   await next();
 });
 
-const JWT_SECRET = process.env.JWT_SECRET || "bassar-kaakpi-jwt-secret-2026-prod";
+// CSRF defence in depth (in addition to SameSite=Lax on the session cookie):
+// state-changing requests sent by a browser must come from this same site.
+// Provider webhooks are server-to-server and authenticated by signature.
+app.use("*", async (c, next) => {
+  const method = c.req.method.toUpperCase();
+  if (method === "GET" || method === "HEAD" || method === "OPTIONS" || c.req.path.startsWith("/api/payments/")) {
+    return next();
+  }
+  const allowedHosts = new Set<string>();
+  try { allowedHosts.add(new URL(c.req.url).host); } catch {}
+  const hostHeader = c.req.header("host");
+  if (hostHeader) allowedHosts.add(hostHeader);
+
+  const origin = c.req.header("origin");
+  if (origin) {
+    let originHost = "";
+    try { originHost = new URL(origin).host; } catch {}
+    if (!originHost || !allowedHosts.has(originHost)) {
+      return c.json({ error: "Origine de la requête refusée." }, 403);
+    }
+  } else {
+    const site = c.req.header("sec-fetch-site");
+    if (site && site !== "same-origin" && site !== "none") {
+      return c.json({ error: "Origine de la requête refusée." }, 403);
+    }
+  }
+  return next();
+});
+
+// Helper: Safely retrieve JWT secret from environment only (never hardcode fallback)
+function getJwtSecret(): string | null {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || typeof secret !== "string" || secret.trim().length === 0) {
+    return null;
+  }
+  return secret.trim();
+}
+
 const COOKIE_NAME = "bk_subscriber_token";
+const SESSION_MAX_AGE_S = 30 * 24 * 60 * 60;
+const JWT_ISSUER = "bassarkaakpi";
+const JWT_AUDIENCE = "bk-subscriber";
+
+// Secure is always set, except under `netlify dev` (plain http://localhost).
+function sessionCookieOptions() {
+  return {
+    httpOnly: true,
+    secure: process.env.NETLIFY_DEV !== "true",
+    sameSite: "Lax" as const,
+    path: "/",
+    maxAge: SESSION_MAX_AGE_S,
+  };
+}
+
+function issueSession(c, sub: { id: number; email: string }, jwtSecret: string) {
+  const token = jwt.sign({ id: sub.id, email: sub.email }, jwtSecret, {
+    algorithm: "HS256",
+    expiresIn: SESSION_MAX_AGE_S,
+    issuer: JWT_ISSUER,
+    audience: JWT_AUDIENCE,
+    subject: String(sub.id),
+  });
+  setCookie(c, COOKIE_NAME, token, sessionCookieOptions());
+}
+
+function clearSession(c) {
+  deleteCookie(c, COOKIE_NAME, { path: "/", secure: process.env.NETLIFY_DEV !== "true" });
+}
+
+// The client IP is taken ONLY from x-nf-client-connection-ip, which Netlify's
+// edge sets from the TCP connection and overwrites if a client sends it.
+// x-forwarded-for / client-ip are client-controllable and never used.
+function getClientIp(c): string {
+  return (c.req.header("x-nf-client-connection-ip") || "unknown").trim();
+}
+
+// Validation constants and whitelist helpers
+const ALLOWED_MEMBER_CATEGORIES = new Set([
+  "trade",
+  "craft",
+  "culture",
+  "textile",
+  "realestate",
+  "land",
+  "service",
+  "vehicle",
+  "other",
+]);
+
+const ALLOWED_CONTINENTS = new Set([
+  "Afrique",
+  "Europe",
+  "Amériques",
+  "Asie",
+  "Océanie",
+]);
+
+const ALLOWED_CULTURAL_CATEGORIES = new Set([
+  "tradition",
+  "textile_attire",
+  "dance_music",
+  "rites_festivals",
+  "gastronomie",
+  "history",
+  "art_craft",
+]);
+
+function isValidHttpsUrl(url: unknown): boolean {
+  if (!url || typeof url !== "string") return false;
+  const trimmed = url.trim();
+  if (trimmed === "" || /[<>"'\s]/.test(trimmed)) return false;
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function sanitizeText(val: unknown, maxLen = 1000): string {
+  if (val == null) return "";
+  const s = String(val).trim();
+  return s.slice(0, maxLen);
+}
+
+function sanitizeEmoji(val: unknown, fallback = "🌍"): string {
+  if (!val || typeof val !== "string") return fallback;
+  const s = val.trim();
+  if (/<[^>]*>|[&"'<>]/.test(s)) return fallback;
+  return s.slice(0, 10);
+}
 
 // Helper: Authenticate subscriber from cookie or Bearer token
 async function getAuthSubscriber(c) {
   try {
-    const cookieToken = getCookie(c, COOKIE_NAME);
-    const authHeader = c.req.header("Authorization");
-    const bearerToken = authHeader && authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
-    const token = cookieToken || bearerToken;
+    const jwtSecret = getJwtSecret();
+    if (!jwtSecret) {
+      // Refuse authentication when JWT_SECRET is absent
+      return null;
+    }
 
+    // Sessions are carried only by the httpOnly cookie. Bearer tokens (formerly
+    // kept in localStorage, readable by any injected script) are no longer accepted.
+    const token = getCookie(c, COOKIE_NAME);
     if (!token) return null;
 
-    const decoded = jwt.verify(token, JWT_SECRET) as { id: number; email: string };
+    const decoded = jwt.verify(token, jwtSecret, {
+      algorithms: ["HS256"],
+      issuer: JWT_ISSUER,
+      audience: JWT_AUDIENCE,
+    }) as { id: number; email: string };
     if (!decoded || !decoded.id) return null;
 
     const [subscriber] = await db
@@ -68,6 +206,18 @@ function generateListingRef() {
 // Register
 app.post("/auth/register", async (c) => {
   try {
+    const jwtSecret = getJwtSecret();
+    if (!jwtSecret) {
+      return c.json(
+        { error: "Configuration de sécurité serveur incomplète (JWT_SECRET absent). Inscription temporairement indisponible." },
+        503
+      );
+    }
+
+    if (!(await checkRateLimit("register", getClientIp(c), 5, 60 * 60 * 1000))) {
+      return c.json({ error: "Trop de tentatives. Veuillez réessayer plus tard." }, 429);
+    }
+
     const body = await c.req.json();
     const {
       fullName,
@@ -87,11 +237,14 @@ app.post("/auth/register", async (c) => {
       return c.json({ error: "Tous les champs obligatoires doivent être remplis." }, 400);
     }
 
-    if (password.length < 6) {
-      return c.json({ error: "Le mot de passe doit contenir au moins 6 caractères." }, 400);
+    if (typeof password !== "string" || password.length < 8 || password.length > 200) {
+      return c.json({ error: "Le mot de passe doit contenir au moins 8 caractères." }, 400);
     }
 
     const cleanEmail = String(email).trim().toLowerCase();
+    const cleanCategory = ALLOWED_MEMBER_CATEGORIES.has(String(category).trim()) ? String(category).trim() : "trade";
+    const cleanWebsite = isValidHttpsUrl(website) ? String(website).trim() : "";
+    const cleanPhone = String(phone).replace(/[^\d+]/g, "").slice(0, 20);
 
     const [existing] = await db
       .select()
@@ -111,34 +264,25 @@ app.post("/auth/register", async (c) => {
       .values({
         email: cleanEmail,
         passwordHash,
-        fullName: String(fullName).trim(),
-        businessName: businessName ? String(businessName).trim() : "",
-        phone: String(phone).trim(),
-        city: String(city).trim(),
-        country: String(country).trim(),
-        category,
+        fullName: sanitizeText(fullName, 100),
+        businessName: businessName ? sanitizeText(businessName, 100) : "",
+        phone: cleanPhone,
+        city: sanitizeText(city, 80),
+        country: sanitizeText(country, 80),
+        category: cleanCategory,
         plan: ["free", "seller", "premium"].includes(plan) ? plan : "free",
         status: "active",
         isVerified: plan === "premium",
-        bio: bio ? String(bio).trim() : "",
-        website: website ? String(website).trim() : "",
+        bio: bio ? sanitizeText(bio, 500) : "",
+        website: cleanWebsite,
         memberRef,
       })
       .returning();
 
-    const token = jwt.sign({ id: newSub.id, email: newSub.email }, JWT_SECRET, {
-      expiresIn: "30d",
-    });
-
-    setCookie(c, COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
-      maxAge: 30 * 24 * 60 * 60,
-    });
+    issueSession(c, newSub, jwtSecret);
 
     const { passwordHash: _, ...safeUser } = newSub;
-    return c.json({ success: true, subscriber: safeUser, token }, 201);
+    return c.json({ success: true, subscriber: safeUser }, 201);
   } catch (error) {
     console.error("Register error:", error);
     return c.json({ error: "Erreur serveur lors de l'inscription." }, 500);
@@ -148,12 +292,32 @@ app.post("/auth/register", async (c) => {
 // Login
 app.post("/auth/login", async (c) => {
   try {
+    const jwtSecret = getJwtSecret();
+    if (!jwtSecret) {
+      return c.json(
+        { error: "Configuration de sécurité serveur incomplète (JWT_SECRET absent). Connexion temporairement indisponible." },
+        503
+      );
+    }
+
     const { email, password } = await c.req.json();
     if (!email || !password) {
       return c.json({ error: "E-mail et mot de passe requis." }, 400);
     }
 
     const cleanEmail = String(email).trim().toLowerCase();
+
+    // Brute-force protection: per IP and per account.
+    const ipOk = await checkRateLimit("login-ip", getClientIp(c), 20, 15 * 60 * 1000);
+    const accountOk = await checkRateLimit(
+      "login-account",
+      crypto.createHash("sha256").update(cleanEmail).digest("hex").slice(0, 32),
+      10,
+      15 * 60 * 1000
+    );
+    if (!ipOk || !accountOk) {
+      return c.json({ error: "Trop de tentatives de connexion. Veuillez réessayer dans quelques minutes." }, 429);
+    }
 
     const [subscriber] = await db
       .select()
@@ -174,19 +338,10 @@ app.post("/auth/login", async (c) => {
       return c.json({ error: "Votre compte a été suspendu." }, 403);
     }
 
-    const token = jwt.sign({ id: subscriber.id, email: subscriber.email }, JWT_SECRET, {
-      expiresIn: "30d",
-    });
-
-    setCookie(c, COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
-      maxAge: 30 * 24 * 60 * 60,
-    });
+    issueSession(c, subscriber, jwtSecret);
 
     const { passwordHash: _, ...safeUser } = subscriber;
-    return c.json({ success: true, subscriber: safeUser, token });
+    return c.json({ success: true, subscriber: safeUser });
   } catch (error) {
     console.error("Login error:", error);
     return c.json({ error: "Erreur serveur lors de la connexion." }, 500);
@@ -197,14 +352,16 @@ app.post("/auth/login", async (c) => {
 app.get("/auth/me", async (c) => {
   const subscriber = await getAuthSubscriber(c);
   if (!subscriber) {
-    return c.json({ error: "Non connecté" }, 401);
+    // Remove an invalid or outdated session cookie (e.g. signed with a retired key)
+    if (getCookie(c, COOKIE_NAME)) clearSession(c);
+    return c.json({ error: "Non connecté", reason: getJwtSecret() ? "session_invalid" : "auth_unavailable" }, 401);
   }
   return c.json({ subscriber });
 });
 
 // Logout
 app.post("/auth/logout", (c) => {
-  deleteCookie(c, COOKIE_NAME);
+  clearSession(c);
   return c.json({ success: true });
 });
 
@@ -217,18 +374,30 @@ app.put("/auth/profile", async (c) => {
     const body = await c.req.json();
     const { fullName, businessName, phone, city, country, category, bio, website, logoUrl } = body;
 
+    const cleanFullName = fullName !== undefined ? sanitizeText(fullName, 100) : subscriber.fullName;
+    const cleanBusiness = businessName !== undefined ? sanitizeText(businessName, 100) : subscriber.businessName;
+    const cleanPhone = phone !== undefined ? String(phone).replace(/[^\d+]/g, "").slice(0, 20) : subscriber.phone;
+    const cleanCity = city !== undefined ? sanitizeText(city, 80) : subscriber.city;
+    const cleanCountry = country !== undefined ? sanitizeText(country, 80) : subscriber.country;
+    const cleanCategory = category !== undefined && ALLOWED_MEMBER_CATEGORIES.has(String(category).trim())
+      ? String(category).trim()
+      : subscriber.category;
+    const cleanBio = bio !== undefined ? sanitizeText(bio, 500) : subscriber.bio;
+    const cleanWebsite = website !== undefined ? (isValidHttpsUrl(website) ? String(website).trim() : "") : subscriber.website;
+    const cleanLogoUrl = logoUrl !== undefined ? (isValidHttpsUrl(logoUrl) ? String(logoUrl).trim() : "") : subscriber.logoUrl;
+
     const [updated] = await db
       .update(subscribers)
       .set({
-        fullName: fullName ? String(fullName).trim() : subscriber.fullName,
-        businessName: businessName !== undefined ? String(businessName).trim() : subscriber.businessName,
-        phone: phone ? String(phone).trim() : subscriber.phone,
-        city: city ? String(city).trim() : subscriber.city,
-        country: country ? String(country).trim() : subscriber.country,
-        category: category || subscriber.category,
-        bio: bio !== undefined ? String(bio).trim() : subscriber.bio,
-        website: website !== undefined ? String(website).trim() : subscriber.website,
-        logoUrl: logoUrl !== undefined ? String(logoUrl).trim() : subscriber.logoUrl,
+        fullName: cleanFullName,
+        businessName: cleanBusiness,
+        phone: cleanPhone,
+        city: cleanCity,
+        country: cleanCountry,
+        category: cleanCategory,
+        bio: cleanBio,
+        website: cleanWebsite,
+        logoUrl: cleanLogoUrl,
         updatedAt: new Date(),
       })
       .where(eq(subscribers.id, subscriber.id))
@@ -303,6 +472,12 @@ app.post("/my/listings", async (c) => {
       }
     }
 
+    const safeCategory = ALLOWED_MEMBER_CATEGORIES.has(String(category).trim())
+      ? String(category).trim()
+      : "trade";
+    const rawImg = imageUrl ? String(imageUrl).trim() : "";
+    const safeImg = (isValidHttpsUrl(rawImg) || /^assets\/[\w\-\/.]+\.(?:jpe?g|png|webp|svg)$/i.test(rawImg)) ? rawImg : "";
+
     const ref = generateListingRef();
     const parsedPrice = price !== null && price !== "" && !isNaN(Number(price)) ? Math.round(Number(price)) : null;
 
@@ -311,13 +486,13 @@ app.post("/my/listings", async (c) => {
       .values({
         subscriberId: subscriber.id,
         ref,
-        category: String(category).trim(),
-        title: String(title).trim(),
-        city: city ? String(city).trim() : subscriber.city,
+        category: safeCategory,
+        title: sanitizeText(title, 120),
+        city: city ? sanitizeText(city, 80) : subscriber.city,
         price: parsedPrice,
         currency: currency === "EUR" ? "EUR" : "XOF",
-        description: String(description).trim(),
-        imageUrl: imageUrl ? String(imageUrl).trim() : "",
+        description: sanitizeText(description, 3000),
+        imageUrl: safeImg,
         status: "active",
         isFeatured: subscriber.plan === "premium",
       })
@@ -350,19 +525,29 @@ app.put("/my/listings/:id", async (c) => {
       return c.json({ error: "Annonce introuvable ou non autorisée." }, 404);
     }
 
+    const safeCategory = category && ALLOWED_MEMBER_CATEGORIES.has(String(category).trim())
+      ? String(category).trim()
+      : existing.category;
+
+    let safeImg = existing.imageUrl;
+    if (imageUrl !== undefined) {
+      const rawImg = String(imageUrl).trim();
+      safeImg = (isValidHttpsUrl(rawImg) || /^assets\/[\w\-\/.]+\.(?:jpe?g|png|webp|svg)$/i.test(rawImg)) ? rawImg : "";
+    }
+
     const parsedPrice = price !== null && price !== "" && !isNaN(Number(price)) ? Math.round(Number(price)) : null;
 
     const [updated] = await db
       .update(listings)
       .set({
-        category: category || existing.category,
-        title: title ? String(title).trim() : existing.title,
-        city: city ? String(city).trim() : existing.city,
+        category: safeCategory,
+        title: title ? sanitizeText(title, 120) : existing.title,
+        city: city ? sanitizeText(city, 80) : existing.city,
         price: parsedPrice !== undefined ? parsedPrice : existing.price,
-        currency: currency || existing.currency,
-        description: description ? String(description).trim() : existing.description,
-        imageUrl: imageUrl !== undefined ? String(imageUrl).trim() : existing.imageUrl,
-        status: status || existing.status,
+        currency: currency === "EUR" ? "EUR" : (currency === "XOF" ? "XOF" : existing.currency),
+        description: description ? sanitizeText(description, 3000) : existing.description,
+        imageUrl: safeImg,
+        status: status === "inactive" ? "inactive" : (status === "active" ? "active" : existing.status),
         updatedAt: new Date(),
       })
       .where(eq(listings.id, listingId))
@@ -415,7 +600,6 @@ app.get("/members", async (c) => {
         id: subscribers.id,
         fullName: subscribers.fullName,
         businessName: subscribers.businessName,
-        phone: subscribers.phone,
         city: subscribers.city,
         country: subscribers.country,
         category: subscribers.category,
@@ -501,7 +685,7 @@ app.get("/members/:idOrRef", async (c) => {
         createdAt: subscribers.createdAt,
       })
       .from(subscribers)
-      .where(condition)
+      .where(and(condition, eq(subscribers.status, "active")))
       .limit(1);
 
     if (!member) {
@@ -514,7 +698,10 @@ app.get("/members/:idOrRef", async (c) => {
       .where(and(eq(listings.subscriberId, member.id), eq(listings.status, "active")))
       .orderBy(desc(listings.isFeatured), desc(listings.createdAt));
 
-    return c.json({ member, listings: memberListings });
+    const sanitizedPhone = member.phone ? String(member.phone).replace(/[^\d+]/g, "").slice(0, 20) : "";
+    const safeMember = { ...member, phone: sanitizedPhone };
+
+    return c.json({ member: safeMember, listings: memberListings });
   } catch (error) {
     console.error("Public member detail error:", error);
     return c.json({ error: "Erreur lors du chargement du profil." }, 500);
@@ -630,7 +817,7 @@ app.get("/annonces/:refOrId", async (c) => {
       })
       .from(listings)
       .innerJoin(subscribers, eq(listings.subscriberId, subscribers.id))
-      .where(condition)
+      .where(and(condition, eq(listings.status, "active"), eq(subscribers.status, "active")))
       .limit(1);
 
     if (!listing) {
@@ -666,18 +853,18 @@ const INITIAL_CULTURAL_PUBLICATIONS = [
     status: "published",
   },
   {
-    title: "Le Tissu Kàakpi : L'étoffe royale des dignitaires et le savoir-faire des maîtres tisserands",
+    title: "Le Tissu Imprimé Kàakpi : L'étoffe emblématique et la mémoire visuelle du peuple Bassar",
     continent: "Afrique",
     country: "Togo",
     countryCode: "TG",
     flagEmoji: "🇹🇬",
     category: "textile_attire",
-    summary: "Tissé à la main sur des métiers traditionnels en bandes étroites, le Kàakpi incarne la dignité, la fierté et le prestige des grandes cérémonies.",
-    content: "Le Kàakpi est bien plus qu'un textile : c'est un langage visuel et une armure symbolique de noblesse. Réalisé à partir de fils de coton pur filés à la main, teints avec des pigments végétaux et minéraux naturels, chaque rouleau de Kàakpi demande des semaines de travail minutieux. Les motifs géométriques rythmés racontent des proverbes, la lignée familiale et les victoires ancestrales. Porté lors des mariages coutumiers, intronisations de chefs traditionnels et grandes fêtes solennelles, le Kàakpi est aujourd'hui revisité par la haute couture contemporaine pour habiller les galas et événements prestigieux à travers le monde.",
-    authorName: "Atelier des Maîtres Tisserands Kàakpi",
+    summary: "Tissu imprimé aux motifs authentiques du peuple Bassar, le Kàakpi incarne la mémoire, la dignité et l'élégance contemporaine.",
+    content: "Le tissu imprimé Bassar Kàakpi est une création emblématique portant les motifs graphiques et les symboles sacrés du peuple Bassar. Conçu comme une étoffe imprimée de haute qualité alliant respect de l'héritage et exigence esthétique moderne, chaque motif fait écho à la tradition de la forge, à la mémoire collective et à l'identité culturelle. Porté lors des cérémonies, fêtes et rassemblements communautaires, le tissu imprimé Kàakpi habille avec fierté les nouvelles générations à travers le monde.",
+    authorName: "Maison Bassar Kàakpi",
     imageUrl: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80",
     videoUrl: "",
-    tags: "Kàakpi, Tissage, Textile, Bassar, Togo, Haute Couture",
+    tags: "Kàakpi, Tissu Imprimé, Textile, Bassar, Togo, Mode Contemporaine",
     likesCount: 198,
     status: "published",
   },
@@ -910,7 +1097,6 @@ const INITIAL_CULTURAL_PUBLICATIONS = [
 // Helper: Ensure initial cultural publications exist
 const MEMORY_PUBS: any[] = [];
 const MEMORY_LIKES: Record<string, number> = {};
-const MEMORY_RESERVATIONS: Map<string, any> = new Map();
 
 let tablesEnsured = false;
 async function ensureTables() {
@@ -937,29 +1123,7 @@ async function ensureTables() {
         "updated_at" timestamp DEFAULT now()
       );
     `);
-    await db.execute(sql`
-      CREATE TABLE IF NOT EXISTS "event_reservations" (
-        "id" serial PRIMARY KEY,
-        "booking_ref" text NOT NULL UNIQUE,
-        "event_slug" text NOT NULL,
-        "event_title" text NOT NULL,
-        "event_date" text NOT NULL,
-        "guest_name" text NOT NULL,
-        "email" text NOT NULL,
-        "phone" text NOT NULL,
-        "ticket_type" text DEFAULT 'standard' NOT NULL,
-        "places_count" integer DEFAULT 1 NOT NULL,
-        "unit_price" integer DEFAULT 0 NOT NULL,
-        "total_amount" integer DEFAULT 0 NOT NULL,
-        "currency" text DEFAULT 'XOF' NOT NULL,
-        "payment_method" text DEFAULT 'stripe' NOT NULL,
-        "payment_status" text DEFAULT 'pending' NOT NULL,
-        "dietary_requests" text DEFAULT '',
-        "special_requests" text DEFAULT '',
-        "status" text DEFAULT 'confirmed' NOT NULL,
-        "created_at" timestamp DEFAULT now()
-      );
-    `);
+    // event_reservations is managed exclusively by migrations (netlify/database/migrations).
     tablesEnsured = true;
   } catch (err) {
     console.warn("ensureTables warning:", err);
@@ -1069,6 +1233,9 @@ app.get("/cultural-publications/:id", async (c) => {
 // Submit a new cultural publication
 app.post("/cultural-publications", async (c) => {
   try {
+    if (!(await checkRateLimit("culture-post", getClientIp(c), 5, 60 * 60 * 1000))) {
+      return c.json({ error: "Trop de publications. Veuillez réessayer plus tard." }, 429);
+    }
     await ensureTables();
     const subscriber = await getAuthSubscriber(c);
     const body = await c.req.json();
@@ -1094,25 +1261,31 @@ app.post("/cultural-publications", async (c) => {
       );
     }
 
-    const finalAuthor = authorName || (subscriber ? (subscriber.businessName || subscriber.fullName) : "Membre de la Communauté");
+    const safeContinent = ALLOWED_CONTINENTS.has(String(continent).trim()) ? String(continent).trim() : "Afrique";
+    const safeCategory = ALLOWED_CULTURAL_CATEGORIES.has(String(category).trim()) ? String(category).trim() : "tradition";
+    const safeFlag = sanitizeEmoji(flagEmoji, "🌍");
+    const safeImg = isValidHttpsUrl(imageUrl) ? String(imageUrl).trim() : "";
+    const safeVid = isValidHttpsUrl(videoUrl) ? String(videoUrl).trim() : "";
+    const safeCountryCode = String(countryCode || "TG").replace(/[^A-Za-z]/g, "").slice(0, 3).toUpperCase();
+    const finalAuthor = authorName ? sanitizeText(authorName, 100) : (subscriber ? (subscriber.businessName || subscriber.fullName) : "Membre de la Communauté");
 
     let newPost: any = null;
     try {
       const [inserted] = await db
         .insert(culturalPublications)
         .values({
-          title: String(title).trim(),
-          continent: String(continent).trim(),
-          country: String(country).trim(),
-          countryCode: String(countryCode).trim().toUpperCase(),
-          flagEmoji: String(flagEmoji).trim(),
-          category: String(category).trim(),
-          summary: String(summary).trim(),
-          content: String(content).trim(),
-          authorName: String(finalAuthor).trim(),
-          imageUrl: imageUrl ? String(imageUrl).trim() : "",
-          videoUrl: videoUrl ? String(videoUrl).trim() : "",
-          tags: tags ? String(tags).trim() : "",
+          title: sanitizeText(title, 200),
+          continent: safeContinent,
+          country: sanitizeText(country, 80),
+          countryCode: safeCountryCode,
+          flagEmoji: safeFlag,
+          category: safeCategory,
+          summary: sanitizeText(summary, 500),
+          content: sanitizeText(content, 10000),
+          authorName: sanitizeText(finalAuthor, 100),
+          imageUrl: safeImg,
+          videoUrl: safeVid,
+          tags: sanitizeText(tags, 200),
           status: "published",
           likesCount: 1,
         })
@@ -1122,18 +1295,18 @@ app.post("/cultural-publications", async (c) => {
       console.warn("DB cultural publication insert fallback:", dbErr);
       newPost = {
         id: Date.now(),
-        title: String(title).trim(),
-        continent: String(continent).trim(),
-        country: String(country).trim(),
-        countryCode: String(countryCode).trim().toUpperCase(),
-        flagEmoji: String(flagEmoji).trim(),
-        category: String(category).trim(),
-        summary: String(summary).trim(),
-        content: String(content).trim(),
-        authorName: String(finalAuthor).trim(),
-        imageUrl: imageUrl ? String(imageUrl).trim() : "",
-        videoUrl: videoUrl ? String(videoUrl).trim() : "",
-        tags: tags ? String(tags).trim() : "",
+        title: sanitizeText(title, 200),
+        continent: safeContinent,
+        country: sanitizeText(country, 80),
+        countryCode: safeCountryCode,
+        flagEmoji: safeFlag,
+        category: safeCategory,
+        summary: sanitizeText(summary, 500),
+        content: sanitizeText(content, 10000),
+        authorName: sanitizeText(finalAuthor, 100),
+        imageUrl: safeImg,
+        videoUrl: safeVid,
+        tags: sanitizeText(tags, 200),
         status: "published",
         likesCount: 1,
         createdAt: new Date(),
@@ -1153,6 +1326,9 @@ app.post("/cultural-publications", async (c) => {
 
 // Like a cultural publication
 app.post("/cultural-publications/:id/like", async (c) => {
+  if (!(await checkRateLimit("culture-like", getClientIp(c), 30, 60 * 1000))) {
+    return c.json({ error: "Trop de requêtes." }, 429);
+  }
   const idStr = c.req.param("id");
   const id = parseInt(idStr, 10);
   let updatedLikes = (MEMORY_LIKES[idStr] || 0) + 1;
@@ -1300,12 +1476,176 @@ const GALA_EVENTS = [
   }
 ];
 
-function generateBookingRef() {
+function generateBookingRef(): string {
   const now = new Date();
   const yr = String(now.getFullYear()).slice(-2);
   const mo = String(now.getMonth() + 1).padStart(2, "0");
-  const rand = Math.floor(1000 + Math.random() * 9000);
-  return `RES-${yr}${mo}-${rand}`;
+  // 128-bit cryptographic entropy (16 bytes = 32 hexadecimal characters).
+  // Uniqueness is guaranteed by the UNIQUE constraint on booking_ref.
+  const rand128 = crypto.randomBytes(16).toString("hex").toUpperCase();
+  return `RES-${yr}${mo}-${rand128.slice(0, 8)}-${rand128.slice(8, 16)}-${rand128.slice(16, 24)}-${rand128.slice(24, 32)}`;
+}
+
+// ==========================================
+// RATE LIMITING (Netlify Database, atomic counter)
+// ==========================================
+// One row per (bucket, client) in "rate_limits". Each request performs a single
+// INSERT ... ON CONFLICT DO UPDATE ... RETURNING statement: Postgres locks the
+// row for the duration of the statement, so concurrent requests - on any number
+// of function instances - are counted exactly and can never exceed the limit.
+// The window starts at the first request and uses the database clock.
+// If the database is unreachable, a per-instance in-memory counter is used:
+// this is a DEGRADED mode that only limits traffic hitting the same instance
+// (the protected endpoints themselves need the database anyway).
+const MEMORY_RATE: Map<string, { count: number; resetAt: number }> = new Map();
+let rateLimitBackend: "database" | "memory-degraded" = "database";
+
+function memoryRateLimit(key: string, limit: number, windowMs: number): boolean {
+  const now = Date.now();
+  const entry = MEMORY_RATE.get(key);
+  if (!entry || now > entry.resetAt) {
+    MEMORY_RATE.set(key, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+  if (entry.count >= limit) return false;
+  entry.count++;
+  return true;
+}
+
+async function checkRateLimit(bucket: string, id: string, limit: number, windowMs: number): Promise<boolean> {
+  const key = `${bucket}/${String(id).replace(/[^a-zA-Z0-9_.:-]/g, "_").slice(0, 80)}`;
+  const ms = Math.max(1000, Math.floor(windowMs));
+  try {
+    const r: any = await db.execute(sql`
+      INSERT INTO rate_limits (key, hits, window_end)
+      VALUES (${key}, 1, now() + (${ms}::int * interval '1 millisecond'))
+      ON CONFLICT (key) DO UPDATE SET
+        hits = CASE WHEN rate_limits.window_end <= now() THEN 1 ELSE rate_limits.hits + 1 END,
+        window_end = CASE WHEN rate_limits.window_end <= now() THEN EXCLUDED.window_end ELSE rate_limits.window_end END
+      RETURNING hits
+    `);
+    const row = (r.rows || r)[0];
+    rateLimitBackend = "database";
+    return Number(row?.hits) <= limit;
+  } catch (err) {
+    if (rateLimitBackend !== "memory-degraded") {
+      console.warn("Rate limiter: database unavailable, using per-instance memory fallback (degraded).");
+    }
+    rateLimitBackend = "memory-degraded";
+    return memoryRateLimit(key, limit, windowMs);
+  }
+}
+
+function maskGuestName(name: string): string {
+  const parts = String(name || "").trim().split(/\s+/);
+  if (parts.length === 0 || !parts[0]) return "Convive";
+  if (parts.length === 1) {
+    const first = parts[0];
+    return first.length > 2 ? first.slice(0, 2) + "***" : first + "***";
+  }
+  return parts[0] + " " + parts.slice(1).map((p) => p.charAt(0) + ".").join(" ");
+}
+
+// ==========================================
+// RESERVATIONS & PAYMENTS
+// ==========================================
+// A reservation is NEVER marked paid by the browser or at creation time. It is
+// created as "pending_payment" and only moves to "paid" when the payment
+// provider sends a notification whose signature, amount and currency have been
+// verified by this server.
+
+const PAYMENT_METHODS = ["stripe", "paypal", "mobile_money", "on_site"];
+// Delay to pay before a pending reservation expires.
+const PAYMENT_WINDOW_MS: Record<string, number> = {
+  stripe: 60 * 60 * 1000, // aligned with the Stripe Checkout session lifetime
+  paypal: 72 * 60 * 60 * 1000,
+  mobile_money: 72 * 60 * 60 * 1000,
+  on_site: 72 * 60 * 60 * 1000,
+};
+
+function getStripeSecretKey(): string | null {
+  const k = process.env.STRIPE_SECRET_KEY;
+  return k && k.trim() ? k.trim() : null;
+}
+function getStripeWebhookSecret(): string | null {
+  const k = process.env.STRIPE_WEBHOOK_SECRET;
+  return k && k.trim() ? k.trim() : null;
+}
+
+function siteOrigin(c): string {
+  const configured = process.env.URL_OVERRIDE || "";
+  if (configured) return configured.replace(/\/$/, "");
+  try { return new URL(c.req.url).origin; } catch { return "https://bassarkaakpi.com"; }
+}
+
+// Creates a Stripe Checkout Session with the amount computed by the server.
+// Uses the Stripe REST API directly (no SDK dependency).
+async function createStripeCheckout(c, r: any, event: any, ticket: any): Promise<{ id: string; url: string } | null> {
+  const key = getStripeSecretKey();
+  if (!key) return null;
+  const origin = siteOrigin(c);
+  const form = new URLSearchParams();
+  form.set("mode", "payment");
+  form.set("client_reference_id", r.bookingRef);
+  form.set("metadata[booking_ref]", r.bookingRef);
+  form.set("payment_intent_data[metadata][booking_ref]", r.bookingRef);
+  form.set("customer_email", r.email);
+  form.set("line_items[0][quantity]", String(r.placesCount));
+  form.set("line_items[0][price_data][currency]", "xof"); // XOF is a zero-decimal currency in Stripe
+  form.set("line_items[0][price_data][unit_amount]", String(r.unitPrice));
+  form.set("line_items[0][price_data][product_data][name]", `${event.title} — ${ticket.name || ticket.type}`.slice(0, 250));
+  form.set("expires_at", String(Math.floor((Date.now() + PAYMENT_WINDOW_MS.stripe) / 1000)));
+  form.set("success_url", `${origin}/evenements-reservations.html?booking=${encodeURIComponent(r.bookingRef)}&payment=return`);
+  form.set("cancel_url", `${origin}/evenements-reservations.html?booking=${encodeURIComponent(r.bookingRef)}&payment=cancel`);
+  try {
+    const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Idempotency-Key": `checkout-${r.bookingRef}`,
+      },
+      body: form.toString(),
+    });
+    const data: any = await res.json();
+    if (!res.ok || !data.id || !data.url) {
+      console.error("Stripe checkout creation failed:", res.status, data?.error?.type || "unknown");
+      return null;
+    }
+    return { id: data.id, url: data.url };
+  } catch (err) {
+    console.error("Stripe checkout creation error");
+    return null;
+  }
+}
+
+// Stripe signature: header "t=<ts>,v1=<hex>[,v1=...]", HMAC-SHA256 of "<ts>.<raw body>".
+function verifyStripeSignature(rawBody: string, header: string | undefined, secret: string, toleranceS = 300): boolean {
+  if (!header) return false;
+  let ts = "";
+  const sigs: string[] = [];
+  for (const part of header.split(",")) {
+    const [k, v] = part.split("=", 2).map((x) => (x || "").trim());
+    if (k === "t") ts = v;
+    if (k === "v1" && v) sigs.push(v);
+  }
+  if (!/^\d+$/.test(ts) || sigs.length === 0) return false;
+  if (Math.abs(Math.floor(Date.now() / 1000) - Number(ts)) > toleranceS) return false;
+  const expected = crypto.createHmac("sha256", secret).update(`${ts}.${rawBody}`, "utf8").digest();
+  return sigs.some((sig) => {
+    if (!/^[0-9a-f]+$/i.test(sig) || sig.length !== expected.length * 2) return false;
+    return crypto.timingSafeEqual(Buffer.from(sig, "hex"), expected);
+  });
+}
+
+// Marks pending reservations whose payment window has elapsed as expired.
+async function expireOverdueReservations(): Promise<number> {
+  const rows = await db
+    .update(eventReservations)
+    .set({ status: "expired", updatedAt: new Date() })
+    .where(and(eq(eventReservations.status, "pending_payment"), lt(eventReservations.expiresAt, new Date())))
+    .returning({ id: eventReservations.id });
+  return rows.length;
 }
 
 // Get events list with calendar dates
@@ -1313,10 +1653,13 @@ app.get("/events", (c) => {
   return c.json({ events: GALA_EVENTS });
 });
 
-// Create event reservation
+// Create event reservation (always pending until a verified payment notification)
 app.post("/reservations", async (c) => {
   try {
-    await ensureTables();
+    if (!(await checkRateLimit("reservation-create", getClientIp(c), 10, 60 * 60 * 1000))) {
+      return c.json({ error: "Trop de réservations depuis cette connexion. Veuillez réessayer plus tard." }, 429);
+    }
+
     const body = await c.req.json();
     const {
       eventSlug,
@@ -1331,10 +1674,11 @@ app.post("/reservations", async (c) => {
     } = body;
 
     if (!eventSlug || !guestName || !email || !phone) {
-      return c.json(
-        { error: "Événement, nom, e-mail et téléphone sont obligatoires." },
-        400
-      );
+      return c.json({ error: "Événement, nom, e-mail et téléphone sont obligatoires." }, 400);
+    }
+    const cleanEmail = String(email).trim().toLowerCase();
+    if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(cleanEmail) || cleanEmail.length > 200) {
+      return c.json({ error: "Adresse e-mail invalide." }, 400);
     }
 
     const event = GALA_EVENTS.find((e) => e.slug === eventSlug);
@@ -1343,118 +1687,298 @@ app.post("/reservations", async (c) => {
     }
 
     const ticket = event.tickets.find((t) => t.type === ticketType) || event.tickets[0];
-    const qty = Math.max(1, parseInt(String(placesCount), 10) || 1);
+    const qty = Math.min(20, Math.max(1, parseInt(String(placesCount), 10) || 1));
     const unitPrice = ticket.price;
     const totalAmount = unitPrice * qty;
-    const bookingRef = generateBookingRef();
+    const method = PAYMENT_METHODS.includes(paymentMethod) ? paymentMethod : "stripe";
 
-    let newRes: any = null;
-    try {
-      const [inserted] = await db
-        .insert(eventReservations)
-        .values({
-          bookingRef,
-          eventSlug: event.slug,
-          eventTitle: event.title,
-          eventDate: event.date,
-          guestName: String(guestName).trim(),
-          email: String(email).trim().toLowerCase(),
-          phone: String(phone).trim(),
-          ticketType: ticket.type,
-          placesCount: qty,
-          unitPrice,
-          totalAmount,
-          currency: "XOF",
-          paymentMethod: ["stripe", "paypal", "mobile_money", "on_site"].includes(paymentMethod) ? paymentMethod : "stripe",
-          paymentStatus: "confirmed",
-          dietaryRequests: dietaryRequests ? String(dietaryRequests).trim() : "",
-          specialRequests: specialRequests ? String(specialRequests).trim() : "",
-          status: "confirmed",
-        })
-        .returning();
-      newRes = inserted;
-    } catch (dbErr) {
-      console.warn("DB reservation insert fallback:", dbErr);
-      newRes = {
-        bookingRef,
-        eventSlug: event.slug,
-        eventTitle: event.title,
-        eventDate: event.date,
-        guestName: String(guestName).trim(),
-        email: String(email).trim().toLowerCase(),
-        phone: String(phone).trim(),
-        ticketType: ticket.type,
-        placesCount: qty,
-        unitPrice,
-        totalAmount,
-        currency: "XOF",
-        paymentMethod: ["stripe", "paypal", "mobile_money", "on_site"].includes(paymentMethod) ? paymentMethod : "stripe",
-        paymentStatus: "confirmed",
-        status: "confirmed",
-      };
+    let inserted: any = null;
+    for (let attempt = 0; attempt < 3 && !inserted; attempt++) {
+      try {
+        [inserted] = await db
+          .insert(eventReservations)
+          .values({
+            bookingRef: generateBookingRef(),
+            eventSlug: event.slug,
+            eventTitle: event.title,
+            eventDate: event.date,
+            guestName: sanitizeText(guestName, 100),
+            email: cleanEmail,
+            phone: String(phone).replace(/[^\d+]/g, "").slice(0, 20),
+            ticketType: ticket.type,
+            placesCount: qty,
+            unitPrice,
+            totalAmount,
+            currency: "XOF",
+            paymentMethod: method,
+            paymentStatus: "pending",
+            status: "pending_payment",
+            expiresAt: new Date(Date.now() + PAYMENT_WINDOW_MS[method]),
+            dietaryRequests: dietaryRequests ? sanitizeText(dietaryRequests, 500) : "",
+            specialRequests: specialRequests ? sanitizeText(specialRequests, 500) : "",
+          })
+          .returning();
+      } catch (dbErr: any) {
+        // 23505 = unique_violation on booking_ref (astronomically unlikely): retry with a new reference
+        if (dbErr?.code === "23505" || dbErr?.cause?.code === "23505") continue;
+        console.error("Reservation insert failed:", dbErr?.code || dbErr?.cause?.code || "unknown");
+        // No fake reservation: the guest is told the booking was NOT registered.
+        return c.json({ error: "La réservation n'a pas pu être enregistrée. Aucun paiement n'a été demandé. Veuillez réessayer." }, 503);
+      }
+    }
+    if (!inserted) {
+      return c.json({ error: "La réservation n'a pas pu être enregistrée. Veuillez réessayer." }, 503);
     }
 
-    if (newRes) {
-      MEMORY_RESERVATIONS.set(bookingRef, newRes);
+    let checkoutUrl: string | null = null;
+    if (method === "stripe") {
+      const session = await createStripeCheckout(c, inserted, event, ticket);
+      if (session) {
+        await db
+          .update(eventReservations)
+          .set({ providerSessionId: session.id, paymentProvider: "stripe", updatedAt: new Date() })
+          .where(eq(eventReservations.id, inserted.id));
+        checkoutUrl = session.url;
+      }
     }
 
-    // Payment URLs
-    const stripeUrl = "https://buy.stripe.com/aFa8wO23h0qifJq1uVf7i06";
-    const paypalUrl = "https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6P2079447P973982BNLXFHYA";
-
+    const { email: _e, phone: _p, ...publicRes } = inserted;
     return c.json(
       {
         success: true,
-        reservation: newRes,
+        reservation: { ...publicRes, guestName: inserted.guestName },
         event,
         ticket,
-        bookingRef,
-        paymentUrl: paymentMethod === "paypal" ? paypalUrl : stripeUrl,
-        paymentInstructions: paymentMethod === "mobile_money"
-          ? "Règlement Mobile Money (T-Money / Flooz Togo) au +228 92 90 00 00. Indiquez la référence " + bookingRef + " en libellé."
-          : null,
-        message: "Votre réservation a été confirmée avec succès.",
+        bookingRef: inserted.bookingRef,
+        status: "pending_payment",
+        // Online payment is only offered when a verifiable checkout exists.
+        checkoutUrl,
+        onlinePaymentAvailable: Boolean(checkoutUrl),
+        paymentInstructions:
+          method === "mobile_money"
+            ? "Règlement Mobile Money (T-Money / Flooz Togo) au +228 92 90 00 00. Indiquez la référence " + inserted.bookingRef + " en libellé. La réservation reste en attente jusqu'à vérification du paiement."
+            : null,
+        message: "Votre réservation est enregistrée et en attente de paiement. Elle sera validée après confirmation du paiement par le prestataire.",
       },
       201
     );
   } catch (error) {
-    console.error("Create reservation error:", error);
+    console.error("Create reservation error");
     return c.json({ error: "Erreur lors de la réservation." }, 500);
   }
 });
 
-// Lookup reservation by booking reference
+// Stripe webhook: the only path that can mark a reservation as paid.
+app.post("/payments/stripe/webhook", async (c) => {
+  const secret = getStripeWebhookSecret();
+  if (!secret) {
+    return c.json({ error: "Webhook Stripe non configuré." }, 503);
+  }
+  const raw = await c.req.text();
+  if (!verifyStripeSignature(raw, c.req.header("stripe-signature"), secret)) {
+    return c.json({ error: "Signature invalide." }, 400);
+  }
+
+  let evt: any;
+  try { evt = JSON.parse(raw); } catch { return c.json({ error: "Corps invalide." }, 400); }
+  if (!evt || typeof evt.id !== "string" || typeof evt.type !== "string") {
+    return c.json({ error: "Événement invalide." }, 400);
+  }
+
+  const obj = evt.data?.object || {};
+  const bookingRef: string | null = obj.metadata?.booking_ref || obj.client_reference_id || null;
+
+  // Idempotency: a notification resent by Stripe is recorded only once.
+  const [logged] = await db
+    .insert(paymentEvents)
+    .values({ provider: "stripe", eventId: evt.id, eventType: evt.type, bookingRef })
+    .onConflictDoNothing()
+    .returning({ id: paymentEvents.id });
+  if (!logged) {
+    return c.json({ received: true, duplicate: true });
+  }
+
+  let outcome = "ignored";
+  try {
+    if (!bookingRef) {
+      outcome = "no_booking_ref";
+    } else if (evt.type === "checkout.session.completed" || evt.type === "checkout.session.async_payment_succeeded") {
+      const [r] = await db.select().from(eventReservations).where(eq(eventReservations.bookingRef, bookingRef)).limit(1);
+      if (!r) {
+        outcome = "unknown_reservation";
+      } else if (obj.payment_status !== "paid") {
+        outcome = "awaiting_async_payment"; // e.g. bank debit in progress: stays pending
+      } else if (r.providerSessionId && r.providerSessionId !== obj.id) {
+        outcome = "session_mismatch";
+      } else if (Number(obj.amount_total) !== Number(r.totalAmount) || String(obj.currency).toLowerCase() !== String(r.currency).toLowerCase()) {
+        outcome = "amount_mismatch"; // never mark paid if the amount differs
+      } else {
+        const paymentId = typeof obj.payment_intent === "string" ? obj.payment_intent : obj.id;
+        if (r.status === "paid" || r.status === "confirmed") {
+          outcome = r.providerPaymentId === paymentId ? "already_applied" : "duplicate_payment_needs_refund_review";
+        } else {
+          const [usedElsewhere] = await db
+            .select({ id: eventReservations.id })
+            .from(eventReservations)
+            .where(eq(eventReservations.providerPaymentId, paymentId))
+            .limit(1);
+          if (usedElsewhere && usedElsewhere.id !== r.id) {
+            outcome = "payment_id_already_used_on_other_booking"; // never applied twice (UNIQUE constraint)
+          } else {
+          const updated = await db
+            .update(eventReservations)
+            .set({
+              status: "paid",
+              paymentStatus: "paid",
+              paymentProvider: "stripe",
+              providerSessionId: obj.id,
+              providerPaymentId: paymentId,
+              amountPaid: Number(obj.amount_total),
+              paidAt: new Date(),
+              updatedAt: new Date(),
+            })
+            .where(and(eq(eventReservations.id, r.id), inArray(eventReservations.status, ["pending_payment", "expired", "failed"])))
+            .returning({ id: eventReservations.id });
+          outcome = updated.length ? (r.status === "pending_payment" ? "marked_paid" : `marked_paid_after_${r.status}`) : "concurrent_update";
+          }
+        }
+      }
+    } else if (evt.type === "checkout.session.async_payment_failed") {
+      const u = await db
+        .update(eventReservations)
+        .set({ status: "failed", paymentStatus: "failed", updatedAt: new Date() })
+        .where(and(eq(eventReservations.bookingRef, bookingRef), eq(eventReservations.status, "pending_payment")))
+        .returning({ id: eventReservations.id });
+      outcome = u.length ? "marked_failed" : "no_change";
+    } else if (evt.type === "checkout.session.expired") {
+      const u = await db
+        .update(eventReservations)
+        .set({ status: "expired", updatedAt: new Date() })
+        .where(and(eq(eventReservations.bookingRef, bookingRef), eq(eventReservations.status, "pending_payment")))
+        .returning({ id: eventReservations.id });
+      outcome = u.length ? "marked_expired" : "no_change";
+    }
+  } catch (err: any) {
+    const code = err?.code || err?.cause?.code;
+    // A unique violation means the payment id is already attached elsewhere:
+    // definitive refusal, no retry needed.
+    outcome = code === "23505" ? "payment_id_conflict" : "processing_error";
+    console.error("Stripe webhook processing error");
+  }
+
+  await db.update(paymentEvents).set({ outcome }).where(eq(paymentEvents.id, logged.id));
+  if (outcome === "processing_error") {
+    // Let Stripe retry; remove the log entry so the retry is processed.
+    await db.delete(paymentEvents).where(eq(paymentEvents.id, logged.id));
+    return c.json({ error: "Traitement impossible, nouvelle tentative attendue." }, 500);
+  }
+  return c.json({ received: true, outcome });
+});
+
+// Lookup reservation by booking reference (with anti-enumeration and data protection)
 app.get("/reservations/:ref", async (c) => {
   try {
-    await ensureTables();
-    const ref = c.req.param("ref");
-    let res: any = null;
-
-    try {
-      const [found] = await db
-        .select()
-        .from(eventReservations)
-        .where(eq(eventReservations.bookingRef, ref))
-        .limit(1);
-      if (found) res = found;
-    } catch (dbErr) {
-      console.warn("DB lookup reservation fallback:", dbErr);
+    if (!(await checkRateLimit("reservation-lookup", getClientIp(c), 20, 60 * 1000))) {
+      return c.json({ error: "Trop de requêtes. Veuillez patienter avant de réessayer." }, 429);
     }
 
-    if (!res) {
-      res = MEMORY_RESERVATIONS.get(ref);
+    const ref = String(c.req.param("ref") || "").trim().toUpperCase();
+    if (!/^RES-\d{4}-[0-9A-F]{8}(-[0-9A-F]{8}){3}$/.test(ref)) {
+      return c.json({ error: "Réservation introuvable." }, 404);
     }
+    const emailQuery = c.req.query("email") ? String(c.req.query("email")).trim().toLowerCase() : null;
 
+    let [res] = await db.select().from(eventReservations).where(eq(eventReservations.bookingRef, ref)).limit(1);
     if (!res) {
       return c.json({ error: "Réservation introuvable." }, 404);
     }
 
+    // Lazy expiry (also done hourly by the scheduled function)
+    if (res.status === "pending_payment" && res.expiresAt && new Date(res.expiresAt).getTime() < Date.now()) {
+      const [u] = await db
+        .update(eventReservations)
+        .set({ status: "expired", updatedAt: new Date() })
+        .where(and(eq(eventReservations.id, res.id), eq(eventReservations.status, "pending_payment")))
+        .returning();
+      if (u) res = u;
+    }
+
+    // Rows created before the payment lifecycle carry status "confirmed" without
+    // any verified payment: they are reported as awaiting payment verification.
+    const paymentVerified = Boolean(res.paidAt && res.providerPaymentId);
+    const displayStatus = res.status === "confirmed" && !paymentVerified ? "pending_payment" : res.status;
+    const displayPayment = paymentVerified ? "paid" : res.paymentStatus === "failed" ? "failed" : "pending";
+
     const event = GALA_EVENTS.find((e) => e.slug === res.eventSlug) || GALA_EVENTS[0];
-    return c.json({ reservation: res, event });
+    const isEmailVerified = Boolean(emailQuery && res.email && emailQuery === res.email.toLowerCase());
+
+    const base = {
+      bookingRef: res.bookingRef,
+      eventSlug: res.eventSlug,
+      eventTitle: res.eventTitle,
+      eventDate: res.eventDate,
+      ticketType: res.ticketType,
+      placesCount: res.placesCount,
+      status: displayStatus,
+      paymentStatus: displayPayment,
+      paymentVerified,
+    };
+
+    if (isEmailVerified) {
+      return c.json({
+        reservation: {
+          ...base,
+          guestName: res.guestName,
+          totalAmount: res.totalAmount,
+          currency: res.currency,
+          paymentMethod: res.paymentMethod,
+          expiresAt: res.expiresAt,
+          dietaryRequests: res.dietaryRequests,
+          specialRequests: res.specialRequests,
+          createdAt: res.createdAt,
+        },
+        event,
+        verified: true,
+      });
+    }
+
+    // Default public view: masked name, NEVER email, phone or dietary/special requests
+    return c.json({ reservation: { ...base, guestName: maskGuestName(res.guestName) }, event, verified: false });
   } catch (error) {
-    console.error("Lookup reservation error:", error);
+    console.error("Lookup reservation error");
     return c.json({ error: "Erreur lors de la recherche." }, 500);
   }
+});
+
+// Configuration health check: booleans only, never any value.
+app.get("/health", async (c) => {
+  const checks: Record<string, boolean | string> = {
+    jwtSecretConfigured: Boolean(getJwtSecret()),
+    stripeSecretConfigured: Boolean(getStripeSecretKey()),
+    stripeWebhookSecretConfigured: Boolean(getStripeWebhookSecret()),
+    database: false,
+    bookingRefUnique: false,
+    paymentEventsIdempotency: false,
+    rateLimitStore: false,
+  };
+  try {
+    const r: any = await db.execute(sql`
+      SELECT
+        EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'event_reservations_booking_ref_key' AND contype = 'u') AS booking_unique,
+        EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'payment_events_provider_event_id_key' AND contype = 'u') AS events_unique
+    `);
+    const row = (r.rows || r)[0] || {};
+    checks.database = true;
+    checks.bookingRefUnique = row.booking_unique === true;
+    checks.paymentEventsIdempotency = row.events_unique === true;
+  } catch {}
+  try {
+    const r: any = await db.execute(sql`SELECT to_regclass('public.rate_limits') IS NOT NULL AS ok`);
+    checks.rateLimitStore = (r.rows || r)[0]?.ok === true;
+  } catch {}
+  checks.rateLimitBackend = checks.rateLimitStore ? "database" : "memory-degraded";
+  const ok = checks.jwtSecretConfigured && checks.database && checks.bookingRefUnique && checks.rateLimitStore;
+  return c.json({ status: ok ? "ok" : "degraded", checks }, ok ? 200 : 503);
 });
 
 // Netlify Functions v2 handler

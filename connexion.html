@@ -29,9 +29,93 @@ footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:cent
 footer a{color:var(--sand)}
 </style>
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="assets/nav.css">
 </head>
 <body>
-<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue"><button data-l="fr" aria-pressed="true">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
+</header>
 
 <main>
   <h1 id="page-title">Espace Abonné</h1>
@@ -166,10 +250,7 @@ footer a{color:var(--sand)}
     // Nav
     var a = document.querySelectorAll("header nav a");
     if (a.length >= 4) {
-      a[0].textContent = NAV[l][0];
-      a[1].textContent = NAV[l][1];
-      a[2].textContent = NAV[l][2];
-      a[3].textContent = NAV[l][3];
+      /* nav translations handled by nav.js */
     }
     // Foot
     var f = document.querySelectorAll("footer a");
@@ -204,6 +285,22 @@ footer a{color:var(--sand)}
 
   var form = document.getElementById("login-form");
   var errBox = document.getElementById("error-box");
+
+  // Session invalidated (expiry or security key rotation): explain and ask to sign in again.
+  if (new URLSearchParams(location.search).get("expired") === "1") {
+    var EXPIRED = {
+      fr: "Votre session a expiré suite à une mise à jour de sécurité. Merci de vous reconnecter.",
+      en: "Your session has expired following a security update. Please sign in again.",
+      de: "Ihre Sitzung ist nach einem Sicherheitsupdate abgelaufen. Bitte melden Sie sich erneut an."
+    };
+    var showExpired = function () {
+      var l = document.documentElement.lang || "fr";
+      errBox.textContent = EXPIRED[l] || EXPIRED.fr;
+      errBox.style.display = "block";
+    };
+    showExpired();
+    document.addEventListener("langchange", showExpired);
+  }
   var btn = document.getElementById("btn-submit");
 
   form.onsubmit = function(e) {
@@ -218,8 +315,12 @@ footer a{color:var(--sand)}
 
     BKAuth.login(email, pwd)
       .then(function() {
-        var redir = new URLSearchParams(location.search).get("redirect") || "espace-abonne.html";
-        window.location.href = redir;
+        var rawRedir = new URLSearchParams(location.search).get("redirect") || "espace-abonne.html";
+        var safeRedir = "espace-abonne.html";
+        if (/^[a-zA-Z0-9_\-]+\.html(\?[a-zA-Z0-9_\-&=%]*)?$/.test(rawRedir) && !/^https?:/i.test(rawRedir) && !/^javascript:/i.test(rawRedir)) {
+          safeRedir = rawRedir;
+        }
+        window.location.href = safeRedir;
       })
       .catch(function(err) {
         errBox.textContent = err.message || t.errDefault;
@@ -230,4 +331,5 @@ footer a{color:var(--sand)}
   };
 })();
 </script>
+<script src="assets/nav.js"></script>
 </body></html>

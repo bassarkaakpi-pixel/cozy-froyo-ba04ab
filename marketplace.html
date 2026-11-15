@@ -9,8 +9,92 @@ div[lang]{display:none}div[lang].on{display:block}a{color:var(--wine)}.btn{displ
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}.filters button{background:#fff;border:1.5px solid var(--wine);color:var(--wine);padding:6px 14px;border-radius:20px;cursor:pointer;font:600 .9rem "Work Sans",sans-serif}.filters button[aria-pressed=true]{background:var(--wine);color:#fff}
 .ads{display:grid;gap:16px}.ad{background:#fff;border-radius:8px;padding:18px}.ad h3{font-size:1.5rem}.ad .m{opacity:.75;font-size:.9rem;margin:4px 0 8px}
 footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem}footer a{color:var(--sand)}
-@media(min-width:800px){.plans{grid-template-columns:repeat(3,1fr)}.ads{grid-template-columns:1fr 1fr}}</style><noscript><style>div[lang]{display:block!important}</style></noscript><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="canonical" href="https://bassarkaakpi.com/marketplace"><meta property="og:type" content="website"><meta property="og:site_name" content="Bassar Kàakpi"><meta property="og:title" content="Marketplace Bassar – vendeurs, immobilier, terrains, services | Bassar Kàakpi"><meta property="og:description" content="L'espace de la communauté Bassar : vendeurs, immobilier, terrains, services et négoce. Inscription et annonces par formulaire."><meta property="og:url" content="https://bassarkaakpi.com/marketplace"><meta property="og:image" content="https://bassarkaakpi.com/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="description" content="L'espace de la communauté Bassar : vendeurs, immobilier, terrains, services et négoce. Inscription et annonces par formulaire."></head><body>
-<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue / Language / Sprache"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
+@media(min-width:800px){.plans{grid-template-columns:repeat(3,1fr)}.ads{grid-template-columns:1fr 1fr}}</style><noscript><style>div[lang]{display:block!important}</style></noscript><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="canonical" href="https://bassarkaakpi.com/marketplace"><meta property="og:type" content="website"><meta property="og:site_name" content="Bassar Kàakpi"><meta property="og:title" content="Marketplace Bassar – vendeurs, immobilier, terrains, services | Bassar Kàakpi"><meta property="og:description" content="L'espace de la communauté Bassar : vendeurs, immobilier, terrains, services et négoce. Inscription et annonces par formulaire."><meta property="og:url" content="https://bassarkaakpi.com/marketplace"><meta property="og:image" content="https://bassarkaakpi.com/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="description" content="L'espace de la communauté Bassar : vendeurs, immobilier, terrains, services et négoce. Inscription et annonces par formulaire."><link rel="stylesheet" href="assets/nav.css">
+</head><body>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
+</header>
 <main><div lang="fr"><h1>Marketplace Bassar</h1><p class="lead">L'espace réservé à la communauté : vendeurs, immobilier, terrains, services et négoce. Présentez votre activité et publiez vos annonces. Les articles Bassar Kàakpi se trouvent dans la <a href="shop.html">Boutique</a>.</p>
 <h2>Comment ça marche</h2><ol class="steps"><li>Choisissez une formule ci-dessous.</li><li>Écrivez-nous sur WhatsApp avec vos informations, vos photos et les documents de ce que vous vendez.</li><li>Nous examinons l'annonce. Après vérification et paiement de la formule, elle est publiée.</li></ol>
 <h2>Les formules</h2><div class="plans"><div class="card"><h3>Gratuit</h3><div class="pr">0 FCFA</div><ul><li>Jusqu'à 5 annonces gratuites avec photos</li><li>Fiche d'activité dans l'annuaire des membres</li><li>Espace abonné et vitrine publique</li></ul><a class="btn" target="_blank" rel="noopener" data-plan="free" href="#">Choisir cette formule</a></div>
@@ -112,7 +196,7 @@ box.innerHTML="";var list=ADS.filter(function(a){return flt===0||a.cat===CATS[fl
 if(!list.length){var p=document.createElement("p");p.textContent=UI.empty[cur];box.appendChild(p);return}
 list.forEach(function(a){var d=document.createElement("div");d.className="ad";var h=document.createElement("h3");h.textContent=a.title;var m=document.createElement("div");m.className="m";m.textContent=[a.city,a.price].filter(Boolean).join(" · ");var p=document.createElement("p");p.textContent=a.text||"";var l=document.createElement("a");l.className="btn";l.target="_blank";l.rel="noopener";l.textContent=UI.contact[cur];l.href=wa(MSG[cur].ad.replace("%s",a.title).replace("%s",a.ref||""));d.appendChild(h);d.appendChild(m);d.appendChild(p);d.appendChild(l);box.appendChild(d)})}
 function set(l,save){cur=l;var j=L.indexOf(l);document.querySelectorAll("div[lang]").forEach(function(d){d.classList.toggle("on",d.lang===l)});document.documentElement.lang=l;window.curLang=l;document.dispatchEvent(new Event("langchange"));document.title=TITLE[KIND][j]+" – Bassar Kàakpi";
-var a=document.querySelectorAll("nav a");for(var i=0;i<Math.min(a.length,NAV[l].length);i++)a[i].textContent=NAV[l][i];var f=document.querySelectorAll("footer a");f[0].textContent=FOOT[l][0];f[1].textContent=FOOT[l][1];
+/* nav translated by nav.js */var f=document.querySelectorAll("footer a");f[0].textContent=FOOT[l][0];f[1].textContent=FOOT[l][1];
 document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});
 document.querySelectorAll("[data-plan]").forEach(function(b){b.href="inscription.html?plan="+b.dataset.plan;b.removeAttribute("target");b.removeAttribute("rel")});
 document.querySelectorAll("a[data-wa]").forEach(function(a){a.href=wa(MSG[l].hist);a.target="_blank";a.rel="noopener"});render();
@@ -127,18 +211,20 @@ function price(a){if(a.price==null||a.price==="")return M().onreq;var n=Number(a
 function rank(a){return (a.plan==="premium"?2:0)+(a.verified?1:0)}
 function list(){var s=norm(q);return ADS.filter(function(a){return(flt===0||a.cat===CATS[flt])&&(!city||a.city===city)&&(!s||norm(tx(a.title)+" "+a.city+" "+tx(a.text)).indexOf(s)>-1)}).sort(function(a,b){if(ord===1)return String(b.date||"").localeCompare(String(a.date||""));if(ord===2)return(Number(a.price)||1e18)-(Number(b.price)||1e18);if(ord===3)return(Number(b.price)||-1)-(Number(a.price)||-1);return rank(b)-rank(a)||String(b.date||"").localeCompare(String(a.date||""))})}
 function wa(a){var num = a.subscriberPhone ? String(a.subscriberPhone).replace(/[^\d]/g, "") : "491772075847"; return "https://wa.me/"+num+"?text="+encodeURIComponent(M().msg.replace("{t}",tx(a.title)).replace("{r}",a.ref||a.id||""))}
-function badges(a){var m=M(),h="";if(a.plan==="premium")h+='<span class="bd p">'+m.prem+"</span>";if(a.verified)h+='<span class="bd v">'+m.ver+"</span>";return h}
-function ph(a){var s=String(a.image||"");return /^https?:\/\//i.test(s)||/^assets\/[\w\-\/.]+\.(?:jpe?g|png|webp)$/i.test(s)?'<img src="'+s+'" alt="" loading="lazy">':'<div class="ph">'+(ICON[a.cat]||"✦")+"</div>"}
+function escapeHtml(str){if(str==null)return"";return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function safeUrl(url){if(!url)return"";var s=String(url).trim();if(/^https?:\/\//i.test(s)||/^assets\/[\w\-\/.]+\.(?:jpe?g|png|webp|svg)$/i.test(s)){return s.replace(/"/g,"&quot;").replace(/'/g,"&#039;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}return""}
+function badges(a){var m=M(),h="";if(a.plan==="premium")h+='<span class="bd p">'+escapeHtml(m.prem)+'</span>';if(a.verified)h+='<span class="bd v">'+escapeHtml(m.ver)+'</span>';return h}
+function ph(a){var s=safeUrl(a.image);return s?'<img src="'+s+'" alt="" loading="lazy">':'<div class="ph">'+escapeHtml(ICON[a.cat]||"✦")+'</div>'}
 function render(){var m=M();if(!$("mk-h"))return;$("mk-h").textContent=m.h;if($("mk-pub")){$("mk-pub").textContent=m.pub;$("mk-pub").href="espace-abonne.html?action=new"}if($("cta-h")){$("cta-h").textContent=m.ctaH;$("cta-p").textContent=m.ctaP;$("cta-b").textContent=m.ctaB}$("mk-q").placeholder=m.q;$("mk-q").setAttribute("aria-label",m.q);
 var cs=[];ADS.forEach(function(a){if(a.city&&cs.indexOf(a.city)<0)cs.push(a.city)});cs.sort();var cb=$("mk-c");cb.innerHTML="";var o=document.createElement("option");o.value="";o.textContent=m.city;cb.appendChild(o);cs.forEach(function(c){var p=document.createElement("option");p.value=c;p.textContent=c;cb.appendChild(p)});cb.value=cs.indexOf(city)>-1?city:"";if(cb.value!==city)city=cb.value;
 var sb=$("mk-o");sb.innerHTML="";m.sort.forEach(function(t,i){var p=document.createElement("option");p.value=i;p.textContent=t;sb.appendChild(p)});sb.value=ord;
 var f=$("mk-f");f.innerHTML="";m.cats.forEach(function(t,i){var n=i===0?ADS.length:ADS.filter(function(a){return a.cat===CATS[i]}).length,b=document.createElement("button");b.type="button";b.textContent=t+" ("+n+")";b.setAttribute("aria-pressed",i===flt);b.onclick=function(){flt=i;render()};f.appendChild(b)});
 $("mk-s").textContent=ADS.length?m.stats.replace("{n}",ADS.length).replace("{m}",cs.length):"";$("mk-tools").style.display=ADS.length?"":"none";f.style.display=ADS.length?"":"none";
-var box=$("mk-a");box.innerHTML="";var L=list();if(!ADS.length&&bad){box.innerHTML='<div class="empty"><p>'+m.err+'</p></div>';return}if(!ADS.length){box.innerHTML='<div class="empty"><p>'+m.none+'</p><a class="btn" href="espace-abonne.html?action=new">'+m.first+"</a></div>";return}
-if(!L.length){box.innerHTML="<p>"+m.nomatch+"</p>";return}
-L.forEach(function(a){var d=document.createElement("article");d.className="ad2"+(a.plan==="premium"?" prem":"");var vLink=a.subscriberId?'<div style="font-size:.88rem;margin:2px 0 4px"><a href="profil.html?id='+a.subscriberId+'" style="color:var(--wine);font-weight:600;text-decoration:none">👤 '+(a.subscriberBusiness||a.subscriberName)+'</a></div>':'';d.innerHTML='<div class="im">'+ph(a)+"</div><div class=\"bx\"><div class=\"bds\">"+badges(a)+"</div>"+vLink+"<h3></h3><div class=\"m\"></div><p class=\"tx\"></p><div class=\"ac\"><button type=\"button\" class=\"btn ghost dt\"></button><a class=\"btn\" target=\"_blank\" rel=\"noopener\"></a></div></div>";
+var box=$("mk-a");box.innerHTML="";var L=list();if(!ADS.length&&bad){box.innerHTML='<div class="empty"><p>'+escapeHtml(m.err)+'</p></div>';return}if(!ADS.length){box.innerHTML='<div class="empty"><p>'+escapeHtml(m.none)+'</p><a class="btn" href="espace-abonne.html?action=new">'+escapeHtml(m.first)+'</a></div>';return}
+if(!L.length){box.innerHTML="<p>"+escapeHtml(m.nomatch)+"</p>";return}
+L.forEach(function(a){var d=document.createElement("article");d.className="ad2"+(a.plan==="premium"?" prem":"");var subId=parseInt(a.subscriberId,10);var subName=escapeHtml(a.subscriberBusiness||a.subscriberName||"");var vLink=subId&&subName?'<div style="font-size:.88rem;margin:2px 0 4px"><a href="profil.html?id='+subId+'" style="color:var(--wine);font-weight:600;text-decoration:none">👤 '+subName+'</a></div>':'';d.innerHTML='<div class="im">'+ph(a)+'</div><div class="bx"><div class="bds">'+badges(a)+'</div>'+vLink+'<h3></h3><div class="m"></div><p class="tx"></p><div class="ac"><button type="button" class="btn ghost dt"></button><a class="btn" target="_blank" rel="noopener"></a></div></div>';
 d.querySelector("h3").textContent=tx(a.title);d.querySelector(".m").textContent=[a.city,price(a)].filter(Boolean).join(" · ");d.querySelector(".tx").textContent=tx(a.text);var dt=d.querySelector(".dt");dt.textContent=m.detail;dt.onclick=function(){modal(a)};var c=d.querySelector("a.btn");c.textContent=m.contact;c.href=wa(a);box.appendChild(d)})}
-function modal(a){var m=M(),w=$("mdl"),sf=m.safe[a.cat];var vLink=a.subscriberId?'<p style="font-size:.95rem;margin:4px 0"><a href="profil.html?id='+a.subscriberId+'" style="color:var(--wine);font-weight:600;text-decoration:none">👤 Voir la vitrine du vendeur : '+(a.subscriberBusiness||a.subscriberName)+'</a></p>':'';w.innerHTML='<div class="mp" role="dialog" aria-modal="true"><button type="button" class="mx" aria-label="'+m.close+'">×</button><div class="im">'+ph(a)+'</div><div class="bds">'+badges(a)+"</div>"+vLink+"<h3></h3><div class=\"m\"></div><p class=\"tx\"></p>"+(sf?'<p class="sf"></p>':"")+'<small class="rf"></small><a class="btn" target=\"_blank\" rel=\"noopener\"></a></div>';
+function modal(a){var m=M(),w=$("mdl"),sf=m.safe[a.cat];var subId=parseInt(a.subscriberId,10);var subName=escapeHtml(a.subscriberBusiness||a.subscriberName||"");var vLink=subId&&subName?'<p style="font-size:.95rem;margin:4px 0"><a href="profil.html?id='+subId+'" style="color:var(--wine);font-weight:600;text-decoration:none">👤 Voir la vitrine du vendeur : '+subName+'</a></p>':'';w.innerHTML='<div class="mp" role="dialog" aria-modal="true"><button type="button" class="mx" aria-label="'+escapeHtml(m.close)+'">×</button><div class="im">'+ph(a)+'</div><div class="bds">'+badges(a)+'</div>'+vLink+'<h3></h3><div class="m"></div><p class="tx"></p>'+(sf?'<p class="sf"></p>':'')+'<small class="rf"></small><a class="btn" target="_blank" rel="noopener"></a></div>';
 w.querySelector("h3").textContent=tx(a.title);w.querySelector(".m").textContent=[a.city,price(a)].filter(Boolean).join(" · ");w.querySelector(".tx").textContent=tx(a.text);if(sf)w.querySelector(".sf").textContent=sf;w.querySelector(".rf").textContent=m.ref+" "+(a.ref||a.id||"");var c=w.querySelector("a.btn");c.textContent=m.contact;c.href=wa(a);w.hidden=false;w.querySelector(".mx").onclick=function(){w.hidden=true}}
 $("mdl").addEventListener("click",function(e){if(e.target===$("mdl"))$("mdl").hidden=true});document.addEventListener("keydown",function(e){if(e.key==="Escape")$("mdl").hidden=true});
 $("mk-q").addEventListener("input",function(){q=this.value;render()});$("mk-c").addEventListener("change",function(){city=this.value;render()});$("mk-o").addEventListener("change",function(){ord=parseInt(this.value,10)||0;render()});
@@ -150,4 +236,5 @@ render()})();
 </script>
 <script src="assets/bk-auth.js"></script>
 <script>(function(){var T={"fr": "Bassar ne meurt pas · @bassarkaakpi", "en": "Bassar does not die · @bassarkaakpi", "de": "Bassar stirbt nicht · @bassarkaakpi"};function u(){var e=document.getElementById("fslogan");if(e)e.textContent=T[window.curLang||"en"]}document.addEventListener("langchange",u);u()})();</script>
+<script src="assets/nav.js"></script>
 </body></html>

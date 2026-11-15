@@ -126,10 +126,100 @@ h1,h2{letter-spacing:-.015em}section h2::before{content:"";display:block;width:4
 #dc{padding:10px;border:1.5px solid rgba(27,20,18,.3);border-radius:8px;font:inherit}.dtot{display:flex;justify-content:space-between;gap:10px;font-size:1.05rem;padding-top:6px}.dtot b{text-align:right}
 .lbx{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.88);display:grid;place-items:center}.lbx img{max-width:92vw;max-height:90vh;border-radius:8px}.lbx button{position:absolute;top:14px;right:18px;font-size:2rem;background:none;border:0;color:#fff;cursor:pointer}
 </style>
-<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="canonical" href="https://bassarkaakpi.com/collection-tissu"><meta property="og:type" content="website"><meta property="og:site_name" content="Bassar Kàakpi"><meta property="og:title" content="Bassar Kàakpi – Le tissu Kàakpi"><meta property="og:description" content="Le tissu imprimé Kàakpi aux motifs du peuple Bassar, vendu au yard : 10 000 FCFA, hors livraison."><meta property="og:url" content="https://bassarkaakpi.com/collection-tissu"><meta property="og:image" content="https://bassarkaakpi.com/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head>
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="canonical" href="https://bassarkaakpi.com/collection-tissu"><meta property="og:type" content="website"><meta property="og:site_name" content="Bassar Kàakpi"><meta property="og:title" content="Bassar Kàakpi – Le tissu Kàakpi"><meta property="og:description" content="Le tissu imprimé Kàakpi aux motifs du peuple Bassar, vendu au yard : 10 000 FCFA, hors livraison."><meta property="og:url" content="https://bassarkaakpi.com/collection-tissu"><meta property="og:image" content="https://bassarkaakpi.com/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="assets/nav.css">
+</head>
 <body>
 <div id="pg" style="position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:60"></div>
-<header><div class="wrap"><a class="brand" href="index.html"><img class="logo" src="assets/logo-mark.jpg" alt="">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a><span class="cur" role="group" aria-label="€ / FCFA"><button type="button" data-c="EUR">€</button><button type="button" data-c="XOF">FCFA</button></span><button type="button" class="cartbtn" id="cartBtn">🛍<b id="cartN">0</b></button><span class="lang" role="group" aria-label="Langue / Language / Sprache"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></nav></div></header>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Shop Tools: Currency & Cart -->
+      <div class="bk-nav-tools">
+        <span class="cur" role="group" aria-label="€ / FCFA"><button type="button" data-c="EUR">€</button><button type="button" data-c="XOF">FCFA</button></span>
+        <button type="button" class="cartbtn" id="cartBtn" aria-label="Panier">🛍<b id="cartN">0</b></button>
+      </div>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
+</header>
 
 <div class="phead"><div class="wrap"><p class="crumb"><a href="shop.html">← Boutique</a></p><h1>Le tissu Kàakpi</h1><p>Le tissu imprimé de la marque, vendu au yard.</p></div></div>
 <section id="collection"><div class="wrap"><div class="prod"><div>
@@ -170,7 +260,7 @@ function pick(){var s=null;try{s=localStorage.getItem("lang")}catch(e){}
 if(L.indexOf(s)>-1)return s;var n=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""];
 for(var i=0;i<n.length;i++){var c=String(n[i]).slice(0,2).toLowerCase();if(L.indexOf(c)>-1)return c}return "en"}
 var nodes=[],w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),x;
-while(x=w.nextNode()){if(x.parentNode.closest("script,style,noscript"))continue;var k=x.nodeValue.replace(/\s+/g," ").trim();if(D[k])nodes.push([x,k,x.nodeValue.match(/^\s*/)[0],x.nodeValue.match(/\s*$/)[0]])}
+while(x=w.nextNode()){if(x.parentNode.closest("script,style,noscript,.bk-header"))continue;var k=x.nodeValue.replace(/\s+/g," ").trim();if(D[k])nodes.push([x,k,x.nodeValue.match(/^\s*/)[0],x.nodeValue.match(/\s*$/)[0]])}
 document.querySelectorAll("img[alt]").forEach(function(i){i.dataset.fr=i.getAttribute("alt")});
 function set(l,save){var j=L.indexOf(l);
 nodes.forEach(function(n){n[0].nodeValue=n[2]+(j?D[n[1]][j-1]:n[1])+n[3]});
@@ -256,5 +346,6 @@ var lb=document.createElement("div");lb.className="lbx";lb.hidden=true;lb.innerH
 document.addEventListener("click",function(e){var t=e.target;if(t.matches&&t.matches(".prod .main")){lb.firstChild.src=t.src;lb.firstChild.alt=t.alt;lb.hidden=false}else if(t===lb||t.parentNode===lb&&t.tagName==="BUTTON"){lb.hidden=true}});
 addrows();document.addEventListener("langchange",upd);upd()})();
 </script>
+<script src="assets/nav.js"></script>
 </body>
 </html>
