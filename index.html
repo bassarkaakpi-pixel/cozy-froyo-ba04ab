@@ -6,7 +6,7 @@
 <title>Bassar Kàakpi – L'étoffe d'un peuple vivant</title>
 <meta name="description" content="Bassar ne meurt pas. B'Tchamb (histoire), marketplace de la communauté et boutique Bassar Kàakpi : sacs, tissu et collections.">
 
-<link rel="preload" href="assets/fonts/work-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/cormorant-garamond-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="preload" href="assets/fonts/work-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/fonts/cormorant-garamond-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="assets/fonts/fonts.css"><link rel="stylesheet" href="assets/nav.css">
 <style>
 :root{--ink:#1B1412;--sand:#E8DAC0;--paper:#F3EAD8;--wine:#7E1B34;--gold:#B08D3C;--r:6px}
 *{box-sizing:border-box;margin:0}
@@ -119,7 +119,90 @@ h1,h2{letter-spacing:-.015em}section h2::before{content:"";display:block;width:4
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="canonical" href="https://bassarkaakpi.com/"><meta property="og:type" content="website"><meta property="og:site_name" content="Bassar Kàakpi"><meta property="og:title" content="Bassar Kàakpi – L'étoffe d'un peuple vivant"><meta property="og:description" content="Bassar ne meurt pas. B'Tchamb (histoire), marketplace de la communauté et boutique Bassar Kàakpi : sacs, tissu et collections."><meta property="og:url" content="https://bassarkaakpi.com/"><meta property="og:image" content="https://bassarkaakpi.com/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head>
 <body>
 <div id="pg" style="position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:60"></div>
-<header><div class="wrap"><a class="brand" href="index.html"><img class="logo" src="assets/logo-mark.jpg" alt="">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="cultures-traditions.html">Cultures & Traditions</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="evenements-reservations.html">Galas & Dîners</a><a href="shop.html">Boutique</a><span class="lang" role="group" aria-label="Langue / Language / Sprache"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></nav></div></header>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
+</header>
 
 <div class="hero"><div class="wrap">
 <div>
@@ -182,7 +265,7 @@ function pick(){var s=null;try{s=localStorage.getItem("lang")}catch(e){}
 if(L.indexOf(s)>-1)return s;var n=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""];
 for(var i=0;i<n.length;i++){var c=String(n[i]).slice(0,2).toLowerCase();if(L.indexOf(c)>-1)return c}return "en"}
 var nodes=[],w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),x;
-while(x=w.nextNode()){if(x.parentNode.closest("script,style,noscript"))continue;var k=x.nodeValue.replace(/\s+/g," ").trim();if(D[k])nodes.push([x,k,x.nodeValue.match(/^\s*/)[0],x.nodeValue.match(/\s*$/)[0]])}
+while(x=w.nextNode()){if(x.parentNode.closest("script,style,noscript,.bk-header"))continue;var k=x.nodeValue.replace(/\s+/g," ").trim();if(D[k])nodes.push([x,k,x.nodeValue.match(/^\s*/)[0],x.nodeValue.match(/\s*$/)[0]])}
 document.querySelectorAll("img[alt]").forEach(function(i){i.dataset.fr=i.getAttribute("alt")});
 function set(l,save){var j=L.indexOf(l);
 nodes.forEach(function(n){n[0].nodeValue=n[2]+(j?D[n[1]][j-1]:n[1])+n[3]});
@@ -228,5 +311,6 @@ setInterval(step,3200);
 })();
 </script>
 <script src="assets/bk-auth.js"></script>
+<script src="assets/nav.js"></script>
 </body>
 </html>

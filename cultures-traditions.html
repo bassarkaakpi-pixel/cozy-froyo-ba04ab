@@ -333,27 +333,93 @@ footer a{color:var(--sand)}
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="assets/nav.css">
 </head>
 <body>
 
-<header>
-  <a class="b" href="index.html">
-    <img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">
-    Bassar Kàakpi
-  </a>
-  <nav>
-    <a href="histoire.html">B'Tchamb</a>
-    <a href="cultures-traditions.html" style="color:var(--gold-light);font-weight:600">Cultures & Traditions</a>
-    <a href="marketplace.html">Marketplace</a>
-    <a href="vendeurs.html">Annuaire</a>
-    <a href="evenements-reservations.html">Galas & Dîners</a>
-    <a href="shop.html">Boutique</a>
-  </nav>
-  <span class="lang" role="group" aria-label="Langue">
-    <button data-l="fr" aria-pressed="true">FR</button>
-    <button data-l="en">EN</button>
-    <button data-l="de">DE</button>
-  </span>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
 </header>
 
 <section class="culture-hero">
@@ -604,18 +670,18 @@ footer a{color:var(--sand)}
   },
   {
     "id": 2,
-    "title": "Le Tissu Kàakpi : L'étoffe royale des dignitaires et le savoir-faire des maîtres tisserands",
+    "title": "Le Tissu Imprimé Kàakpi : L'étoffe emblématique et la mémoire visuelle du peuple Bassar",
     "continent": "Afrique",
     "country": "Togo",
     "countryCode": "TG",
     "flagEmoji": "🇹🇬",
     "category": "textile_attire",
-    "summary": "Tissé à la main sur des métiers traditionnels en bandes étroites, le Kàakpi incarne la dignité, la fierté et le prestige des grandes cérémonies.",
-    "content": "Le Kàakpi est bien plus qu'un textile : c'est un langage visuel et une armure symbolique de noblesse. Réalisé à partir de fils de coton pur filés à la main, teints avec des pigments végétaux et minéraux naturels, chaque rouleau de Kàakpi demande des semaines de travail minutieux. Les motifs géométriques rythmés racontent des proverbes, la lignée familiale et les victoires ancestrales. Porté lors des mariages coutumiers, intronisations de chefs traditionnels et grandes fêtes solennelles, le Kàakpi est aujourd'hui revisité par la haute couture contemporaine pour habiller les galas et événements prestigieux à travers le monde.",
-    "authorName": "Atelier des Maîtres Tisserands Kàakpi",
+    "summary": "Tissu imprimé aux motifs authentiques du peuple Bassar, le Kàakpi incarne la mémoire, la dignité et l'élégance contemporaine.",
+    "content": "Le tissu imprimé Bassar Kàakpi est une création emblématique portant les motifs graphiques et les symboles sacrés du peuple Bassar. Conçu comme une étoffe imprimée de haute qualité alliant respect de l'héritage et exigence esthétique moderne, chaque motif fait écho à la tradition de la forge, à la mémoire collective et à l'identité culturelle. Porté lors des cérémonies, fêtes et rassemblements communautaires, le tissu imprimé Kàakpi habille avec fierté les nouvelles générations à travers le monde.",
+    "authorName": "Maison Bassar Kàakpi",
     "imageUrl": "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=1200&q=80",
     "videoUrl": "",
-    "tags": "Kàakpi, Tissage, Textile, Bassar, Togo, Haute Couture",
+    "tags": "Kàakpi, Tissu Imprimé, Textile, Bassar, Togo, Mode Contemporaine",
     "likesCount": 198,
     "status": "published"
   },
@@ -1028,7 +1094,7 @@ footer a{color:var(--sand)}
       btn.className = "chip";
       btn.setAttribute("data-country", c.name);
       btn.setAttribute("aria-pressed", currentCountry.toLowerCase() === c.name.toLowerCase() ? "true" : "false");
-      btn.innerHTML = '<span class="flag">' + c.flag + '</span> <span class="name">' + c.name + '</span> <span class="cnt">' + count + '</span>';
+      btn.innerHTML = '<span class="flag">' + escapeHtml(c.flag) + '</span> <span class="name">' + escapeHtml(c.name) + '</span> <span class="cnt">' + count + '</span>';
       btn.addEventListener("click", function(){
         currentCountry = c.name;
         document.querySelectorAll(".country-chips .chip").forEach(function(ch){ ch.setAttribute("aria-pressed", "false"); });
@@ -1082,12 +1148,12 @@ footer a{color:var(--sand)}
     container.innerHTML = filtered.map(function(p){
       var catLabel = cats[p.category] || p.category;
       var flag = p.flagEmoji || "🌍";
-      var img = p.imageUrl || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80";
+      var img = safeUrl(p.imageUrl) || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80";
 
       return '<article class="pub-card" data-id="' + p.id + '">' +
         '<div class="pub-media">' +
-          '<img src="' + img + '" alt="' + escapeHtml(p.title) + '" loading="lazy">' +
-          '<div class="pub-badge-country"><span>' + flag + '</span> ' + escapeHtml(p.country) + '</div>' +
+          '<img src="' + escapeHtml(img) + '" alt="' + escapeHtml(p.title) + '" loading="lazy">' +
+          '<div class="pub-badge-country"><span>' + escapeHtml(flag) + '</span> ' + escapeHtml(p.country) + '</div>' +
           '<div class="pub-badge-cat">' + escapeHtml(catLabel) + '</div>' +
         '</div>' +
         '<div class="pub-body">' +
@@ -1095,7 +1161,7 @@ footer a{color:var(--sand)}
           '<p class="pub-summary">' + escapeHtml(p.summary) + '</p>' +
           '<div class="pub-meta">' +
             '<span class="pub-author">✍️ ' + escapeHtml(p.authorName || "Communauté Bassar Kàakpi") + '</span>' +
-            '<span>' + (p.continent || "Afrique") + '</span>' +
+            '<span>' + escapeHtml(p.continent || "Afrique") + '</span>' +
           '</div>' +
           '<div class="pub-actions">' +
             '<button class="btn gold btn-read" data-id="' + p.id + '">' + t.readMore + '</button>' +
@@ -1128,9 +1194,9 @@ footer a{color:var(--sand)}
     var cats = CAT_LABELS[lang] || CAT_LABELS.fr;
 
     var mImg = document.getElementById("modal-img");
-    if (mImg) mImg.src = p.imageUrl || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80";
+    if (mImg) mImg.src = safeUrl(p.imageUrl) || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80";
     var mCntry = document.getElementById("modal-badge-country");
-    if (mCntry) mCntry.textContent = (p.flagEmoji || "🌍") + " " + p.country;
+    if (mCntry) mCntry.textContent = (p.flagEmoji || "🌍") + " " + (p.country || "");
     var mCat = document.getElementById("modal-badge-cat");
     if (mCat) mCat.textContent = cats[p.category] || p.category;
     var mAuth = document.getElementById("modal-author");
@@ -1146,9 +1212,10 @@ footer a{color:var(--sand)}
 
     var videoBox = document.getElementById("modal-video-box");
     var videoLink = document.getElementById("modal-video-link");
-    if (p.videoUrl && p.videoUrl.trim()) {
+    var cleanVid = safeUrl(p.videoUrl);
+    if (cleanVid) {
       if (videoBox) videoBox.style.display = "block";
-      if (videoLink) videoLink.href = p.videoUrl;
+      if (videoLink) videoLink.href = cleanVid;
     } else {
       if (videoBox) videoBox.style.display = "none";
     }
@@ -1220,6 +1287,15 @@ footer a{color:var(--sand)}
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+  function safeUrl(url) {
+    if (!url) return "";
+    var s = String(url).trim();
+    if (/^https?:\/\//i.test(s) || /^assets\/[\w\-\/.]+\.(?:jpe?g|png|webp|svg)$/i.test(s)) {
+      return s.replace(/"/g, "&quot;").replace(/'/g, "&#039;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+    return "";
   }
 
   window.resetFilters = function() {
@@ -1406,5 +1482,6 @@ footer a{color:var(--sand)}
   });
 })();
 </script>
+<script src="assets/nav.js"></script>
 </body>
 </html>

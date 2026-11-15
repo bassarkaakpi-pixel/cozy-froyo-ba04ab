@@ -636,27 +636,93 @@ footer a{color:var(--sand)}
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="assets/nav.css">
 </head>
 <body>
 
-<header>
-  <a class="b" href="index.html">
-    <img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">
-    Bassar Kàakpi
-  </a>
-  <nav>
-    <a href="histoire.html">B'Tchamb</a>
-    <a href="cultures-traditions.html">Cultures & Traditions</a>
-    <a href="marketplace.html">Marketplace</a>
-    <a href="vendeurs.html">Annuaire</a>
-    <a href="evenements-reservations.html" style="color:var(--gold);font-weight:600">Galas & Dîners</a>
-    <a href="shop.html">Boutique</a>
-  </nav>
-  <span class="lang" role="group" aria-label="Langue">
-    <button data-l="fr" aria-pressed="true">FR</button>
-    <button data-l="en">EN</button>
-    <button data-l="de">DE</button>
-  </span>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
 </header>
 
 <section class="gala-hero">
@@ -668,7 +734,7 @@ footer a{color:var(--sand)}
     </p>
     <div class="hero-pills">
       <a href="#events-catalogue" class="btn" id="btn-browse-events">✦ Découvrir le Calendrier des Soirées</a>
-      <a href="cultures-traditions.html" class="btn outline">Explorer les Cultures & Traditions</a>
+      <a href="cultures-traditions.html" class="btn outline" id="btn-explore-cultures">Explorer les Cultures & Traditions</a>
     </div>
   </div>
 </section>
@@ -677,7 +743,7 @@ footer a{color:var(--sand)}
 
   <!-- View Mode Switcher -->
   <div class="view-switch-bar">
-    <div style="font-weight:700;color:var(--sand);font-size:.95rem">Mode d'affichage des soirées :</div>
+    <div style="font-weight:700;color:var(--sand);font-size:.95rem" id="lbl-view-mode">Mode d'affichage des soirées :</div>
     <div class="view-switch-btns">
       <button class="view-btn active" id="btn-view-both" data-view="both">✨ Vue Combinée (Calendrier &amp; Liste)</button>
       <button class="view-btn" id="btn-view-cal" data-view="cal">📅 Vue Calendrier Mensuel</button>
@@ -826,8 +892,8 @@ footer a{color:var(--sand)}
     <div id="booking-step-receipt" style="display:none">
       <div class="res-receipt">
         <div class="check-icon">✨</div>
-        <h3 id="rcpt-h3">Réservation Confirmée !</h3>
-        <p style="color:var(--text-muted);font-size:.95rem">Votre invitation prestige a été enregistrée avec succès dans le registre officiel.</p>
+        <h3 id="rcpt-h3">Réservation enregistrée — en attente de paiement</h3>
+        <p style="color:var(--text-muted);font-size:.95rem" id="rcpt-sub">Votre place est réservée provisoirement. Elle sera validée dès que le paiement aura été confirmé par le prestataire.</p>
         <div class="ref-badge" id="rcpt-ref">RES-XXXX-XXXX</div>
 
         <div class="res-receipt-details">
@@ -1176,6 +1242,12 @@ footer a{color:var(--sand)}
   var I18N = {
     fr: {
       kicker: "Soirées Royales & Événements Contemporains",
+      btnExplore: "Explorer les Cultures & Traditions",
+      viewMode: "Mode d'affichage des soirées :",
+      viewBoth: "✨ Vue Combinée (Calendrier & Liste)",
+      viewCal: "📅 Vue Calendrier Mensuel",
+      viewList: "📋 Vue Liste Détaillée",
+      pageTitle: "Soirées de Gala, Dîners & Fêtes Culturelles – Réservations | Bassar Kàakpi",
       heroTitle: "Galas d'Élégance, Dîners & Fêtes Culturelles",
       heroDesc: "Vivez des nuits magiques au cœur du prestige Bassar Kàakpi et des traditions du monde : défilés de haute couture impériale, dîners gastronomiques 5 services, célébrations festives et rencontres d'exception de la diaspora.",
       btnBrowse: "✦ Découvrir le Calendrier des Soirées",
@@ -1188,6 +1260,12 @@ footer a{color:var(--sand)}
     },
     en: {
       kicker: "Royal Evenings & Contemporary Events",
+      btnExplore: "Explore World Cultures & Traditions",
+      viewMode: "Display mode:",
+      viewBoth: "✨ Combined view (Calendar & List)",
+      viewCal: "📅 Monthly calendar",
+      viewList: "📋 Detailed list",
+      pageTitle: "Galas, Dinners & Cultural Celebrations – Reservations | Bassar Kàakpi",
       heroTitle: "Elegance Galas, Dinners & Festive Cultural Nights",
       heroDesc: "Experience magical evenings celebrating Bassar Kàakpi prestige and world traditions: imperial haute couture runway, 5-course gourmet dining, festive galas and diaspora networking.",
       btnBrowse: "✦ Discover the Evening Calendar",
@@ -1200,6 +1278,12 @@ footer a{color:var(--sand)}
     },
     de: {
       kicker: "Königliche Abende & Zeitgenössische Events",
+      btnExplore: "Kulturen & Traditionen entdecken",
+      viewMode: "Anzeigemodus:",
+      viewBoth: "✨ Kombinierte Ansicht (Kalender & Liste)",
+      viewCal: "📅 Monatskalender",
+      viewList: "📋 Detaillierte Liste",
+      pageTitle: "Galas, Dinners & Kulturfeste – Reservierungen | Bassar Kàakpi",
       heroTitle: "Elegante Galas, Dinners & Kulturelle Feste",
       heroDesc: "Erleben Sie unvergessliche Nächte voller Bassar-Kàakpi-Eleganz: Haute-Couture-Modenschau, 5-Gänge-Gourmet-Dinner, festliche Nächte und Vernetzung der Diaspora.",
       btnBrowse: "✦ Abendkalender entdecken",
@@ -1213,6 +1297,23 @@ footer a{color:var(--sand)}
   };
 
   function getLang() { return localStorage.getItem("lang") || "fr"; }
+
+  // Static page texts (hero, view switcher, legend, booking lookup).
+  function applyStaticI18n() {
+    var t = I18N[getLang()] || I18N.fr;
+    var map = {
+      "hero-kicker": t.kicker, "hero-title": t.heroTitle, "hero-desc": t.heroDesc,
+      "btn-browse-events": t.btnBrowse, "btn-explore-cultures": t.btnExplore,
+      "lbl-view-mode": t.viewMode, "btn-view-both": t.viewBoth,
+      "btn-view-cal": t.viewCal, "btn-view-list": t.viewList,
+      "cal-legend-text": t.legend, "lbl-lookup": t.lookupTitle, "lbl-lookup-desc": t.lookupDesc
+    };
+    Object.keys(map).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && map[id]) el.textContent = map[id];
+    });
+    if (t.pageTitle) document.title = t.pageTitle;
+  }
 
   function fetchEvents() {
     fetch("/api/events")
@@ -1413,7 +1514,28 @@ footer a{color:var(--sand)}
     document.getElementById("b-total-display").innerHTML = tot.toLocaleString() + ' FCFA <small style="font-size:1.1rem;opacity:.8">(≈ ' + totEur + ' €)</small>';
   }
 
-  function showReceipt(r, ticket, paymentUrl) {
+  // Status labels shown to guests (reservation lifecycle, see API).
+  var STATUS_I18N = {
+    fr: { pending_payment: "En attente de paiement", paid: "Payée", confirmed: "Confirmée", failed: "Paiement échoué", cancelled: "Annulée", expired: "Expirée",
+          found: "Réservation trouvée", notFound: "Aucune réservation trouvée pour cette référence. Vérifiez l'orthographe.", error: "Erreur lors de la recherche de la réservation.", tooMany: "Trop de recherches. Veuillez patienter une minute.",
+          event: "Événement", date: "Date", guest: "Convive", places: "Places", status: "Statut",
+          returnChecking: "Merci ! Votre paiement est en cours de vérification auprès du prestataire. Le statut se mettra à jour automatiquement.",
+          returnPaid: "Paiement confirmé par le prestataire. Votre réservation est payée.", returnCancel: "Paiement annulé. Votre réservation reste en attente de paiement." },
+    en: { pending_payment: "Awaiting payment", paid: "Paid", confirmed: "Confirmed", failed: "Payment failed", cancelled: "Cancelled", expired: "Expired",
+          found: "Booking found", notFound: "No booking found for this reference. Please check the spelling.", error: "Error while looking up the booking.", tooMany: "Too many lookups. Please wait a minute.",
+          event: "Event", date: "Date", guest: "Guest", places: "Seats", status: "Status",
+          returnChecking: "Thank you! Your payment is being verified with the provider. The status will update automatically.",
+          returnPaid: "Payment confirmed by the provider. Your booking is paid.", returnCancel: "Payment cancelled. Your booking is still awaiting payment." },
+    de: { pending_payment: "Zahlung ausstehend", paid: "Bezahlt", confirmed: "Bestätigt", failed: "Zahlung fehlgeschlagen", cancelled: "Storniert", expired: "Abgelaufen",
+          found: "Buchung gefunden", notFound: "Keine Buchung zu dieser Referenz gefunden. Bitte Schreibweise prüfen.", error: "Fehler bei der Buchungssuche.", tooMany: "Zu viele Suchanfragen. Bitte eine Minute warten.",
+          event: "Veranstaltung", date: "Datum", guest: "Gast", places: "Plätze", status: "Status",
+          returnChecking: "Danke! Ihre Zahlung wird beim Zahlungsanbieter geprüft. Der Status wird automatisch aktualisiert.",
+          returnPaid: "Zahlung vom Anbieter bestätigt. Ihre Buchung ist bezahlt.", returnCancel: "Zahlung abgebrochen. Ihre Buchung wartet weiterhin auf Zahlung." }
+  };
+  function st() { return STATUS_I18N[getLang()] || STATUS_I18N.fr; }
+
+  function showReceipt(r, ticket, data) {
+    data = data || {};
     document.getElementById("booking-step-form").style.display = "none";
     document.getElementById("booking-step-receipt").style.display = "block";
 
@@ -1421,7 +1543,7 @@ footer a{color:var(--sand)}
     document.getElementById("rcpt-event").textContent = r.eventTitle;
     document.getElementById("rcpt-date").textContent = r.eventDate;
     document.getElementById("rcpt-venue").textContent = (activeEvent ? activeEvent.venue + " (" + activeEvent.city + ")" : "Lomé");
-    document.getElementById("rcpt-guest").textContent = r.guestName + " (" + r.phone + ")";
+    document.getElementById("rcpt-guest").textContent = r.guestName;
     document.getElementById("rcpt-ticket").textContent = (ticket ? ticket.name : (r.ticketType || "Place"));
     document.getElementById("rcpt-places").textContent = r.placesCount + " place(s)";
     document.getElementById("rcpt-total").textContent = Number(r.totalAmount).toLocaleString() + " FCFA";
@@ -1434,19 +1556,34 @@ footer a{color:var(--sand)}
     document.getElementById("rcpt-paymethod").textContent = payNames[r.paymentMethod] || r.paymentMethod;
 
     var actBox = document.getElementById("rcpt-pay-action-box");
-    if (r.paymentMethod === "stripe") {
-      actBox.innerHTML = '<a href="' + (paymentUrl || 'https://buy.stripe.com/aFa8wO23h0qifJq1uVf7i06') + '" target="_blank" rel="noopener" class="btn" style="background:#635bff;color:#fff;width:100%;margin-bottom:10px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:8px">💳 Payer en ligne par Carte (Stripe) ➔</a>' +
-        '<small style="color:var(--text-muted);display:block;text-align:center">Paiement 100% sécurisé géré par Stripe. Vous recevrez votre billet officiel dès confirmation.</small>';
-    } else if (r.paymentMethod === "paypal") {
-      actBox.innerHTML = '<a href="' + (paymentUrl || 'https://www.paypal.com/webapps/billing/plans/subscribe?plan_id=P-6P2079447P973982BNLXFHYA') + '" target="_blank" rel="noopener" class="btn" style="background:#0070ba;color:#fff;width:100%;margin-bottom:10px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:8px">🅿️ Régler ma réservation avec PayPal ➔</a>' +
-        '<small style="color:var(--text-muted);display:block;text-align:center">Paiement instantané avec votre compte PayPal ou CB.</small>';
+    actBox.textContent = "";
+    var note = document.createElement("small");
+    note.style.cssText = "color:var(--text-muted);display:block;text-align:center";
+    if (data.checkoutUrl && /^https:\/\/checkout\.stripe\.com\//.test(data.checkoutUrl)) {
+      // Server-created Stripe Checkout: amount computed and verified server-side.
+      var a = document.createElement("a");
+      a.href = data.checkoutUrl;
+      a.rel = "noopener";
+      a.className = "btn";
+      a.style.cssText = "background:#635bff;color:#fff;width:100%;margin-bottom:10px;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:8px";
+      a.textContent = "💳 Payer en ligne par Carte (Stripe) ➔";
+      actBox.appendChild(a);
+      note.textContent = "Paiement sécurisé géré par Stripe. Votre réservation passera au statut « Payée » dès la confirmation envoyée par Stripe à notre serveur.";
+      actBox.appendChild(note);
     } else if (r.paymentMethod === "mobile_money") {
-      actBox.innerHTML = '<div style="background:rgba(226,190,106,.1);border:1px solid var(--gold);border-radius:10px;padding:16px;text-align:left;font-size:.9rem;color:#fff;margin-bottom:10px">' +
-        '<strong style="color:var(--gold);display:block;margin-bottom:8px">📲 Instructions de paiement Mobile Money :</strong>' +
-        '<div style="margin-bottom:6px">1. <strong>T-Money (Togo) :</strong> Composer <code>*145#</code> &gt; Transfert vers <strong>+228 92 90 00 00</strong>.</div>' +
-        '<div style="margin-bottom:6px">2. <strong>Flooz (Moov Togo) :</strong> Composer <code>*155#</code> &gt; Transfert vers <strong>+228 92 90 00 00</strong>.</div>' +
-        '<div style="margin-top:10px;font-size:.85rem;color:var(--sand)">✦ Veuillez indiquer votre référence <strong>' + r.bookingRef + '</strong> dans le motif. Votre invitation vous sera envoyée immédiatement par WhatsApp ou SMS.</div>' +
-      '</div>';
+      var box = document.createElement("div");
+      box.style.cssText = "background:rgba(226,190,106,.1);border:1px solid var(--gold);border-radius:10px;padding:16px;text-align:left;font-size:.9rem;color:#fff;margin-bottom:10px";
+      var lines = [
+        ["strong", "📲 Instructions de paiement Mobile Money :"],
+        ["div", "1. T-Money (Togo) : composer *145# > Transfert vers +228 92 90 00 00."],
+        ["div", "2. Flooz (Moov Togo) : composer *155# > Transfert vers +228 92 90 00 00."],
+        ["div", "✦ Indiquez votre référence " + r.bookingRef + " dans le motif. La réservation reste « En attente de paiement » jusqu'à la vérification manuelle du transfert par notre équipe."]
+      ];
+      lines.forEach(function (l) { var e = document.createElement(l[0]); e.style.display = "block"; e.style.marginBottom = "6px"; e.textContent = l[1]; box.appendChild(e); });
+      actBox.appendChild(box);
+    } else {
+      note.textContent = "Le paiement en ligne n'est pas encore activé pour ce mode de règlement. Votre réservation reste « En attente de paiement » ; notre conciergerie vous contactera pour le règlement.";
+      actBox.appendChild(note);
     }
 
     var waText = encodeURIComponent(
@@ -1457,16 +1594,12 @@ footer a{color:var(--sand)}
       "Nom : " + r.guestName + "\n" +
       "Places : " + r.placesCount + "\n" +
       "Montant total : " + Number(r.totalAmount).toLocaleString() + " FCFA.\n" +
-      "Merci de valider et de m'envoyer mon carton d'invitation officiel."
+      "Merci de m'indiquer les modalités de règlement. Mon carton d'invitation sera envoyé après confirmation du paiement."
     );
     document.getElementById("rcpt-wa-btn").href = "https://wa.me/22892900000?text=" + waText;
 
-    // Cache in local storage for fast lookup
-    try {
-      var saved = JSON.parse(localStorage.getItem("bk_reservations") || "[]");
-      saved.unshift(r);
-      localStorage.setItem("bk_reservations", JSON.stringify(saved.slice(0, 20)));
-    } catch(e){}
+    // Reservations are no longer cached in localStorage (personal data, stale status).
+    try { localStorage.removeItem("bk_reservations"); } catch(e){}
   }
 
   function escapeHtml(str) {
@@ -1480,6 +1613,7 @@ footer a{color:var(--sand)}
   }
 
   document.addEventListener("DOMContentLoaded", function(){
+    applyStaticI18n();
     renderCalendar();
     renderEventsList();
     fetchEvents();
@@ -1587,17 +1721,17 @@ footer a{color:var(--sand)}
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         })
-        .then(function(res){ return res.json(); })
+        .then(function(res){ return res.json().catch(function(){ return {}; }); })
         .then(function(data){
           if (btn) {
             btn.disabled = false;
             btn.textContent = "✦ Confirmer ma Réservation";
           }
           if (data && data.success && data.reservation) {
-            showReceipt(data.reservation, data.ticket || selectedTicket, data.paymentUrl);
+            showReceipt(data.reservation, data.ticket || selectedTicket, data);
           } else {
-            // Fallback so user is never blocked
-            createFallbackReservation(payload);
+            // No fake reservation: the guest is told it was not registered.
+            showBookingError((data && data.error) || "La réservation n'a pas pu être enregistrée. Veuillez réessayer.");
           }
         })
         .catch(function(err){
@@ -1605,31 +1739,51 @@ footer a{color:var(--sand)}
             btn.disabled = false;
             btn.textContent = "✦ Confirmer ma Réservation";
           }
-          createFallbackReservation(payload);
+          showBookingError("Connexion impossible : la réservation n'a pas été enregistrée. Veuillez réessayer.");
         });
       });
     }
 
-    function createFallbackReservation(payload) {
-      var yr = String(new Date().getFullYear()).slice(-2);
-      var mo = String(new Date().getMonth() + 1).padStart(2, "0");
-      var rand = Math.floor(1000 + Math.random() * 9000);
-      var fallbackRef = "RES-" + yr + mo + "-" + rand;
-      var unit = selectedTicket ? selectedTicket.price : 25000;
-      var total = unit * payload.placesCount;
-      var fallbackRes = {
-        bookingRef: fallbackRef,
-        eventTitle: activeEvent ? activeEvent.title : "Grand Gala Bassar Kàakpi",
-        eventDate: activeEvent ? activeEvent.date : "2026-11-28",
-        guestName: payload.guestName,
-        phone: payload.phone,
-        ticketType: selectedTicket ? selectedTicket.type : "standard",
-        placesCount: payload.placesCount,
-        totalAmount: total,
-        paymentMethod: payload.paymentMethod
-      };
-      showReceipt(fallbackRes, selectedTicket, "https://buy.stripe.com/aFa8wO23h0qifJq1uVf7i06");
+    function showBookingError(text) {
+      var m = document.getElementById("booking-msg");
+      if (!m) { alert(text); return; }
+      m.textContent = text;
+      m.style.display = "block";
+      m.style.background = "rgba(126,27,52,.25)";
+      m.style.border = "1px solid #7E1B34";
+      m.style.color = "#fff";
     }
+
+    function lookupReservation(ref) {
+      return fetch("/api/reservations/" + encodeURIComponent(ref)).then(function (res) {
+        if (res.status === 429) return { tooMany: true };
+        return res.json().catch(function () { return {}; });
+      });
+    }
+
+    function describe(r) {
+      var t = st();
+      return "✓ " + t.found + "\n\nRéf : " + r.bookingRef + "\n" + t.event + " : " + r.eventTitle + "\n" + t.date + " : " + r.eventDate +
+        "\n" + t.guest + " : " + r.guestName + "\n" + t.places + " : " + r.placesCount + "\n" + t.status + " : " + (t[r.status] || r.status);
+    }
+
+    // Return from Stripe Checkout: the status shown comes from the server only.
+    (function handlePaymentReturn() {
+      var q = new URLSearchParams(location.search);
+      var ref = (q.get("booking") || "").toUpperCase();
+      var kind = q.get("payment");
+      if (!ref || !kind) return;
+      if (kind === "cancel") { alert(st().returnCancel); return; }
+      var tries = 0;
+      (function poll() {
+        lookupReservation(ref).then(function (data) {
+          var r = data && data.reservation;
+          if (r && (r.status === "paid" || r.status === "confirmed")) { alert(st().returnPaid + "\n\n" + describe(r)); return; }
+          if (++tries < 4) { setTimeout(poll, 3000); return; }
+          alert(st().returnChecking + (r ? "\n\n" + describe(r) : ""));
+        }).catch(function () {});
+      })();
+    })();
 
     // Lookup form submit
     var lookupForm = document.getElementById("lookup-form");
@@ -1639,29 +1793,14 @@ footer a{color:var(--sand)}
         var ref = (document.getElementById("lookup-ref").value || "").trim().toUpperCase();
         if (!ref) return;
 
-        // Check localStorage first
-        try {
-          var cached = JSON.parse(localStorage.getItem("bk_reservations") || "[]");
-          var found = cached.find(function(item){ return (item.bookingRef || "").toUpperCase() === ref; });
-          if (found) {
-            alert("✓ Réservation trouvée !\n\nRéf : " + found.bookingRef + "\nÉvénement : " + found.eventTitle + "\nDate : " + found.eventDate + "\nConvive : " + found.guestName + "\nPlaces : " + found.placesCount + "\nStatut : " + (found.status || "CONFIRMÉE").toUpperCase());
-            return;
-          }
-        } catch(e){}
-
-        fetch("/api/reservations/" + encodeURIComponent(ref))
-          .then(function(res){ return res.json(); })
+        // Always asked to the server: the status can only come from verified data.
+        lookupReservation(ref)
           .then(function(data){
-            if (data && data.reservation) {
-              var r = data.reservation;
-              alert("✓ Réservation trouvée !\n\nRéf : " + r.bookingRef + "\nÉvénement : " + r.eventTitle + "\nDate : " + r.eventDate + "\nConvive : " + r.guestName + "\nPlaces : " + r.placesCount + "\nStatut : " + (r.status || "CONFIRMÉE").toUpperCase());
-            } else {
-              alert("Aucune réservation trouvée pour la référence " + ref + ". Vérifiez l'orthographe.");
-            }
+            if (data && data.tooMany) { alert(st().tooMany); return; }
+            if (data && data.reservation) { alert(describe(data.reservation)); }
+            else { alert(st().notFound); }
           })
-          .catch(function(err){
-            alert("Erreur lors de la recherche de la réservation.");
-          });
+          .catch(function(){ alert(st().error); });
       });
     }
 
@@ -1673,6 +1812,7 @@ footer a{color:var(--sand)}
         document.querySelectorAll(".lang button").forEach(function(btn){
           btn.setAttribute("aria-pressed", btn.getAttribute("data-l") === l ? "true" : "false");
         });
+        applyStaticI18n();
         renderCalendar();
         renderEventsList();
       });
@@ -1680,5 +1820,6 @@ footer a{color:var(--sand)}
   });
 })();
 </script>
+<script src="assets/nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,510 @@
+/* ==============================================================================
+   BASSAR KÀAKPI — NAVIGATION UNIFIÉE RESPONSIVE & MULTILINGUE
+   ============================================================================== */
+
+:root {
+  --bk-nav-bg: rgba(24, 16, 12, 0.95);
+  --bk-nav-border: rgba(232, 218, 192, 0.14);
+  --bk-nav-sand: #E8DAC0;
+  --bk-nav-gold: #B08D3C;
+  --bk-nav-gold-light: #E2BE6A;
+  --bk-nav-wine: #7E1B34;
+  --bk-nav-dropdown-bg: #1d130e;
+  --bk-nav-font-body: "Work Sans", system-ui, -apple-system, sans-serif;
+  --bk-nav-font-title: "Cormorant Garamond", Georgia, serif;
+}
+
+/* Header Container */
+.bk-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: var(--bk-nav-bg);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--bk-nav-border);
+  z-index: 9999;
+  box-sizing: border-box;
+}
+
+.bk-nav-wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Brand / Logo */
+.bk-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--bk-nav-sand);
+  font-family: var(--bk-nav-font-title);
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.bk-brand:hover {
+  opacity: 0.9;
+}
+
+.bk-brand .bk-logo {
+  height: 40px;
+  width: 40px;
+  border-radius: 9px;
+  object-fit: cover;
+  background: #2a1a14;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  display: block;
+}
+
+.bk-brand-title {
+  white-space: nowrap;
+}
+
+/* Desktop Navigation */
+.bk-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.bk-nav-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 6px;
+}
+
+.bk-nav-item {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Links & Dropdown Buttons */
+.bk-nav-link,
+.bk-dropdown-btn {
+  font-family: var(--bk-nav-font-body);
+  font-size: 0.93rem;
+  font-weight: 500;
+  color: var(--bk-nav-sand);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.bk-nav-link:hover,
+.bk-dropdown-btn:hover,
+.bk-nav-link:focus-visible,
+.bk-dropdown-btn:focus-visible {
+  color: #ffffff;
+  background: rgba(232, 218, 192, 0.1);
+  outline: none;
+}
+
+.bk-nav-link.is-active,
+.bk-dropdown.is-active > .bk-dropdown-btn {
+  color: var(--bk-nav-gold-light);
+  font-weight: 600;
+}
+
+.bk-caret {
+  font-size: 0.72rem;
+  color: var(--bk-nav-gold);
+  transition: transform 0.25s ease;
+  display: inline-block;
+  line-height: 1;
+}
+
+.bk-dropdown.is-open .bk-caret {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Sub-menu */
+.bk-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 260px;
+  background: var(--bk-nav-dropdown-bg);
+  border: 1px solid rgba(226, 190, 106, 0.28);
+  border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+  padding: 8px;
+  list-style: none;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  pointer-events: none;
+}
+
+/* Desktop Hover & Focus-within Opening */
+@media (min-width: 992px) {
+  .bk-dropdown:hover .bk-dropdown-menu,
+  .bk-dropdown:focus-within .bk-dropdown-menu,
+  .bk-dropdown.is-open .bk-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+.bk-dropdown-menu li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bk-dropdown-link {
+  display: flex;
+  align-items: center;
+  padding: 9px 14px;
+  color: var(--bk-nav-sand);
+  text-decoration: none;
+  font-family: var(--bk-nav-font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.bk-dropdown-link:hover,
+.bk-dropdown-link:focus-visible {
+  background: rgba(226, 190, 106, 0.14);
+  color: var(--bk-nav-gold-light);
+  transform: translateX(4px);
+  outline: none;
+}
+
+.bk-dropdown-link.is-active {
+  color: var(--bk-nav-gold-light);
+  font-weight: 600;
+  background: rgba(226, 190, 106, 0.1);
+}
+
+/* Language Selector */
+.bk-nav-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bk-lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid rgba(232, 218, 192, 0.18);
+  flex-shrink: 0;
+}
+
+.bk-lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--bk-nav-sand);
+  padding: 3px 9px;
+  font-family: var(--bk-nav-font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+}
+
+.bk-lang-btn:hover {
+  color: #ffffff;
+  background: rgba(232, 218, 192, 0.12);
+}
+
+.bk-lang-btn[aria-pressed="true"],
+.bk-lang-btn.is-active {
+  background: var(--bk-nav-sand);
+  color: #1B1412;
+  font-weight: 700;
+}
+
+/* Hamburger Toggle (Hidden by default on desktop) */
+.bk-nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  background: rgba(232, 218, 192, 0.08);
+  border: 1px solid rgba(232, 218, 192, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  z-index: 10001;
+}
+
+.bk-nav-toggle:hover {
+  background: rgba(232, 218, 192, 0.16);
+  border-color: var(--bk-nav-gold);
+}
+
+.bk-toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--bk-nav-sand);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease, background 0.2s ease;
+}
+
+/* Mobile & Tablet Styles (< 992px) */
+@media (max-width: 991px) {
+  .bk-nav-toggle {
+    display: flex;
+  }
+
+  .bk-header.menu-open .bk-toggle-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .bk-header.menu-open .bk-toggle-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .bk-header.menu-open .bk-toggle-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .bk-nav-menu {
+    display: none;
+    position: fixed;
+    top: 61px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(100vh - 61px);
+    background: rgba(18, 12, 9, 0.98);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    padding: 20px 24px 60px;
+    overflow-y: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    z-index: 9998;
+    border-top: 1px solid var(--bk-nav-border);
+    animation: bkDrawerSlide 0.22s ease-out forwards;
+  }
+
+  .bk-header.menu-open .bk-nav-menu {
+    display: flex;
+  }
+
+  .bk-nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .bk-nav-link,
+  .bk-dropdown-btn {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.05rem;
+    padding: 13px 16px;
+    justify-content: space-between;
+    background: rgba(232, 218, 192, 0.05);
+    border: 1px solid rgba(232, 218, 192, 0.08);
+  }
+
+  .bk-dropdown-menu {
+    position: static;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: none;
+    border: none;
+    border-left: 2px solid var(--bk-nav-gold);
+    border-radius: 0 0 10px 10px;
+    margin: 4px 0 8px 12px;
+    padding: 6px 0 6px 14px;
+    background: transparent;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+    pointer-events: auto;
+  }
+
+  .bk-dropdown.is-open .bk-dropdown-menu {
+    display: flex;
+  }
+
+  .bk-dropdown-link {
+    font-size: 0.98rem;
+    padding: 11px 14px;
+  }
+
+  .bk-lang-switch {
+    justify-content: center;
+    padding: 8px;
+    gap: 8px;
+    margin-top: auto;
+    border: 1px solid rgba(232, 218, 192, 0.2);
+  }
+
+  .bk-lang-btn {
+    padding: 6px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@keyframes bkDrawerSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================================================================
+   MULTILINGUAL SAFETY & ISOLATION GUARDS
+   Prevents multiple translations from ever appearing simultaneously
+   ============================================================================== */
+.ml {
+  display: none !important;
+}
+
+html[lang="fr"] .ml[data-l="fr"],
+html:not([lang]) .ml[data-l="fr"],
+.ml.on[data-l="fr"] {
+  display: inline !important;
+}
+html[lang="fr"] div.ml[data-l="fr"],
+html:not([lang]) div.ml[data-l="fr"],
+div.ml.on[data-l="fr"] {
+  display: block !important;
+}
+
+html[lang="en"] .ml[data-l="en"],
+.ml.on[data-l="en"] {
+  display: inline !important;
+}
+html[lang="en"] div.ml[data-l="en"],
+div.ml.on[data-l="en"] {
+  display: block !important;
+}
+
+html[lang="de"] .ml[data-l="de"],
+.ml.on[data-l="de"] {
+  display: inline !important;
+}
+html[lang="de"] div.ml[data-l="de"],
+div.ml.on[data-l="de"] {
+  display: block !important;
+}
+
+
+/* ==============================================================================
+   LEGACY PAGE STYLE ISOLATION
+   The header language switch also carries the historical "lang" class so that
+   each page's own translation script stays bound to it. These rules neutralise
+   the per-page ".lang" / ".lang button" / "header nav a" styles inside the
+   shared header.
+   ============================================================================== */
+.bk-header .bk-lang-switch.lang {
+  margin: 0;
+  white-space: nowrap;
+}
+.bk-header .bk-lang-switch .bk-lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--bk-nav-sand);
+  margin: 0;
+  font-family: var(--bk-nav-font-body);
+  font-weight: 600;
+}
+.bk-header .bk-lang-switch .bk-lang-btn:hover {
+  color: #ffffff;
+  background: rgba(232, 218, 192, 0.12);
+}
+.bk-header .bk-lang-switch .bk-lang-btn[aria-pressed="true"],
+.bk-header .bk-lang-switch .bk-lang-btn.is-active {
+  background: var(--bk-nav-sand);
+  color: #1B1412;
+  font-weight: 700;
+}
+.bk-header .bk-nav-menu a {
+  margin: 0;
+}
+@media (min-width: 992px) {
+  .bk-header .bk-lang-switch .bk-lang-btn { padding: 3px 9px; font-size: 0.8rem; }
+}
+@media (max-width: 991px) {
+  .bk-header .bk-lang-switch .bk-lang-btn { padding: 6px 16px; font-size: 0.9rem; }
+}
+.bk-header .bk-link-connexion.is-account {
+  color: var(--bk-nav-gold-light);
+  font-weight: 600;
+}
+
+/* Neutralise the per-page "header { display:flex; padding; ... }" rules that
+   otherwise also apply to the shared header and squeeze the inner row. */
+header.bk-header {
+  display: block;
+  padding: 0;
+  margin: 0;
+  flex-wrap: nowrap;
+  justify-content: initial;
+  align-items: initial;
+  text-align: left;
+  gap: 0;
+}
+header.bk-header .bk-nav-wrap {
+  width: 100%;
+}
+@media (max-width: 991px) {
+  header.bk-header .bk-nav-menu {
+    top: var(--bk-header-h, 61px);
+    height: calc(100vh - var(--bk-header-h, 61px));
+    height: calc(100dvh - var(--bk-header-h, 61px));
+  }
+}

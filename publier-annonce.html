@@ -10,8 +10,92 @@ div[lang]{display:none}div[lang].on{display:block}a{color:var(--wine)}.btn{displ
 .ads{display:grid;gap:16px}.ad{background:#fff;border-radius:8px;padding:18px}.ad h3{font-size:1.5rem}.ad .m{opacity:.75;font-size:.9rem;margin:4px 0 8px}
 footer{background:var(--ink);color:var(--sand);padding:28px 20px;text-align:center;font-size:.9rem}footer a{color:var(--sand)}
 @media(min-width:800px){.plans{grid-template-columns:repeat(3,1fr)}.ads{grid-template-columns:1fr 1fr}}</style><noscript><style>div[lang]{display:block!important}.bkf{display:grid;gap:14px;margin-top:20px}.fld label{display:block;font-weight:600;margin-bottom:4px}.fld input,.fld select,.fld textarea{width:100%;padding:11px 14px;border:1.5px solid rgba(27,20,18,.28);border-radius:10px;font:inherit;background:#fff;box-sizing:border-box}.fld.chk{display:flex;gap:10px;align-items:flex-start}.fld.chk input{width:auto;margin-top:5px}.fnotice{background:#fff4dc;border-left:4px solid var(--gold);padding:10px 12px;border-radius:6px;margin:10px 0}.fld.chk label{font-weight:400;margin:0}.pnote{background:#fff4dc;border-left:4px solid var(--gold);padding:10px 12px;border-radius:6px;margin:6px 0 0}.req{opacity:.7;font-size:.9rem}.res{background:#fff;border-radius:16px;padding:22px;box-shadow:0 10px 28px rgba(0,0,0,.1);margin-top:20px}.res .acts{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.thumbs2{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.thumbs2 img{height:72px;border-radius:8px}.note{opacity:.85}[hidden]{display:none!important}
-</style></noscript><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="robots" content="noindex"><meta name="description" content="Formulaire pour publier une annonce sur le marketplace Bassar Kàakpi."></head><body>
-<header><a class="b" href="index.html" style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.jpg" alt="" style="height:40px;width:40px;border-radius:9px">Bassar Kàakpi</a><nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav><span class="lang" role="group" aria-label="Langue / Language / Sprache"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></header>
+</style></noscript><link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="robots" content="noindex"><meta name="description" content="Formulaire pour publier une annonce sur le marketplace Bassar Kàakpi."><link rel="stylesheet" href="assets/nav.css">
+</head><body>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
+</header>
 <main><p><a href="marketplace.html" id="back"></a></p>
 <div style="background:#fff;border-radius:12px;padding:22px;border:1px solid rgba(176,141,60,.3);box-shadow:0 6px 18px rgba(27,20,18,.06);margin:16px 0 24px">
   <h2 style="font-size:1.6rem;color:var(--wine);margin:0 0 6px" id="banner-sub-h2">Vous êtes abonné ou vendeur ?</h2>
@@ -35,7 +119,7 @@ box.innerHTML="";var list=ADS.filter(function(a){return flt===0||a.cat===CATS[fl
 if(!list.length){var p=document.createElement("p");p.textContent=UI.empty[cur];box.appendChild(p);return}
 list.forEach(function(a){var d=document.createElement("div");d.className="ad";var h=document.createElement("h3");h.textContent=a.title;var m=document.createElement("div");m.className="m";m.textContent=[a.city,a.price].filter(Boolean).join(" · ");var p=document.createElement("p");p.textContent=a.text||"";var l=document.createElement("a");l.className="btn";l.target="_blank";l.rel="noopener";l.textContent=UI.contact[cur];l.href=wa(MSG[cur].ad.replace("%s",a.title).replace("%s",a.ref||""));d.appendChild(h);d.appendChild(m);d.appendChild(p);d.appendChild(l);box.appendChild(d)})}
 function set(l,save){cur=l;var j=L.indexOf(l);document.querySelectorAll("div[lang]").forEach(function(d){d.classList.toggle("on",d.lang===l)});document.documentElement.lang=l;window.curLang=l;document.dispatchEvent(new Event("langchange"));document.title=TITLE[KIND][j]+" | Bassar Kàakpi";
-var a=document.querySelectorAll("nav a");for(var i=0;i<Math.min(a.length,NAV[l].length);i++)a[i].textContent=NAV[l][i];var f=document.querySelectorAll("footer a");f[0].textContent=FOOT[l][0];f[1].textContent=FOOT[l][1];
+/* nav translated by nav.js */var f=document.querySelectorAll("footer a");f[0].textContent=FOOT[l][0];f[1].textContent=FOOT[l][1];
 var bn=BANNER[l]||BANNER.fr;var bh2=document.getElementById("banner-sub-h2");if(bh2)bh2.textContent=bn.h2;var bp=document.getElementById("banner-sub-p");if(bp)bp.innerHTML=bn.p;var bpub=document.getElementById("banner-btn-pub");if(bpub)bpub.textContent=bn.pub;var blog=document.getElementById("banner-btn-login");if(blog)blog.textContent=bn.login;var breg=document.getElementById("banner-btn-reg");if(breg)breg.textContent=bn.reg;
 document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});
 document.querySelectorAll("[data-plan]").forEach(function(b){b.href=wa(MSG[l].plan.replace("%s",MSG[l].names[b.dataset.plan]))});
@@ -57,4 +141,5 @@ var summary="Bonjour, voici une annonce à publier sur le Marketplace Bassar Kà
 return{pdf:pdf,summary:summary,filename:ref+".pdf"}}});</script>
 <script src="assets/bk-auth.js"></script>
 <script>(function(){var T={"fr": "Bassar ne meurt pas · @bassarkaakpi", "en": "Bassar does not die · @bassarkaakpi", "de": "Bassar stirbt nicht · @bassarkaakpi"};function u(){var e=document.getElementById("fslogan");if(e)e.textContent=T[window.curLang||"en"]}document.addEventListener("langchange",u);u()})();</script>
+<script src="assets/nav.js"></script>
 </body></html>

@@ -9,10 +9,92 @@ section{padding:52px 0}section.alt{background:#fff}h2{font-size:clamp(1.8rem,4vw
 .price{font:700 1.5rem "Cormorant Garamond",serif;color:#7E1B34}.steps{padding-left:22px;max-width:70ch}.steps li{margin-bottom:12px}.note{margin-top:18px;background:#fff4dc;border-left:4px solid #C9A25E;padding:12px 14px;border-radius:6px;max-width:80ch}
 footer{background:#1B1412;color:#D9C9B1;padding:26px 0;font-size:.9rem}footer a{color:#E8DAC0}
 .ml{display:none}.ml.on{display:inline}div.ml.on{display:block}
-@media(min-width:800px){.grid4{grid-template-columns:repeat(4,1fr)}.grid3{grid-template-columns:repeat(3,1fr)}}</style></head><body>
-<header><div class="wrap"><a class="brand" href="index.html"><img src="assets/logo-mark.jpg" alt="">Bassar Kàakpi</a>
-<nav><a href="histoire.html">B'Tchamb</a><a href="marketplace.html">Marketplace</a><a href="vendeurs.html">Annuaire</a><a href="shop.html">Boutique</a></nav>
-<span class="lang"><button data-l="fr">FR</button><button data-l="en">EN</button><button data-l="de">DE</button></span></div></header>
+@media(min-width:800px){.grid4{grid-template-columns:repeat(4,1fr)}.grid3{grid-template-columns:repeat(3,1fr)}}</style><link rel="stylesheet" href="assets/nav.css">
+</head><body>
+<header class="bk-header">
+  <div class="bk-nav-wrap">
+    <a class="bk-brand" href="index.html">
+      <img class="bk-logo" src="assets/logo-mark.jpg" alt="Bassar Kàakpi">
+      <span class="bk-brand-title">Bassar Kàakpi</span>
+    </a>
+
+    <button class="bk-nav-toggle" id="bkNavToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bkNavMenu">
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+      <span class="bk-toggle-bar"></span>
+    </button>
+
+    <nav class="bk-nav-menu" id="bkNavMenu">
+      <ul class="bk-nav-list">
+        <!-- B'Tchamb Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="btchamb">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="btchamb">B'Tchamb</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="histoire.html">
+                <span data-nav-i18n="btchamb_histoire">Histoire et patrimoine Bassar</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="cultures-traditions.html">
+                <span data-nav-i18n="btchamb_cultures">Cultures & Traditions du Monde</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="evenements-reservations.html">
+                <span data-nav-i18n="btchamb_galas">Galas & Dîners</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Marketplace Parent -->
+        <li class="bk-nav-item bk-dropdown" data-dropdown="marketplace">
+          <button class="bk-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span data-nav-i18n="marketplace">Marketplace</span>
+            <span class="bk-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="bk-dropdown-menu">
+            <li>
+              <a class="bk-dropdown-link" href="marketplace.html">
+                <span data-nav-i18n="marketplace_annonces">Annonces et échanges</span>
+              </a>
+            </li>
+            <li>
+              <a class="bk-dropdown-link" href="vendeurs.html">
+                <span data-nav-i18n="marketplace_annuaire">Annuaire</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Shop (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link" href="shop.html">
+            <span data-nav-i18n="shop">Boutique</span>
+          </a>
+        </li>
+
+        <!-- Connexion (Main Level) -->
+        <li class="bk-nav-item">
+          <a class="bk-nav-link bk-link-connexion" href="connexion.html">
+            <span data-nav-i18n="connexion">Connexion</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Language selector (FR / EN / DE) -->
+      <div class="bk-lang-switch lang" role="group" aria-label="Langue / Language / Sprache">
+        <button type="button" data-l="fr" class="bk-lang-btn" aria-pressed="true">FR</button>
+        <button type="button" data-l="en" class="bk-lang-btn" aria-pressed="false">EN</button>
+        <button type="button" data-l="de" class="bk-lang-btn" aria-pressed="false">DE</button>
+      </div>
+    </nav>
+  </div>
+</header>
 <section class="hero"><div class="wrap"><div class="ml" data-l="fr"><h1>Entreprises et vendeurs indépendants</h1><p class="hp">Présentez votre activité, publiez vos annonces et touchez de nouveaux clients au Togo et dans les pays d'Afrique de l'Ouest.</p><a class="btn gold" href="inscription.html?plan=seller">Demander mon inscription</a></div><div class="ml" data-l="en"><h1>Businesses and independent sellers</h1><p class="hp">Present your business, publish your listings and reach new customers in Togo and across West Africa.</p><a class="btn gold" href="inscription.html?plan=seller">Request my membership</a></div><div class="ml" data-l="de"><h1>Unternehmen und unabhängige Verkäufer</h1><p class="hp">Stellen Sie Ihre Tätigkeit vor, veröffentlichen Sie Ihre Anzeigen und erreichen Sie neue Kunden in Togo und in Westafrika.</p><a class="btn gold" href="inscription.html?plan=seller">Mitgliedschaft beantragen</a></div></div></section>
 <section><div class="wrap"><h2><div class="ml" data-l="fr">Les espaces</div><div class="ml" data-l="en">The spaces</div><div class="ml" data-l="de">Die Bereiche</div></h2><div class="grid4">
 <div class="card"><h3><div class="ml" data-l="fr">Commerce et négoce</div><div class="ml" data-l="en">Trade and business</div><div class="ml" data-l="de">Handel und Gewerbe</div></h3><p><div class="ml" data-l="fr">Boutiques, vendeurs et produits locaux.</div><div class="ml" data-l="en">Shops, sellers and local products.</div><div class="ml" data-l="de">Läden, Verkäufer und lokale Produkte.</div></p><a href="marketplace.html"><div class="ml" data-l="fr">Voir les annonces</div><div class="ml" data-l="en">View listings</div><div class="ml" data-l="de">Anzeigen ansehen</div></a></div><div class="card"><h3><div class="ml" data-l="fr">Immobilier et terrains</div><div class="ml" data-l="en">Real estate and land</div><div class="ml" data-l="de">Immobilien und Grundstücke</div></h3><p><div class="ml" data-l="fr">Vente et location. Titre foncier ou attestation demandés.</div><div class="ml" data-l="en">Sale and rental. Land title or certificate required.</div><div class="ml" data-l="de">Verkauf und Vermietung. Grundbuchtitel oder Bescheinigung erforderlich.</div></p><a href="marketplace.html"><div class="ml" data-l="fr">Voir les annonces</div><div class="ml" data-l="en">View listings</div><div class="ml" data-l="de">Anzeigen ansehen</div></a></div><div class="card"><h3><div class="ml" data-l="fr">Véhicules</div><div class="ml" data-l="en">Vehicles</div><div class="ml" data-l="de">Fahrzeuge</div></h3><p><div class="ml" data-l="fr">Voitures, motos et autres véhicules. Carte grise demandée.</div><div class="ml" data-l="en">Cars, motorbikes and other vehicles. Registration papers required.</div><div class="ml" data-l="de">Autos, Motorräder und andere Fahrzeuge. Fahrzeugpapiere erforderlich.</div></p><a href="marketplace.html"><div class="ml" data-l="fr">Voir les annonces</div><div class="ml" data-l="en">View listings</div><div class="ml" data-l="de">Anzeigen ansehen</div></a></div><div class="card"><h3><div class="ml" data-l="fr">Services professionnels</div><div class="ml" data-l="en">Professional services</div><div class="ml" data-l="de">Berufliche Dienstleistungen</div></h3><p><div class="ml" data-l="fr">Artisans, réparateurs, transporteurs et prestataires.</div><div class="ml" data-l="en">Craftspeople, repairers, transporters and service providers.</div><div class="ml" data-l="de">Handwerker, Reparateure, Transporteure und Dienstleister.</div></p><a href="marketplace.html"><div class="ml" data-l="fr">Voir les annonces</div><div class="ml" data-l="en">View listings</div><div class="ml" data-l="de">Anzeigen ansehen</div></a></div>
@@ -31,6 +113,7 @@ footer{background:#1B1412;color:#D9C9B1;padding:26px 0;font-size:.9rem}footer a{
 var NAV={"fr":["B'Tchamb","Marketplace","Annuaire","Boutique"],"en":["B'Tchamb","Marketplace","Directory","Shop"],"de":["B'Tchamb","Marktplatz","Verzeichnis","Shop"]};
 var TITLES={"fr":"Marketplace Bassar Kàakpi — Professionnels et créateurs","en":"Bassar Kàakpi Marketplace — Professionals & Creators","de":"Bassar Kàakpi Marktplatz — Gewerbetreibende & Kreative"};
 function set(l,save){document.documentElement.lang=l;document.title=TITLES[l]||TITLES.fr;
-var a=document.querySelectorAll("nav a");for(var i=0;i<Math.min(a.length,NAV[l].length);i++)a[i].textContent=NAV[l][i];
+/* nav translated by nav.js */
 document.querySelectorAll(".ml").forEach(function(e){e.classList.toggle("on",e.getAttribute("data-l")===l)});document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});if(save){try{localStorage.setItem("lang",l)}catch(e){}}}
-document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){set(b.dataset.l,true)}});set(pick(),false)})();</script></body></html>
+document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){set(b.dataset.l,true)}});set(pick(),false)})();</script><script src="assets/nav.js"></script>
+</body></html>
